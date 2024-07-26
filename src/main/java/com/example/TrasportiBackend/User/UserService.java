@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.User;
 
+import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class UserService {
 
             return trasporatoreRepository.save(trasportatore);
         }catch (Exception e){
-            return new BadRequestException(e.getMessage());
+            throw new BadRequestException(e.getMessage());
         }
     }
     }
