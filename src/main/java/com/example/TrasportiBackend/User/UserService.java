@@ -6,7 +6,13 @@ import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.AziendaDTO;
 import com.example.TrasportiBackend.payloads.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -84,4 +90,16 @@ public class UserService {
             return false;
         }
     }
+    public Page<Trasportatore> getAllTrasportatori(int page, int size, String orderBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+        return trasporatoreRepository.findAll(pageable);
+    }
+    public Page<Azienda> getAllAziende(int page, int size, String orderBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+        return aziendaRepository.findAll(pageable);
+    }
+
+
     }
