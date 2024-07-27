@@ -17,4 +17,5 @@ public abstract class User {
     private String regione;
     private String indirizzo;
     private long cap;
+    private String password;
 }
