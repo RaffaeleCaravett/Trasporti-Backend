@@ -3,16 +3,14 @@ package com.example.TrasportiBackend.User;
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
-import com.example.TrasportiBackend.payloads.AziendaDTO;
-import com.example.TrasportiBackend.payloads.TrasportatoreDTO;
+import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
+import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {

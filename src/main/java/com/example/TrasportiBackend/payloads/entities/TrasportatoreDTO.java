@@ -1,4 +1,4 @@
-package com.example.TrasportiBackend.payloads;
+package com.example.TrasportiBackend.payloads.entities;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
