@@ -101,5 +101,17 @@ public class UserService {
         return aziendaRepository.findAll(pageable);
     }
 
-
+    public Page<Trasportatore> findByNomeAndCognomeContaining(String nome,String cognome, int page, int size, String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return trasporatoreRepository.findByNomeContainingAndCognomeContaining(nome,cognome,pageable);
+    }
+    public Page<Azienda> findBySettore(String settore, int page, int size, String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        Settore settore1 = Settore.valueOf(settore);
+        return aziendaRepository.findBySettore(settore1,pageable);
+    }
+    public Page<Azienda> findByNomeAzienda(String nomeAzienda, int page, int size, String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return aziendaRepository.findByNomeAziendaContaining(nomeAzienda,pageable);
+    }
     }
