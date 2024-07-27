@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.exceptions.AccessTokenInvalidException;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AziendaLoginSuccess;
@@ -25,6 +26,7 @@ public class AuthService {
     TrasporatoreRepository trasporatoreRepository;
     @Autowired
     AziendaRepository aziendaRepository;
+
     public TrasportatoreLoginSuccess trasportatoreLogin(UserLogin userLogin){
         Optional<Trasportatore> optionalTrasportatore =trasporatoreRepository.findByEmail(userLogin.email());
         if(!optionalTrasportatore.isPresent()){
@@ -45,7 +47,7 @@ public class AuthService {
     }
 
     public AziendaLoginSuccess aziendaLogin(UserLogin userLogin){
-        Optional<Azienda> optionalAzienda aziendaRepository.findByEmail(userLogin.email());
+        Optional<Azienda> optionalAzienda = aziendaRepository.findByEmail(userLogin.email());
         if(!optionalAzienda.isPresent()){
             throw new UserNotFoundException("Azienda con email " + userLogin.email() + " non trovato in db");
         }
@@ -69,4 +71,21 @@ public class AuthService {
     public String generateRefreshToken(){
         return "";
     }
+
+    public boolean verifyAziendaAccessToken(){
+        try{
+            return true;
+        }catch (Exception e){
+            throw new AccessTokenInvalidException("Il token non è valido.");
+        }
+    }
+
+    public boolean verifyTrasportatoreAccessToken(){
+        try{
+            return true;
+        }catch (Exception e){
+            throw new AccessTokenInvalidException("Il token non è valido.");
+        }
+    }
+
 }
