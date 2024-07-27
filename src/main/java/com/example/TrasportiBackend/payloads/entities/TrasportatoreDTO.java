@@ -25,6 +25,8 @@ public record TrasportatoreDTO(
         @NotEmpty(message = "Regione necessaria")
         String regione,
         @NotEmpty(message = "Indirizzo necessario")
-        String indirizzo
+        String indirizzo,
+        @NotEmpty(message = "Password necessaria")
+        String password
 ) {
 }

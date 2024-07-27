@@ -23,5 +23,7 @@ public record AziendaDTO (
     @NotEmpty(message = "Regione necessaria")
     String regione,
     @NotEmpty(message = "Indirizzo necessario")
-    String indirizzo
+    String indirizzo,
+    @NotEmpty(message = "Password necessaria")
+    String password
     ){}

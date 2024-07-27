@@ -4,13 +4,12 @@ import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.AccessTokenInvalidException;
+import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
-import com.example.TrasportiBackend.payloads.entities.AziendaLoginSuccess;
-import com.example.TrasportiBackend.payloads.entities.Tokens;
-import com.example.TrasportiBackend.payloads.entities.TrasportatoreLoginSuccess;
-import com.example.TrasportiBackend.payloads.entities.UserLogin;
+import com.example.TrasportiBackend.payloads.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -88,4 +87,41 @@ public class AuthService {
         }
     }
 
+    public Trasportatore registerTrasportatore(TrasportatoreDTO trasportatoreDTO){
+        if(trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()){
+            throw new BadRequestException("Trasportatore con email " + trasportatoreDTO.email() + " già presente in db.");
+        }
+        Trasportatore trasportatore = new Trasportatore();
+        trasportatore.setNome(trasportatoreDTO.nome());
+        trasportatore.setCognome(trasportatoreDTO.cognome());
+        trasportatore.setEta(trasportatoreDTO.eta());
+        trasportatore.setCodiceFiscale(trasportatoreDTO.codiceFiscale());
+        trasportatore.setCap(trasportatoreDTO.cap());
+        trasportatore.setFlottaMezzi(trasportatoreDTO.flottaMezzi());
+        trasportatore.setPartitaIva(trasportatoreDTO.partitaIva());
+        trasportatore.setCitta(trasportatoreDTO.citta());
+        trasportatore.setRegione(trasportatoreDTO.regione());
+        trasportatore.setIndirizzo(trasportatoreDTO.indirizzo());
+        trasportatore.setEmail(trasportatoreDTO.email());
+        trasportatore.setPassword(bcrypt.encode(trasportatoreDTO.password()));
+        return trasporatoreRepository.save(trasportatore);
+    }
+    public Azienda registerAzienda(AziendaDTO aziendaDTO){
+        if(aziendaRepository.findByEmail(aziendaDTO.email()).isPresent()){
+            throw new BadRequestException("Azienda con email " + aziendaDTO.email() + " non presente in db.");
+        }
+        Azienda azienda = new Azienda();
+        azienda.setCap(aziendaDTO.cap());
+        azienda.setCitta(aziendaDTO.citta());
+        azienda.setRegione(aziendaDTO.regione());
+        azienda.setIndirizzo(aziendaDTO.indirizzo());
+        azienda.setEmail(aziendaDTO.email());
+        azienda.setNomeAzienda(aziendaDTO.nomeAzienda());
+        azienda.setFatturatoMedio(aziendaDTO.fatturatoMedio());
+        azienda.setNumeroDipendenti(aziendaDTO.numeroDipendenti());
+        azienda.setSettore(Settore.valueOf(aziendaDTO.settore()));
+        azienda.setPartitaIva(aziendaDTO.partitaIva());
+        azienda.setPassword(bcrypt.encode(aziendaDTO.password()));
+        return aziendaRepository.save(azienda);
+    }
 }
