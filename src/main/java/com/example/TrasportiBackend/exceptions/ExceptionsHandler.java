@@ -45,6 +45,16 @@ public class ExceptionsHandler {
     public ErrorsDTO handleNotFound(UserNotFoundException e) {
         return new ErrorsDTO(e.getMessage(), new Date());
     }
+    @ExceptionHandler(AccessTokenInvalidException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorsDTO handleInvalidToken(AccessTokenInvalidException e) {
+        return new ErrorsDTO(e.getMessage(), new Date());
+    }
+    @ExceptionHandler(PasswordMismatchException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    public ErrorsDTO handlePasswordMismatch(PasswordMismatchException e) {
+        return new ErrorsDTO(e.getMessage(), new Date());
+    }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500
