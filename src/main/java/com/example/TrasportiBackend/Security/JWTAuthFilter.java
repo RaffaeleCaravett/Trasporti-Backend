@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JWTAuthFilter extends OncePerRequestFilter {
@@ -93,7 +95,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         // Ad es tutte le richieste al controller /auth/** non devono essere filtrate
         String pathWithArguments = request.getServletPath() + request.getQueryString();
 
-        List<String> excludedPaths = Arrays.asList("/auth","/acquisto","/prodotto","/ingrediente","/schedaAnagrafica","/citta");
+        List<String> excludedPaths = Arrays.asList("/auth");
 
         return excludedPaths.stream().anyMatch(pathWithArguments::startsWith);    }
 }

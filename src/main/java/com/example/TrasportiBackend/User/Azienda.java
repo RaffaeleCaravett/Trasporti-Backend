@@ -9,7 +9,6 @@ import lombok.Setter;
 @Table(name = "Aziende")
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Azienda extends User{
     private String nomeAzienda;
     private String partitaIva;

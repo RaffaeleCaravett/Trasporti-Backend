@@ -11,7 +11,6 @@ import lombok.Setter;
 @Table(name="Trasportatori")
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Trasportatore extends User{
     private String nome;
     private String cognome;
