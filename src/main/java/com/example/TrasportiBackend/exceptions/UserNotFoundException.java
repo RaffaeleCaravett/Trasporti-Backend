@@ -10,8 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserNotFoundException extends RuntimeException {
     private List<ObjectError> errorList;
     private String error;

@@ -10,8 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class PasswordMismatchException extends RuntimeException{
     private String error;
     private List<ObjectError> errorList;
