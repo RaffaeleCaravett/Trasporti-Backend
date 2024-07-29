@@ -1,0 +1,31 @@
+package com.example.TrasportiBackend.Annuncio;
+
+import com.example.TrasportiBackend.Spedizione.Spedizione;
+import com.example.TrasportiBackend.User.Azienda;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "annunci")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class Annuncio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private LocalDate dataPubblicazione = LocalDate.now();
+    private String retribuzione;
+    @OneToMany(mappedBy = "annuncio")
+    @JoinColumn(name = "azienda_id")
+    private Azienda azienda;
+    @OneToOne(mappedBy = "spedizione")
+    @JoinColumn(name = "spedizione_id")
+    private Spedizione spedizione;
+}
