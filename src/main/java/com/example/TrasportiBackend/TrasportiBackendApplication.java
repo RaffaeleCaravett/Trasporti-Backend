@@ -9,5 +9,4 @@ public class TrasportiBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TrasportiBackendApplication.class, args);
 	}
-
 }

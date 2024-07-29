@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.Stato;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,5 +36,6 @@ public class Spedizione {
     @JoinColumn(name = "trasportatore_id")
     private Trasportatore trasportatore;
     @OneToOne(mappedBy = "spedizione")
+    @JsonIgnore
     private Annuncio annuncio;
 }

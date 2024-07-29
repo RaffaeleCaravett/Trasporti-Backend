@@ -116,10 +116,10 @@ public class UserController {
 
     @GetMapping("/reset/{password}/{oldPassword}/me")
     public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@AuthenticationPrincipal User user){
-        return userService.resetPassword(password,oldPassword,user);
+        return authService.resetPassword(password,oldPassword,user);
     }
     @GetMapping("/resetAdmin/{password}/{oldPassword}/{id}")
     public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@PathVariable long id){
-        return userService.resetPasswordAdmin(password,oldPassword,id);
+        return authService.resetPasswordAdmin(password,oldPassword,id);
     }
 }

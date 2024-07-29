@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Aziende")
 @Getter
@@ -21,8 +23,8 @@ public class Azienda extends User{
     private Settore settore;
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
-    private Spedizione spedizione;
+    private List<Spedizione> spedizione;
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
-    private Annuncio annuncio;
+    private List<Annuncio> annuncio;
 }

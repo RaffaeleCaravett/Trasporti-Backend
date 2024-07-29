@@ -1,9 +1,6 @@
 package com.example.TrasportiBackend.Auth;
 
-import com.example.TrasportiBackend.User.Azienda;
-import com.example.TrasportiBackend.User.AziendaRepository;
-import com.example.TrasportiBackend.User.TrasporatoreRepository;
-import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.User.*;
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.AccessTokenInvalidException;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
@@ -25,6 +22,8 @@ public class AuthService {
     TrasporatoreRepository trasporatoreRepository;
     @Autowired
     AziendaRepository aziendaRepository;
+    @Autowired
+    UserRepository userRepository;
 
     public TrasportatoreLoginSuccess trasportatoreLogin(UserLogin userLogin){
         Optional<Trasportatore> optionalTrasportatore =trasporatoreRepository.findByEmail(userLogin.email());
@@ -123,5 +122,31 @@ public class AuthService {
         azienda.setPartitaIva(aziendaDTO.partitaIva());
         azienda.setPassword(bcrypt.encode(aziendaDTO.password()));
         return aziendaRepository.save(azienda);
+    }
+    public boolean resetPassword(String password,String oldPassword, User user){
+        if(!bcrypt.matches(oldPassword, user.getPassword())){
+            throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
+        }
+        try {
+            user.setPassword(password);
+            userRepository.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public boolean resetPasswordAdmin(String password,String oldPassword, long id){
+        User user = userRepository.findById(id).orElseThrow(()->new BadRequestException("User con id " +  id + " non trovato in database."));
+        if(!bcrypt.matches(oldPassword, user.getPassword())){
+            throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
+        }
+        try {
+            user.setPassword(password);
+            userRepository.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

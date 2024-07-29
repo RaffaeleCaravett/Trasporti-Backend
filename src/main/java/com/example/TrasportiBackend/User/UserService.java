@@ -24,9 +24,6 @@ public class UserService {
     @Autowired
     AziendaRepository aziendaRepository;
 
-    @Autowired
-    PasswordEncoder bcrypt;
-
     public Trasportatore getTrasportatoreById(long id){
         return trasporatoreRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
     }
@@ -117,30 +114,5 @@ public class UserService {
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
         return aziendaRepository.findByNomeAziendaContaining(nomeAzienda,pageable);
     }
-    public boolean resetPassword(String password,String oldPassword, User user){
-    if(!bcrypt.matches(oldPassword, user.getPassword())){
-        throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
-    }
-    try {
-        user.setPassword(password);
-        userRepository.save(user);
-        return true;
-    }catch (Exception e){
-        return false;
-    }
-    }
 
-    public boolean resetPasswordAdmin(String password,String oldPassword, long id){
-        User user = userRepository.findById(id).orElseThrow(()->new BadRequestException("User con id " +  id + " non trovato in database."));
-        if(!bcrypt.matches(oldPassword, user.getPassword())){
-            throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
-        }
-        try {
-            user.setPassword(password);
-            userRepository.save(user);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
     }

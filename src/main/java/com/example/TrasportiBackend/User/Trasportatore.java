@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name="Trasportatori")
 @Getter
@@ -19,5 +21,5 @@ public class Trasportatore extends User{
     private long flottaMezzi;
     @OneToMany(mappedBy = "trasportatore")
     @JsonIgnore
-    private Spedizione spedizione;
+    private List<Spedizione> spedizione;
 }
