@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
+import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +23,9 @@ public class UserService {
     TrasporatoreRepository trasporatoreRepository;
     @Autowired
     AziendaRepository aziendaRepository;
+
+    @Autowired
+    PasswordEncoder bcrypt;
 
     public Trasportatore getTrasportatoreById(long id){
         return trasporatoreRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
@@ -111,5 +116,31 @@ public class UserService {
     public Page<Azienda> findByNomeAzienda(String nomeAzienda, int page, int size, String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
         return aziendaRepository.findByNomeAziendaContaining(nomeAzienda,pageable);
+    }
+    public boolean resetPassword(String password,String oldPassword, User user){
+    if(!bcrypt.matches(oldPassword, user.getPassword())){
+        throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
+    }
+    try {
+        user.setPassword(password);
+        userRepository.save(user);
+        return true;
+    }catch (Exception e){
+        return false;
+    }
+    }
+
+    public boolean resetPasswordAdmin(String password,String oldPassword, long id){
+        User user = userRepository.findById(id).orElseThrow(()->new BadRequestException("User con id " +  id + " non trovato in database."));
+        if(!bcrypt.matches(oldPassword, user.getPassword())){
+            throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
+        }
+        try {
+            user.setPassword(password);
+            userRepository.save(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
     }

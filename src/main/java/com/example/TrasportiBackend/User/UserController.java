@@ -113,4 +113,13 @@ public class UserController {
     public Page<Azienda>findByNomeAzienda(@PathVariable String nomeAzienda,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByNomeAzienda(nomeAzienda,page,size,orderBy);
     }
+
+    @GetMapping("/reset/{password}/{oldPassword}/me")
+    public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@AuthenticationPrincipal User user){
+        return userService.resetPassword(password,oldPassword,user);
+    }
+    @GetMapping("/resetAdmin/{password}/{oldPassword}/{id}")
+    public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@PathVariable long id){
+        return userService.resetPasswordAdmin(password,oldPassword,id);
+    }
 }
