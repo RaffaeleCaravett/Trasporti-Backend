@@ -22,10 +22,10 @@ public class Annuncio {
     private long id;
     private LocalDate dataPubblicazione = LocalDate.now();
     private String retribuzione;
-    @OneToMany(mappedBy = "annuncio")
+    @ManyToOne
     @JoinColumn(name = "azienda_id")
     private Azienda azienda;
-    @OneToOne(mappedBy = "spedizione")
+    @OneToOne
     @JoinColumn(name = "spedizione_id")
     private Spedizione spedizione;
 }

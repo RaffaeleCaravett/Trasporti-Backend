@@ -1,9 +1,8 @@
 package com.example.TrasportiBackend.User;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import com.example.TrasportiBackend.Spedizione.Spedizione;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,4 +17,7 @@ public class Trasportatore extends User{
     private String codiceFiscale;
     private String partitaIva;
     private long flottaMezzi;
+    @OneToMany(mappedBy = "trasportatore")
+    @JsonIgnore
+    private Spedizione spedizione;
 }

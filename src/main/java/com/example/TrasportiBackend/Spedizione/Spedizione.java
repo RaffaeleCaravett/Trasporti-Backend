@@ -1,11 +1,16 @@
 package com.example.TrasportiBackend.Spedizione;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.example.TrasportiBackend.Annuncio.Annuncio;
+import com.example.TrasportiBackend.User.Azienda;
+import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.enums.Stato;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "spedizioni")
@@ -14,4 +19,21 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Spedizione {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String da;
+    private String a;
+    private LocalDate daSpedire;
+    private String descrizioneMerce;
+    private long numeroPedane;
+    private Stato stato;
+    @ManyToOne
+    @JoinColumn(name = "azienda_id")
+    private Azienda azienda;
+    @ManyToOne
+    @JoinColumn(name = "trasportatore_id")
+    private Trasportatore trasportatore;
+    @OneToOne(mappedBy = "spedizione")
+    private Annuncio annuncio;
 }
