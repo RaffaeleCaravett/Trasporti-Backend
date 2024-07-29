@@ -1,11 +1,15 @@
 package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.Auth.AuthService;
+import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -96,5 +100,17 @@ public class UserController {
     @PreAuthorize("hasAuthority('Azienda')")
     public boolean deleteByIdA(@AuthenticationPrincipal Azienda azienda){
         return userService.deleteAziendaById(azienda.getId());
+    }
+    @GetMapping("/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    public Page<Trasportatore>findByNomeAndCognomeContaining(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByNomeAndCognomeContaining(nome,cognome,page,size,orderBy);
+    }
+    @GetMapping("/findBySettore/{settore}")
+    public Page<Azienda>findBySettore(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findBySettore(settore,page,size,orderBy);
+    }
+    @GetMapping("/findBySettore/{nomeAzienda}")
+    public Page<Azienda>findByNomeAzienda(@PathVariable String nomeAzienda,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByNomeAzienda(nomeAzienda,page,size,orderBy);
     }
 }
