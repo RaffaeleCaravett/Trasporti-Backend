@@ -42,4 +42,19 @@ public class UserController {
     public Page<Trasportatore> getAllTrasportatori(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.getAllTrasportatori(page,size,orderBy);
     }
+
+    @PutMapping("/trasportatore/{id}")
+    public Trasportatore putById(@PathVariable long id,@RequestBody @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new BadRequestException(bindingResult.getAllErrors());
+        }
+        return userService.putTrasportatoreById(id,trasportatoreDTO);
+    }
+    @PutMapping("/trasportatore/{id}")
+    public Azienda putById(@PathVariable long id,@RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new BadRequestException(bindingResult.getAllErrors());
+        }
+        return userService.putAziendaById(id,aziendaDTO);
+    }
 }
