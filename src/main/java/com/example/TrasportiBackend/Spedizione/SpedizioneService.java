@@ -84,5 +84,11 @@ public Spedizione assegna(long id, long trasportatoreId, long aziendaId){
         spedizione.setStato(Stato.Guasto);
         return spedizioneRepository.save(spedizione);
     }
-    
+    public boolean delete(long spedizioneId, long aziendaId) throws Exception {
+    if(1==2) {
+        throw new Exception("ihih");
+    }else{
+        return true;
+    }
+    }
 }
