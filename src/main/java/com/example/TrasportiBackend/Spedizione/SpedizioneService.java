@@ -48,4 +48,41 @@ public Spedizione assegna(long id, long trasportatoreId, long aziendaId){
 
     return spedizioneRepository.save(spedizione);
 }
+    public Spedizione completa(long id, long trasportatoreId, long aziendaId){
+        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ aziendaId + " non trovata in db."));
+        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ id + " non trovata in db."));
+        if(azienda.getId()!=spedizione.getAzienda().getId()){
+            throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
+        }
+        if(trasportatoreId!=spedizione.getTrasportatore().getId()){
+            throw new IdsMismatchException("Gli id del trasportatore e del trasportatore che ha effettuato la spedizione non coincidono");
+        }
+        spedizione.setStato(Stato.A_termine);
+        return spedizioneRepository.save(spedizione);
+    }
+    public Spedizione stoppa(long id, long trasportatoreId, long aziendaId){
+        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ aziendaId + " non trovata in db."));
+        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ id + " non trovata in db."));
+        if(azienda.getId()!=spedizione.getAzienda().getId()){
+            throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
+        }
+        if(trasportatoreId!=spedizione.getTrasportatore().getId()){
+            throw new IdsMismatchException("Gli id del trasportatore e del trasportatore che ha effettuato la spedizione non coincidono");
+        }
+        spedizione.setStato(Stato.Stoppata);
+        return spedizioneRepository.save(spedizione);
+    }
+    public Spedizione guasto(long id, long trasportatoreId, long aziendaId){
+        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ aziendaId + " non trovata in db."));
+        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ id + " non trovata in db."));
+        if(azienda.getId()!=spedizione.getAzienda().getId()){
+            throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
+        }
+        if(trasportatoreId!=spedizione.getTrasportatore().getId()){
+            throw new IdsMismatchException("Gli id del trasportatore e del trasportatore che ha effettuato la spedizione non coincidono");
+        }
+        spedizione.setStato(Stato.Guasto);
+        return spedizioneRepository.save(spedizione);
+    }
+    
 }
