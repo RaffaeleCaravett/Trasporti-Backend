@@ -26,6 +26,7 @@ public abstract class User implements  UserDetails{
     private String indirizzo;
     private long cap;
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override

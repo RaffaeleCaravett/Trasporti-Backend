@@ -28,6 +28,7 @@ public class Spedizione {
     private LocalDate daSpedire;
     private String descrizioneMerce;
     private long numeroPedane;
+    @Enumerated(EnumType.STRING)
     private Stato stato;
     @ManyToOne
     @JoinColumn(name = "azienda_id")
