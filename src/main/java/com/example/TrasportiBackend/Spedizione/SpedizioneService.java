@@ -88,7 +88,7 @@ public Spedizione assegna(long id, long trasportatoreId, long aziendaId){
         spedizione.setStato(Stato.Guasto);
         return spedizioneRepository.save(spedizione);
     }
-    public boolean delete(long spedizioneId, long aziendaId) throws Exception {
+    public boolean delete(long spedizioneId, long aziendaId){
  Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ spedizioneId + " non trovata in db."));
 if(aziendaId!=spedizione.getAzienda().getId()){
     throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
@@ -100,7 +100,7 @@ return true;
     return false;
 }
 }
-    public boolean deleteByAdmin(long spedizioneId) throws Exception {
+    public boolean deleteByAdmin(long spedizioneId) {
         Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ spedizioneId + " non trovata in db."));
         try {
             spedizioneRepository.delete(spedizione);
