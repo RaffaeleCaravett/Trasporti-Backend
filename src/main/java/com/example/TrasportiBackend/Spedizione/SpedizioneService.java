@@ -10,6 +10,10 @@ import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.SpedizioneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -96,4 +100,52 @@ return true;
     return false;
 }
 }
+    public boolean deleteByAdmin(long spedizioneId) throws Exception {
+        Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ spedizioneId + " non trovata in db."));
+        try {
+            spedizioneRepository.delete(spedizione);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+public Spedizione putById(long id, SpedizioneDTO spedizioneDTO){
+    Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ id + " non trovata in db."));
+
+    spedizione.setA(spedizioneDTO.a());
+    spedizione.setDa(spedizioneDTO.da());
+    spedizione.setDaSpedire(LocalDate.of(spedizioneDTO.daSpedireAnno(),spedizioneDTO.daSpedireMese(),spedizioneDTO.daSpedireGiorno()));
+    spedizione.setNumeroPedane(spedizioneDTO.numeroPedane());
+    spedizione.setDescrizioneMerce(spedizioneDTO.descrizione());
+    spedizione.setAzienda(aziendaRepository.findById(spedizioneDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id "+ spedizioneDTO.azienda_id() + " non trovato in db.")));
+    spedizione.setStato(Stato.Pubblicata);
+    return spedizioneRepository.save(spedizione);
+}
+
+public Page<Spedizione> getAllByAziendaId(long id,int page,int size,String orderBy){
+    Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+    return spedizioneRepository.findByAzienda_Id(id,pageable);
+}
+
+    public Page<Spedizione> findByDateBetween(int year1, int month1,int day1,int year2, int month2,int day2,int page,int size,String orderBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+        LocalDate date1 = LocalDate.of(year1,month1,day1);
+        LocalDate date2 = LocalDate.of(year2,month2,day2);
+        return spedizioneRepository.findBydaSpedireBetween(date1,date2,pageable);
+    }
+
+    public Page<Spedizione> findByDa(String da,int page,int size,String orderBy){
+    Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        return spedizioneRepository.findByDa(da,pageable);
+    }
+    public Page<Spedizione> findByA(String a ,int page,int size,String orderBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        return spedizioneRepository.findByA(a,pageable);
+    }
+    public Page<Spedizione> findByDaAndA(String da , String a,int page,int size,String orderBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        return spedizioneRepository.findByDaContainingAndAContaining(da,a,pageable);
+    }
+
 }
