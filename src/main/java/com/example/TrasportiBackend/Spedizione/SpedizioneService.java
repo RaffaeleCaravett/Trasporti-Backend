@@ -85,10 +85,15 @@ public Spedizione assegna(long id, long trasportatoreId, long aziendaId){
         return spedizioneRepository.save(spedizione);
     }
     public boolean delete(long spedizioneId, long aziendaId) throws Exception {
-    if(1==2) {
-        throw new Exception("ihih");
-    }else{
-        return true;
-    }
-    }
+ Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(()-> new UserNotFoundException("Spedizione con id "+ spedizioneId + " non trovata in db."));
+if(aziendaId!=spedizione.getAzienda().getId()){
+    throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
+}
+try {
+    spedizioneRepository.delete(spedizione);
+return true;
+}catch (Exception e){
+    return false;
+}
+}
 }
