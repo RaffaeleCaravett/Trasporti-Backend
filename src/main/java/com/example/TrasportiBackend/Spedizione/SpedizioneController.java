@@ -3,6 +3,7 @@ package com.example.TrasportiBackend.Spedizione;
 import com.example.TrasportiBackend.exceptions.SpedizioneHasErrorsException;
 import com.example.TrasportiBackend.payloads.SpedizioneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -53,5 +54,18 @@ public class SpedizioneController {
     @PreAuthorize("hasAuthority('Admin')")
     public boolean deleteByAdmin(@RequestParam(defaultValue = "0") long spedizioneId){
         return spedizioneService.deleteByAdmin(spedizioneId);
+    }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('Admin','Azienda')")
+    public Spedizione putById(@PathVariable long id,@RequestBody @Validated SpedizioneDTO spedizioneDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new SpedizioneHasErrorsException(bindingResult.getAllErrors());
+        }
+        return spedizioneService.putById(id,spedizioneDTO);
+    }
+
+    @GetMapping("/byAziendaId/{aziendaId}")
+    public Page<Spedizione> getByAziendaId(@PathVariable long aziendaId,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return spedizioneService.getAllByAziendaId(aziendaId,page,size,orderBy);
     }
 }
