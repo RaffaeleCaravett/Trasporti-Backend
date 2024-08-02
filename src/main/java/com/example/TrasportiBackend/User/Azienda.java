@@ -1,6 +1,7 @@
 package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.Annuncio.Annuncio;
+import com.example.TrasportiBackend.Notifica.Notifica;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.enums.Settore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,4 +28,6 @@ public class Azienda extends User{
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
     private List<Annuncio> annuncio;
+    @OneToMany(mappedBy = "annuncio")
+    private Notifica notifica;
 }

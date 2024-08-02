@@ -1,6 +1,7 @@
 package com.example.TrasportiBackend.Spedizione;
 
 import com.example.TrasportiBackend.Annuncio.Annuncio;
+import com.example.TrasportiBackend.Notifica.Notifica;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.Stato;
@@ -39,4 +40,7 @@ public class Spedizione {
     @OneToOne(mappedBy = "spedizione")
     @JsonIgnore
     private Annuncio annuncio;
+    @OneToMany(mappedBy = "spedizione")
+    @JsonIgnore
+    private Notifica notifica;
 }

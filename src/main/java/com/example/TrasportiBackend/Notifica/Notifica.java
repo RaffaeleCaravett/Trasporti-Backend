@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.StatoNotifica;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Notifica {
     private Spedizione spedizione;
     @ManyToOne
     @JoinColumn(name = "azienda_id")
+    @JsonIgnore
     private Azienda azienda;
     @ManyToOne
     @JoinColumn(name = "trasportatore_id")
