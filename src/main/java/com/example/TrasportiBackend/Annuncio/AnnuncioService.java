@@ -32,6 +32,11 @@ public class AnnuncioService {
         annuncio.setRetribuzione(annuncioDTO.retribuzione());
         return annuncioRepository.save(annuncio);
     }
-
+    public boolean deleteByAzienda(long aziendaId , long annuncioId){
+        Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(()-> new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
+        if(annuncio.getAzienda().getId()!=aziendaId){
+            throw new NotOwnerException()
+        }
+    }
 
 }
