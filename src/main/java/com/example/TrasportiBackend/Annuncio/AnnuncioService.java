@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
+import com.example.TrasportiBackend.exceptions.NotOwnerException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,13 @@ public class AnnuncioService {
     public boolean deleteByAzienda(long aziendaId , long annuncioId){
         Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(()-> new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
         if(annuncio.getAzienda().getId()!=aziendaId){
-            throw new NotOwnerException()
+            throw new NotOwnerException("L'annuncio non è stato cancellato. Sembra che tu non sia il proprietario dell'annuncio.");
+        }
+        try {
+            annuncioRepository.delete(annuncio);
+            return true;
+        }catch (Exception e){
+            return false;
         }
     }
 

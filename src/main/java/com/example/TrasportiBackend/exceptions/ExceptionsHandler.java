@@ -27,7 +27,16 @@ public class ExceptionsHandler {
         }
 
     }
-
+    @ExceptionHandler(SpedizioneHasErrorsException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    public ErrorsWithListDTO handleSpedizioneHasErrors(SpedizioneHasErrorsException e) {
+        if (e.getErrorList() != null) {
+            List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+            return new ErrorsWithListDTO(e.getMessage(), new Date(), errorsList);
+        } else {
+            return new ErrorsWithListDTO(e.getMessage(), new Date(), new ArrayList<>());
+        }
+    }
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
     public ErrorsDTO handleUnauthorized(UnauthorizedException e) {
@@ -53,6 +62,11 @@ public class ExceptionsHandler {
     @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
     public ErrorsDTO handlePasswordMismatch(PasswordMismatchException e) {
+        return new ErrorsDTO(e.getMessage(), new Date());
+    }
+    @ExceptionHandler(IdsMismatchException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    public ErrorsDTO handleIdsMismatch(IdsMismatchException e) {
         return new ErrorsDTO(e.getMessage(), new Date());
     }
 
