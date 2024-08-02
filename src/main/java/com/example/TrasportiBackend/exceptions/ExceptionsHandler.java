@@ -69,7 +69,11 @@ public class ExceptionsHandler {
     public ErrorsDTO handleIdsMismatch(IdsMismatchException e) {
         return new ErrorsDTO(e.getMessage(), new Date());
     }
-
+    @ExceptionHandler(NotOwnerException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    public ErrorsDTO handleNotOwner(NotOwnerException e) {
+        return new ErrorsDTO(e.getMessage(), new Date());
+    }
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500
     public ErrorsDTO handleGeneric(Exception e) {
