@@ -8,6 +8,10 @@ import com.example.TrasportiBackend.exceptions.NotOwnerException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -73,6 +77,24 @@ public class AnnuncioService {
             throw new NotOwnerException("L'annuncio non può essere modificato. Sembra che tu non sia il proprietario dell'annuncio e neanche un Admin.");
         }
     }
+public Page<Annuncio> getByAziendaId(long aziendaId,int page,int size,String orderBy){
+    Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
-    
+    return annuncioRepository.findByAzienda_Id(aziendaId,pageable);
+}
+
+public Page<Annuncio> findByRetribuzione(long retribuzione1, long retribuzione2, int page, int size ,String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return annuncioRepository.findByRetribuzioneBetween(retribuzione1,retribuzione2,pageable);
+}
+
+
+    public Page<Annuncio> findByData(int anno1,int mese1,int giorno1,int anno2,int mese2,int giorno2, int page, int size ,String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        LocalDate date1= LocalDate.of(anno1,mese1,giorno1);
+        LocalDate date2 = LocalDate.of(anno2,mese2,giorno2);
+        return annuncioRepository.findBydataPubblicazioneBetween(date1,date2,pageable);
+    }
+
+
 }
