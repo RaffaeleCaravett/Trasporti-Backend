@@ -54,19 +54,25 @@ public class AnnuncioService {
             return false;
         }
     }
-    public Annuncio save (AnnuncioDTO annuncioDTO,long aziendaId, long annuncioId ){
-        Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(()-> new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
-        Azienda azienda = aziendaRepository.findById(annuncioDTO.aziendaId()).orElseThrow(()->new UserNotFoundException("Azienda con id " + annuncioDTO.aziendaId() + " non trovato in db"));
-
-        if(azienda.getId()!=aziendaId){
-            throw new NotOwnerException("L'annuncio non può essere modificato. Sembra che tu non sia il proprietario dell'annuncio.");
+    public Annuncio putById (AnnuncioDTO annuncioDTO,long aziendaId, long annuncioId ) {
+        Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(() -> new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
+        Azienda azienda = aziendaRepository.findById(annuncioDTO.aziendaId()).orElseThrow(() -> new UserNotFoundException("Azienda con id " + annuncioDTO.aziendaId() + " non trovato in db"));
+        if (aziendaId != 0) {
+            if (azienda.getId() != aziendaId) {
+                throw new NotOwnerException("L'annuncio non può essere modificato. Sembra che tu non sia il proprietario dell'annuncio.");
+            }
         }
-
-        Spedizione spedizione = spedizioneRepository.findById(annuncioDTO.spedizioneId()).orElseThrow(()->new UserNotFoundException("Spedizione con id " + annuncioDTO.spedizioneId() + " non trovato in db." ));
-        annuncio.setAzienda(azienda);
-        annuncio.setSpedizione(spedizione);
-        annuncio.setDataPubblicazione(LocalDate.of(annuncioDTO.dataPubblicazioneAnno(),annuncioDTO.dataPubblicazioneMese(),annuncioDTO.dataPubblicazioneGiorno()));
-        annuncio.setRetribuzione(annuncioDTO.retribuzione());
-        return annuncioRepository.save(annuncio);
+        if (aziendaId == 0 || azienda.getId() == aziendaId) {
+            Spedizione spedizione = spedizioneRepository.findById(annuncioDTO.spedizioneId()).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + annuncioDTO.spedizioneId() + " non trovato in db."));
+            annuncio.setAzienda(azienda);
+            annuncio.setSpedizione(spedizione);
+            annuncio.setDataPubblicazione(LocalDate.of(annuncioDTO.dataPubblicazioneAnno(), annuncioDTO.dataPubblicazioneMese(), annuncioDTO.dataPubblicazioneGiorno()));
+            annuncio.setRetribuzione(annuncioDTO.retribuzione());
+            return annuncioRepository.save(annuncio);
+        }else {
+            throw new NotOwnerException("L'annuncio non può essere modificato. Sembra che tu non sia il proprietario dell'annuncio e neanche un Admin.");
+        }
     }
+
+    
 }
