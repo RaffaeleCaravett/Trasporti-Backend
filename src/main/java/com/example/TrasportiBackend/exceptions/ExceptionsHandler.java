@@ -74,6 +74,11 @@ public class ExceptionsHandler {
     public ErrorsDTO handleNotOwner(NotOwnerException e) {
         return new ErrorsDTO(e.getMessage(), new Date());
     }
+    @ExceptionHandler(NotificaNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    public ErrorsDTO handleNotificaNotFound(NotificaNotFoundException e) {
+        return new ErrorsDTO(e.getMessage(), new Date());
+    }
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500
     public ErrorsDTO handleGeneric(Exception e) {

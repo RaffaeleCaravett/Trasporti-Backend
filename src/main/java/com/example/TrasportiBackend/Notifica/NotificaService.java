@@ -7,6 +7,8 @@ import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.StatoNotifica;
+import com.example.TrasportiBackend.exceptions.IdsMismatchException;
+import com.example.TrasportiBackend.exceptions.NotificaNotFoundException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,23 @@ public class NotificaService {
         notifica.setSpedizione(spedizione);
         notifica.setTrasportatore(trasportatore);
         notifica.setStatoNotifica(StatoNotifica.Emessa);
+        return notificaRepository.save(notifica);
+    }
+
+    public Notifica accetta(long id, long aziendaId){
+        Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
+        if(notifica.getAzienda().getId()!=aziendaId){
+            throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
+        }
+        notifica.setStatoNotifica(StatoNotifica.Accettata);
+        return notificaRepository.save(notifica);
+    }
+    public Notifica respingi(long id, long aziendaId){
+        Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
+        if(notifica.getAzienda().getId()!=aziendaId){
+            throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
+        }
+        notifica.setStatoNotifica(StatoNotifica.Respinta);
         return notificaRepository.save(notifica);
     }
 }
