@@ -54,4 +54,12 @@ public class NotificaService {
         notifica.setStatoNotifica(StatoNotifica.Respinta);
         return notificaRepository.save(notifica);
     }
+    public Notifica leggi(long id, long aziendaId){
+        Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
+        if(notifica.getAzienda().getId()!=aziendaId){
+            throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
+        }
+        notifica.setStatoNotifica(StatoNotifica.Letta);
+        return notificaRepository.save(notifica);
+    }
 }
