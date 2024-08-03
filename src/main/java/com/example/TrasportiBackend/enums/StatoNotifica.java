@@ -1,5 +1,5 @@
 package com.example.TrasportiBackend.enums;
 
 public enum StatoNotifica {
-    Accettata, Respinta,Letta
+    Emessa, Accettata, Respinta,Letta
 }
