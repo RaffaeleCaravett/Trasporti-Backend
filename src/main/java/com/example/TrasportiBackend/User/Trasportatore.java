@@ -25,5 +25,5 @@ public class Trasportatore extends User{
     private List<Spedizione> spedizione;
     @OneToMany(mappedBy = "trasportatore")
     @JsonIgnore
-    private Notifica notifica;
+    private List<Notifica> notifica;
 }

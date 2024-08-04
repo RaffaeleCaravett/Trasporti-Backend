@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "spedizioni")
@@ -42,5 +43,5 @@ public class Spedizione {
     private Annuncio annuncio;
     @OneToMany(mappedBy = "spedizione")
     @JsonIgnore
-    private Notifica notifica;
+    private List<Notifica> notifica;
 }

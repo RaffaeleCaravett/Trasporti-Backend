@@ -28,6 +28,6 @@ public class Azienda extends User{
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
     private List<Annuncio> annuncio;
-    @OneToMany(mappedBy = "annuncio")
-    private Notifica notifica;
+    @OneToMany(mappedBy = "azienda")
+    private List<Notifica> notifica;
 }
