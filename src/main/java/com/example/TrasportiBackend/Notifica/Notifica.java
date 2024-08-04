@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "notifiche")
 @Getter
@@ -33,4 +35,5 @@ public class Notifica {
     private Trasportatore trasportatore;
     @Enumerated(EnumType.STRING)
     private StatoNotifica statoNotifica;
+    private LocalDate dateTime;
 }

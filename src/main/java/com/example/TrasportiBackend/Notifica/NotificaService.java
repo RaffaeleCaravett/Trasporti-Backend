@@ -14,6 +14,8 @@ import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class NotificaService {
     @Autowired
@@ -35,6 +37,7 @@ public class NotificaService {
         notifica.setSpedizione(spedizione);
         notifica.setTrasportatore(trasportatore);
         notifica.setStatoNotifica(StatoNotifica.Emessa);
+        notifica.setDateTime(LocalDate.now());
         return notificaRepository.save(notifica);
     }
 
@@ -61,5 +64,13 @@ public class NotificaService {
         }
         notifica.setStatoNotifica(StatoNotifica.Letta);
         return notificaRepository.save(notifica);
+    }
+    public boolean delete(long id){
+        try {
+            notificaRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
