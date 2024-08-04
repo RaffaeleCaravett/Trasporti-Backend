@@ -12,6 +12,10 @@ import com.example.TrasportiBackend.exceptions.NotificaNotFoundException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,8 +34,8 @@ public class NotificaService {
     public Notifica save(NotificaDTO notificaDTO){
         Notifica notifica= new Notifica();
         Azienda azienda = aziendaRepository.findById(notificaDTO.aziendaId()).orElseThrow(()->new UserNotFoundException("Azienda con id " + notificaDTO.aziendaId() + " non trovata in db."));
-        Spedizione spedizione = spedizioneRepository.findById(notificaDTO.spedizioneId()).orElseThrow(()->new UserNotFoundException("Spedizione con id " + notificaDTO.spedizioneId() + " non trovata in db."))
-        Trasportatore trasportatore = trasporatoreRepository.findById(notificaDTO.trasportatoreId()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + notificaDTO.aziendaId() + " non trovata in db."))
+        Spedizione spedizione = spedizioneRepository.findById(notificaDTO.spedizioneId()).orElseThrow(()->new UserNotFoundException("Spedizione con id " + notificaDTO.spedizioneId() + " non trovata in db."));
+        Trasportatore trasportatore = trasporatoreRepository.findById(notificaDTO.trasportatoreId()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + notificaDTO.aziendaId() + " non trovata in db."));
 
         notifica.setAzienda(azienda);
         notifica.setSpedizione(spedizione);
@@ -72,5 +76,12 @@ public class NotificaService {
         }catch (Exception e){
             return false;
         }
+    }
+
+    public Page<Notifica> findByAzienda_IdAndStatoNotifica(long id,String statoNotifica,int page,int size,String orderBy){
+        StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+        return notificaRepository.findByAzienda_IdAndStatoNotifica(id,statoNotifica1,pageable);
     }
 }
