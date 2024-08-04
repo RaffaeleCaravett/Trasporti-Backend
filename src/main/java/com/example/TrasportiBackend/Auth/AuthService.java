@@ -24,6 +24,8 @@ public class AuthService {
     AziendaRepository aziendaRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    AdminRepository adminRepository;
 
     public TrasportatoreLoginSuccess trasportatoreLogin(UserLogin userLogin){
         Optional<Trasportatore> optionalTrasportatore =trasporatoreRepository.findByEmail(userLogin.email());
@@ -86,6 +88,14 @@ public class AuthService {
         }
     }
 
+    public boolean verifyAdminAccessToken(){
+        try{
+            return true;
+        }catch (Exception e){
+            throw new AccessTokenInvalidException("Il token non è valido.");
+        }
+    }
+
     public Trasportatore registerTrasportatore(TrasportatoreDTO trasportatoreDTO){
         if(trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()){
             throw new BadRequestException("Trasportatore con email " + trasportatoreDTO.email() + " già presente in db.");
@@ -107,7 +117,7 @@ public class AuthService {
     }
     public Azienda registerAzienda(AziendaDTO aziendaDTO){
         if(aziendaRepository.findByEmail(aziendaDTO.email()).isPresent()){
-            throw new BadRequestException("Azienda con email " + aziendaDTO.email() + " non presente in db.");
+            throw new BadRequestException("Azienda con email " + aziendaDTO.email() + " presente in db.");
         }
         Azienda azienda = new Azienda();
         azienda.setCap(aziendaDTO.cap());
@@ -122,6 +132,22 @@ public class AuthService {
         azienda.setPartitaIva(aziendaDTO.partitaIva());
         azienda.setPassword(bcrypt.encode(aziendaDTO.password()));
         return aziendaRepository.save(azienda);
+    }
+    public Admin registerAdmin(AdminDTO adminDTO){
+        if(adminRepository.findByEmail(adminDTO.email()).isPresent()){
+            throw new BadRequestException("Admin con email " + adminDTO.email() + " già presente in db.");
+        }
+        if(!adminDTO.email().equals("raffaelecaravetta13@gmail.com")){
+            throw new BadRequestException("Mi dispiace, non puoi registrarti qui.");
+        }
+        Admin admin = new Admin();
+        admin.setCap(adminDTO.cap());
+        admin.setCitta(adminDTO.citta());
+        admin.setRegione(adminDTO.regione());
+        admin.setIndirizzo(adminDTO.indirizzo());
+        admin.setEmail(adminDTO.email());
+        admin.setPassword(bcrypt.encode(adminDTO.password()));
+        return adminRepository.save(admin);
     }
     public boolean resetPassword(String password,String oldPassword, User user){
         if(!bcrypt.matches(oldPassword, user.getPassword())){

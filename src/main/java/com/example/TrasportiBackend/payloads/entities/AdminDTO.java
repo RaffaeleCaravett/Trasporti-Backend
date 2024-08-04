@@ -3,7 +3,7 @@ package com.example.TrasportiBackend.payloads.entities;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public record Admin(
+public record AdminDTO(
         @NotNull(message = "Cap necessario")
         long cap,
         @NotEmpty(message = "Email necessaria")
