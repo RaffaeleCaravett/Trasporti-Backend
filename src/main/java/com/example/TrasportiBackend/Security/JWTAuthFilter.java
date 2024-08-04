@@ -44,12 +44,15 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
             boolean isTrasportatoreEndpoint = requestURI.startsWith("/trasportatore/");
             boolean isAziendaEndpoint = requestURI.startsWith("/azienda/");
+            boolean isAdminEndpoint = requestURI.startsWith("/admin/");
 
             if (isTrasportatoreEndpoint) {
                 jwtTools.verifyTrasportatoreToken(token);
             } else if (isAziendaEndpoint) {
                 jwtTools.verifyAziendaToken(token);
-            } else {
+            } else if (isAdminEndpoint){
+                jwtTools.verifyAdminToken(token);
+            }else {
                 throw new UnauthorizedException("Accesso negato");
             }
 

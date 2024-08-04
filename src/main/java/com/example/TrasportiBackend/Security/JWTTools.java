@@ -21,6 +21,8 @@ public class JWTTools {
     TrasporatoreRepository trasportatoreRepository;
     @Autowired
     AziendaRepository aziendaRepository;
+    @Autowired
+    AdminRepository adminRepository;
 
     public Tokens createTokens(User user){
         String accessToken = Jwts.builder().setSubject(String.valueOf(user.getId()))
@@ -68,6 +70,21 @@ public class JWTTools {
         }
     }
 
+    public Admin verifyAdminToken(String token){
+        try {
+            Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build().parse(token).getBody();
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            String userId = claims.getSubject();
+            return adminRepository.findById(Long.parseLong(userId)).get();
+        }catch (Exception e){
+            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login!");
+        }
+    }
 
     public Tokens verifyTrasportatoreRefreshToken(String token){
         try {
@@ -97,6 +114,22 @@ public class JWTTools {
             String userId= claims.getSubject();
 
             return  this.createTokens(aziendaRepository.findById(Long.valueOf(userId)).get());
+        }catch (Exception e){
+            throw new UnauthorizedException("Il refresh token non è valido. Accedi nuovamente.");
+        }
+    }
+    public Tokens verifyAdminRefreshToken(String token){
+        try {
+            Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build().parse(token).getBody();
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            String userId= claims.getSubject();
+
+            return  this.createTokens(adminRepository.findById(Long.valueOf(userId)).get());
         }catch (Exception e){
             throw new UnauthorizedException("Il refresh token non è valido. Accedi nuovamente.");
         }
