@@ -1,22 +1,32 @@
 package com.example.TrasportiBackend.Pdf;
 
+import com.example.TrasportiBackend.User.TrasporatoreRepository;
+import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayOutputStream;
 
 @RestController
 @RequestMapping("/pdf")
 public class PdfController {
-
-    @PostMapping("")
+@Autowired
+    TrasporatoreRepository trasporatoreRepository;
+    @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('Trasportatore')")
-    public byte[] generatePdf(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult){
+    public byte[] generatePdf(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult, @PathVariable long id){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
@@ -47,8 +57,7 @@ public class PdfController {
             contentStream.beginText();
             contentStream.setFont(font, 14);
             contentStream.newLineAtOffset(50, 634);
-            User user = userRepository.findById(prenotazioneDTO.user_id()).orElseThrow(()->new BadRequestException("User con id "+ prenotazioneDTO.user_id() + " non trovato."));
-            Pacchetto pacchetto = pacchettoRepository.findById(prenotazioneDTO.pacchetto_id().get(0)).orElseThrow(()->new BadRequestException("Pacchetto con id "+ prenotazioneDTO.pacchetto_id().get(0) + " non trovato."));
+            Trasportatore user = trasporatoreRepository.findById(id).orElseThrow(()->new BadRequestException("Trasportatore con id "+ id + " non trovato."));
 
 
             contentStream.showText(
@@ -66,38 +75,6 @@ public class PdfController {
             );
             contentStream.endText();
 
-            contentStream.beginText();
-            contentStream.setFont(font, 14);
-            contentStream.newLineAtOffset(50, 590);
-            contentStream.showText(
-                    "Dove andrai? " + " "
-            );
-            contentStream.endText();
-
-
-            contentStream.beginText();
-            contentStream.setFont(font, 14);
-            contentStream.newLineAtOffset(250, 590);
-            contentStream.showText(
-                    "Pianeta : " + pacchetto.getPianetas().get(0).getNome() + " "
-            );
-            contentStream.endText();
-
-            contentStream.beginText();
-            contentStream.setFont(font, 14);
-            contentStream.newLineAtOffset(250, 560);
-            contentStream.showText(
-                    "Galassia : " + pacchetto.getPianetas().get(0).getGalassia() + " "
-            );
-            contentStream.endText();
-
-            contentStream.beginText();
-            contentStream.setFont(font, 14);
-            contentStream.newLineAtOffset(50, 524);
-            contentStream.showText(
-                    "Hai speso " + pacchetto.getPrezzo() + " per questa prenotazione."
-            );
-            contentStream.endText();
 
             contentStream.beginText();
             contentStream.setFont(fontBold, 16);
@@ -116,7 +93,7 @@ public class PdfController {
             contentStream.newLineAtOffset(150, 55);
             contentStream.setFont(fontBold, 30);
             contentStream.showText(
-                    "SpaceAgency A.p.s."
+                    "Trasporti S.p.a."
             );
             contentStream.endText();
 
@@ -150,18 +127,7 @@ public class PdfController {
 
             document.save(output);
             document.close();
-
-
-            Pdf pdf = new Pdf();
-            pdf.setUser(user);
-            pdf.setPacchetto(pacchetto);
-
-
-            if(pdfRepository.findByUser_IdAndPacchetto_Id(user.getId(),pacchetto.getId()).isPresent()){
-                throw  new BadRequestException("Hai già scaricato il pdf per questa tua prenotazione.");
-            }
-
-            pdfRepository.save(pdf);
+            
 
             return output.toByteArray();
         }catch (Exception e){
