@@ -1,10 +1,12 @@
 package com.example.TrasportiBackend.Auth;
 
+import com.example.TrasportiBackend.Email.EmailService;
 import com.example.TrasportiBackend.User.Admin;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
+import com.example.TrasportiBackend.exceptions.ImpossibleChangePassword;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.*;
@@ -16,7 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,7 +28,8 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-
+    @Autowired
+    EmailService emailService;
 
 
     @PostMapping("/TLogin")
@@ -93,4 +98,26 @@ public class AuthController {
         }
         return authService.registerAdmin(aziendaDTO);
     }
+
+    @PostMapping("/resetPassword")
+    public boolean resetPassword(@RequestBody @Validated ChangePasswordRequest changePasswordRequest, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new ImpossibleChangePassword(bindingResult.getAllErrors());
+        }
+
+        byte[] array = new byte[7];
+        new Random().nextBytes(array);
+        String generatedString = new String(array, Charset.forName("UTF-8"));
+        try {
+            emailService.sendEmail(changePasswordRequest.to(), "Informazioni per resettare la password", "Ciao! Per resettare la tua password inserisci il codice qui sotto " + "\n" +
+                     "\n" +
+                     "\n" +
+                     "\n" +
+                    generatedString + " e la tua mail nel form che vedi sulla schermata di Trasporti e premi invio."
+            );
+        return true;
+        }catch (Exception e){
+            return false;
+        }
+        }
 }

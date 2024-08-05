@@ -37,6 +37,16 @@ public class ExceptionsHandler {
             return new ErrorsWithListDTO(e.getMessage(), new Date(), new ArrayList<>());
         }
     }
+    @ExceptionHandler(ImpossibleChangePassword.class)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    public ErrorsWithListDTO handleSpedizioneHasErrors(ImpossibleChangePassword e) {
+        if (e.getMessages() != null) {
+            List<String> errorsList = e.getMessages().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+            return new ErrorsWithListDTO(e.getMessage(), new Date(), errorsList);
+        } else {
+            return new ErrorsWithListDTO(e.getMessage(), new Date(), new ArrayList<>());
+        }
+    }
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
     public ErrorsDTO handleUnauthorized(UnauthorizedException e) {
