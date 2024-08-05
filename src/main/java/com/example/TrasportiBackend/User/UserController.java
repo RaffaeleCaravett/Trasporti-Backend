@@ -3,6 +3,7 @@ package com.example.TrasportiBackend.User;
 import com.example.TrasportiBackend.Auth.AuthService;
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
+import com.example.TrasportiBackend.payloads.entities.AdminDTO;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +25,6 @@ public class UserController {
 
     @Autowired
     AuthService authService;
-    @PostMapping("/trasportatore")
-    public Trasportatore save(@RequestBody @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new BadRequestException(bindingResult.getAllErrors());
-        }
-        return authService.registerTrasportatore(trasportatoreDTO);
-    }
-    @PostMapping("/azienda")
-    public Azienda save(@RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new BadRequestException(bindingResult.getAllErrors());
-        }
-        return authService.registerAzienda(aziendaDTO);
-    }
-
     @GetMapping("/azienda")
     public Page<Azienda> getAllAziende(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.getAllAziende(page,size,orderBy);

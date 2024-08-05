@@ -82,27 +82,50 @@ public class AuthService {
     public Tokens generateTokens(User u){
         return jwtTools.createTokens(u);
     }
-    public boolean verifyAziendaAccessToken(){
+    public Azienda verifyAziendaAccessToken(String token){
         try{
-            return true;
+            return jwtTools.verifyAziendaToken(token);
         }catch (Exception e){
             throw new AccessTokenInvalidException("Il token non è valido.");
         }
     }
 
-    public boolean verifyTrasportatoreAccessToken(){
+    public Trasportatore verifyTrasportatoreAccessToken(String token){
         try{
-            return true;
+            return jwtTools.verifyTrasportatoreToken(token);
         }catch (Exception e){
             throw new AccessTokenInvalidException("Il token non è valido.");
         }
     }
 
-    public boolean verifyAdminAccessToken(){
+    public Admin verifyAdminAccessToken(String token){
         try{
-            return true;
+            return jwtTools.verifyAdminToken(token);
         }catch (Exception e){
             throw new AccessTokenInvalidException("Il token non è valido.");
+        }
+    }
+    public Tokens verifyAziendaRefreshToken(String token){
+        try{
+            return jwtTools.verifyAziendaRefreshToken(token);
+        }catch (Exception e){
+            throw new AccessTokenInvalidException("Il refresh token non è valido.");
+        }
+    }
+
+    public Tokens verifyTrasportatoreRefreshToken(String token){
+        try{
+            return jwtTools.verifyTrasportatoreRefreshToken(token);
+        }catch (Exception e){
+            throw new AccessTokenInvalidException("Il refresh token non è valido.");
+        }
+    }
+
+    public Tokens verifyAdminRefreshToken(String token){
+        try{
+            return jwtTools.verifyAdminRefreshToken(token);
+        }catch (Exception e){
+            throw new AccessTokenInvalidException("Il refresh token non è valido.");
         }
     }
 
