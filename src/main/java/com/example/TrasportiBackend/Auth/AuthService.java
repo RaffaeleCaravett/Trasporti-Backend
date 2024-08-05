@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.Auth;
 
+import com.example.TrasportiBackend.Security.JWTTools;
 import com.example.TrasportiBackend.User.*;
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.AccessTokenInvalidException;
@@ -26,6 +27,8 @@ public class AuthService {
     UserRepository userRepository;
     @Autowired
     AdminRepository adminRepository;
+    @Autowired
+    JWTTools jwtTools;
 
     public TrasportatoreLoginSuccess trasportatoreLogin(UserLogin userLogin){
         Optional<Trasportatore> optionalTrasportatore =trasporatoreRepository.findByEmail(userLogin.email());
@@ -37,11 +40,9 @@ public class AuthService {
         }
 
         TrasportatoreLoginSuccess trasportatoreLoginSuccess = new TrasportatoreLoginSuccess();
-        Tokens tokens = new Tokens();
-        tokens.setAccessToken(generateAccessToken());
-        tokens.setRefreshToken(generateRefreshToken());
-        trasportatoreLoginSuccess.setTokens(tokens);
         Trasportatore trasportatore = optionalTrasportatore.get();
+        Tokens tokens = generateTokens(trasportatore);
+        trasportatoreLoginSuccess.setTokens(tokens);
         trasportatoreLoginSuccess.setTrasportatore(trasportatore);
         return trasportatoreLoginSuccess;
     }
@@ -56,22 +57,31 @@ public class AuthService {
         }
 
         AziendaLoginSuccess aziendaLoginSuccess = new AziendaLoginSuccess();
-        Tokens tokens = new Tokens();
-        tokens.setAccessToken(generateAccessToken());
-        tokens.setRefreshToken(generateRefreshToken());
-        aziendaLoginSuccess.setTokens(tokens);
         Azienda azienda = optionalAzienda.get();
+        Tokens tokens = generateTokens(azienda);
+        aziendaLoginSuccess.setTokens(tokens);
         aziendaLoginSuccess.setAzienda(azienda);
         return aziendaLoginSuccess;
     }
+    public AdminLoginSuccess adminLogin(UserLogin userLogin){
+        Optional<Admin> optionalAdmin = adminRepository.findByEmail(userLogin.email());
+        if(!optionalAdmin.isPresent()){
+            throw new UserNotFoundException("Admin con email " + userLogin.email() + " non trovato in db");
+        }
+        if(!bcrypt.matches(userLogin.password(),optionalAdmin.get().getPassword())){
+            throw new PasswordMismatchException("La password che hai inserito non coincide con la password che abbiamo in database");
+        }
 
-    public String generateAccessToken(){
-        return "";
+        AdminLoginSuccess adminLoginSuccess = new AdminLoginSuccess();
+        Admin admin = optionalAdmin.get();
+        Tokens tokens = generateTokens(admin);
+        adminLoginSuccess.setTokens(tokens);
+        adminLoginSuccess.setAdmin(admin);
+        return adminLoginSuccess;
     }
-    public String generateRefreshToken(){
-        return "";
+    public Tokens generateTokens(User u){
+        return jwtTools.createTokens(u);
     }
-
     public boolean verifyAziendaAccessToken(){
         try{
             return true;
