@@ -1,6 +1,8 @@
 package com.example.TrasportiBackend.Auth;
 
 import com.example.TrasportiBackend.Email.EmailService;
+import com.example.TrasportiBackend.SecretCode.SecretCode;
+import com.example.TrasportiBackend.SecretCode.SecretCodeService;
 import com.example.TrasportiBackend.User.Admin;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
@@ -30,7 +32,8 @@ public class AuthController {
 
     @Autowired
     EmailService emailService;
-
+    @Autowired
+    SecretCodeService secretCodeService;
 
     @PostMapping("/TLogin")
     public TrasportatoreLoginSuccess TLogin(@RequestBody @Validated UserLogin trasportatoreDTO, BindingResult bindingResult){
@@ -99,21 +102,18 @@ public class AuthController {
         return authService.registerAdmin(aziendaDTO);
     }
 
-    @PostMapping("/resetPassword")
-    public boolean resetPassword(@RequestBody @Validated ChangePasswordRequest changePasswordRequest, BindingResult bindingResult){
+    @PostMapping("/resetPassword/{id}")
+    public boolean resetPassword(@RequestBody @Validated ChangePasswordRequest changePasswordRequest, BindingResult bindingResult,@PathVariable long id){
         if(bindingResult.hasErrors()){
             throw new ImpossibleChangePassword(bindingResult.getAllErrors());
         }
-
-        byte[] array = new byte[7];
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
         try {
+            SecretCode secretCode = secretCodeService.save(new SecretCodeDTO("",id));
             emailService.sendEmail(changePasswordRequest.to(), "Informazioni per resettare la password", "Ciao! Per resettare la tua password inserisci il codice qui sotto " + "\n" +
                      "\n" +
                      "\n" +
                      "\n" +
-                    generatedString + " e la tua mail nel form che vedi sulla schermata di Trasporti e premi invio."
+                    secretCode.getSecretCode() + " e la tua mail nel form che vedi sulla schermata di Trasporti e premi invio."
             );
         return true;
         }catch (Exception e){
