@@ -31,4 +31,7 @@ public class SecretCodeService {
         }
         return secretCodeRepository.save(secretCode);
     }
+    public boolean test(SecretCodeDTO secretCodeDTO){
+        return secretCodeRepository.findBySecretCodeAndUser_Id(secretCodeDTO.secretCode(), secretCodeDTO.user_id()).isPresent();
+    }
 }

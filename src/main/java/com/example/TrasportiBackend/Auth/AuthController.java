@@ -3,10 +3,7 @@ package com.example.TrasportiBackend.Auth;
 import com.example.TrasportiBackend.Email.EmailService;
 import com.example.TrasportiBackend.SecretCode.SecretCode;
 import com.example.TrasportiBackend.SecretCode.SecretCodeService;
-import com.example.TrasportiBackend.User.Admin;
-import com.example.TrasportiBackend.User.Azienda;
-import com.example.TrasportiBackend.User.TrasporatoreRepository;
-import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.User.*;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.ImpossibleChangePassword;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
@@ -34,6 +31,8 @@ public class AuthController {
     EmailService emailService;
     @Autowired
     SecretCodeService secretCodeService;
+    @Autowired
+    UserRepository userRepository;
 
     @PostMapping("/TLogin")
     public TrasportatoreLoginSuccess TLogin(@RequestBody @Validated UserLogin trasportatoreDTO, BindingResult bindingResult){
@@ -120,4 +119,25 @@ public class AuthController {
             return false;
         }
         }
+
+
+        @PostMapping("/testSecretCode")
+    public boolean testSecretCode(@RequestBody @Validated SecretCodeDTO secretCodeDTO,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new BadRequestException(bindingResult.getAllErrors());
+        }
+        return secretCodeService.test(secretCodeDTO);
+        }
+        @PostMapping("changePassBySecretCode/{newPassword}/{email}")
+        public User changePassBySecret(@PathVariable String newPassword,@PathVariable String email){
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()){
+            user.get().setPassword(newPassword);
+        }else{
+            throw new UserNotFoundException("User con email " + email + " non trovato in db");
+        }
+        return userRepository.save(user.get());
+        }
+
+
 }
