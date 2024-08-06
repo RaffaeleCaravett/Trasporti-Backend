@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.User;
 
+import com.example.TrasportiBackend.SecretCode.SecretCode;
 import com.example.TrasportiBackend.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -31,7 +32,7 @@ public abstract class User implements  UserDetails{
     private Role role;
     @OneToOne(mappedBy = "user")
     @JsonIgnore
-    private User user;
+    private SecretCode secretCode;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));

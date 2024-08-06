@@ -11,7 +11,8 @@ import lombok.Setter;
 @Table(name = "admin")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Admin extends User{
+    private String nickname;
 }
