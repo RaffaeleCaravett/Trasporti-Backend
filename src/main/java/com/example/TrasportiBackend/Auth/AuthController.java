@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -128,7 +129,7 @@ public class AuthController {
         }
         return secretCodeService.test(secretCodeDTO);
         }
-        @PostMapping("changePassBySecretCode/{newPassword}/{email}")
+        @PostMapping("/changePassBySecretCode/{newPassword}/{email}")
         public User changePassBySecret(@PathVariable String newPassword,@PathVariable String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()){
@@ -138,6 +139,16 @@ public class AuthController {
         }
         return userRepository.save(user.get());
         }
-
-
+@GetMapping("/settori")
+    public List<String> getSettori(){
+        return authService.getSettori();
+}
+@GetMapping("/citta")
+    public List<String> getCities(){
+        return authService.getCitta();
+}
+@GetMapping("/regione/{regione}")
+    public String getRegioneByCity(@PathVariable String regione){
+        return authService.getRegioneByCity(regione);
+}
 }
