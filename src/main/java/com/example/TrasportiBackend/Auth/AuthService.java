@@ -11,7 +11,10 @@ import com.example.TrasportiBackend.payloads.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -207,5 +210,41 @@ public class AuthService {
         }catch (Exception e){
             return false;
         }
+    }
+
+    public List<String> getSettori(){
+        List<String> settori = new ArrayList<>();
+
+        settori.add("MODA");
+        settori.add("ALIMENTARI");
+        settori.add("SUPERMARKET");
+        settori.add("ELETTRONICA");
+        settori.add("BRICOLAGE");
+        settori.add("ALTRO");
+
+        return settori;
+
+    }
+
+    public List<String> getCitta(){
+        List<String> cities = new ArrayList<>();
+
+        cities.add("a");
+        cities.add("b");
+        cities.add("c");
+        cities.add("d");
+        cities.add("e");
+        cities.add("f");
+        cities.add("g");
+        cities.add("h");
+        cities.add("i");
+
+        return cities;
+
+    }
+
+    public String getRegioneByCity(String city){
+        System.out.println(city);
+        return "ihih";
     }
 }

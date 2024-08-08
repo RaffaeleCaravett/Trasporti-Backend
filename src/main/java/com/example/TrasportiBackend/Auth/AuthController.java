@@ -147,8 +147,8 @@ public class AuthController {
     public List<String> getCities(){
         return authService.getCitta();
 }
-@GetMapping("/regione/{regione}")
-    public String getRegioneByCity(@PathVariable String regione){
-        return authService.getRegioneByCity(regione);
+@GetMapping("/regione/{city}")
+    public String getRegioneByCity(@PathVariable String city){
+        return authService.getRegioneByCity(city);
 }
 }
