@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.Auth;
 
 import com.example.TrasportiBackend.Security.JWTTools;
 import com.example.TrasportiBackend.User.*;
+import com.example.TrasportiBackend.enums.Role;
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.AccessTokenInvalidException;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
@@ -150,6 +151,7 @@ public class AuthService {
         trasportatore.setIndirizzo(trasportatoreDTO.indirizzo());
         trasportatore.setEmail(trasportatoreDTO.email());
         trasportatore.setPassword(bcrypt.encode(trasportatoreDTO.password()));
+        trasportatore.setRole(Role.Trasportatore);
         return trasporatoreRepository.save(trasportatore);
     }
     public Azienda registerAzienda(AziendaDTO aziendaDTO){
@@ -168,6 +170,7 @@ public class AuthService {
         azienda.setSettore(Settore.valueOf(aziendaDTO.settore()));
         azienda.setPartitaIva(aziendaDTO.partitaIva());
         azienda.setPassword(bcrypt.encode(aziendaDTO.password()));
+        azienda.setRole(Role.Azienda);
         return aziendaRepository.save(azienda);
     }
     public Admin registerAdmin(AdminDTO adminDTO){
@@ -184,6 +187,7 @@ public class AuthService {
         admin.setIndirizzo(adminDTO.indirizzo());
         admin.setEmail(adminDTO.email());
         admin.setPassword(bcrypt.encode(adminDTO.password()));
+        admin.setRole(Role.Admin);
         return adminRepository.save(admin);
     }
     public boolean resetPassword(String password,String oldPassword, User user){
