@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -244,7 +245,7 @@ public class AuthService {
     }
 
     public String getRegioneByCity(String city){
-        System.out.println(city);
-        return "ihih";
+        String region = "regione";
+        return region;
     }
 }

@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NotOwnerException extends RuntimeException{
-    private String message;
+    private String error;
 
     public NotOwnerException(String message){
-        this.message=message;
+        this.error=message;
     }
 }

@@ -9,6 +9,7 @@ import com.example.TrasportiBackend.exceptions.ImpossibleChangePassword;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.*;
+import jakarta.servlet.http.HttpServletResponse;
 import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -148,7 +149,9 @@ public class AuthController {
         return authService.getCitta();
 }
 @GetMapping("/regione/{city}")
-    public String getRegioneByCity(@PathVariable String city){
+@ResponseBody
+    public String getRegioneByCity(@PathVariable String city, HttpServletResponse response) {
+    response.setContentType("text/plain");
         return authService.getRegioneByCity(city);
 }
 }

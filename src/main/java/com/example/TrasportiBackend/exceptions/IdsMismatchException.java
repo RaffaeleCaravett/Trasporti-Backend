@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IdsMismatchException extends RuntimeException{
-private String message;
+private String error;
 
 }

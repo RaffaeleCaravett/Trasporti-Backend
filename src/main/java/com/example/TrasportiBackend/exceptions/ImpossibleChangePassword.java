@@ -9,12 +9,12 @@ import java.util.List;
 @Getter
 @Setter
 public class ImpossibleChangePassword extends RuntimeException{
-private String message;
-private List<ObjectError> messages;
+private String error;
+private List<ObjectError> errorList;
 public ImpossibleChangePassword(String message){
-    this.message=message;
+    this.error=message;
 }
 public ImpossibleChangePassword(List<ObjectError> list){
-    this.messages=list;
+    this.errorList=list;
 }
 }
