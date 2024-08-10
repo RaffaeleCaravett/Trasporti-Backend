@@ -21,9 +21,9 @@ public class ExceptionsHandler {
     public ErrorsWithListDTO handleBadRequest(BadRequestException e) {
         if (e.getErrorList() != null) {
             List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
-            return new ErrorsWithListDTO(e.getMessage(), new Date(), errorsList);
+            return new ErrorsWithListDTO(e.getError(), new Date(), errorsList);
         } else {
-            return new ErrorsWithListDTO(e.getMessage(), new Date(), new ArrayList<>());
+            return new ErrorsWithListDTO(e.getError(), new Date(), new ArrayList<>());
         }
 
     }
@@ -32,19 +32,19 @@ public class ExceptionsHandler {
     public ErrorsWithListDTO handleSpedizioneHasErrors(SpedizioneHasErrorsException e) {
         if (e.getErrorList() != null) {
             List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
-            return new ErrorsWithListDTO(e.getMessage(), new Date(), errorsList);
+            return new ErrorsWithListDTO(e.getError(), new Date(), errorsList);
         } else {
-            return new ErrorsWithListDTO(e.getMessage(), new Date(), new ArrayList<>());
+            return new ErrorsWithListDTO(e.getError(), new Date(), new ArrayList<>());
         }
     }
     @ExceptionHandler(ImpossibleChangePassword.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
     public ErrorsWithListDTO handleSpedizioneHasErrors(ImpossibleChangePassword e) {
-        if (e.getMessages() != null) {
-            List<String> errorsList = e.getMessages().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
-            return new ErrorsWithListDTO(e.getMessage(), new Date(), errorsList);
+        if (e.getErrorList() != null) {
+            List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+            return new ErrorsWithListDTO(e.getError(), new Date(), errorsList);
         } else {
-            return new ErrorsWithListDTO(e.getMessage(), new Date(), new ArrayList<>());
+            return new ErrorsWithListDTO(e.getError(), new Date(), new ArrayList<>());
         }
     }
     @ExceptionHandler(UnauthorizedException.class)
@@ -62,32 +62,32 @@ public class ExceptionsHandler {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)  // 404
     public ErrorsDTO handleNotFound(UserNotFoundException e) {
-        return new ErrorsDTO(e.getMessage(), new Date());
+        return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(AccessTokenInvalidException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleInvalidToken(AccessTokenInvalidException e) {
-        return new ErrorsDTO(e.getMessage(), new Date());
+        return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
     public ErrorsDTO handlePasswordMismatch(PasswordMismatchException e) {
-        return new ErrorsDTO(e.getMessage(), new Date());
+        return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(IdsMismatchException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
     public ErrorsDTO handleIdsMismatch(IdsMismatchException e) {
-        return new ErrorsDTO(e.getMessage(), new Date());
+        return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(NotOwnerException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
     public ErrorsDTO handleNotOwner(NotOwnerException e) {
-        return new ErrorsDTO(e.getMessage(), new Date());
+        return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(NotificaNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
     public ErrorsDTO handleNotificaNotFound(NotificaNotFoundException e) {
-        return new ErrorsDTO(e.getMessage(), new Date());
+        return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500

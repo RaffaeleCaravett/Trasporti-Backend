@@ -1,9 +1,13 @@
 package com.example.TrasportiBackend.exceptions;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.validation.ObjectError;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class AccessTokenInvalidException extends RuntimeException{
     private String error;
     private List<ObjectError> errorList;
