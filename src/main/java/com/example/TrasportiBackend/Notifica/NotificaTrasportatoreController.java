@@ -2,17 +2,15 @@ package com.example.TrasportiBackend.Notifica;
 
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
-import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/azienda/notifica")
-public class NotificaController {
+@RequestMapping("/trasportatore/notifica")
+public class NotificaTrasportatoreController {
 
     @Autowired
     NotificaService notificaService;
@@ -25,9 +23,8 @@ public class NotificaController {
         }
         return notificaService.save(notificaDTO);
     }
-
     @GetMapping("/{id}/{statoNotifica}/{sender}")
-    public Page<Notifica> findByAziendaIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
-        return notificaService.findByAzienda_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
+    public Page<Notifica> findByTrasportatoreIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
+        return notificaService.findByTrasportatore_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
     }
 }
