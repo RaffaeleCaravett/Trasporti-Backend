@@ -88,6 +88,6 @@ public class NotificaService {
         StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
-        return notificaRepository.findByAzienda_IdAndStatoNotifica(id,statoNotifica1,pageable);
+        return notificaRepository.findByTrasportatore_IdAndStatoNotifica(id,statoNotifica1,pageable);
     }
 }
