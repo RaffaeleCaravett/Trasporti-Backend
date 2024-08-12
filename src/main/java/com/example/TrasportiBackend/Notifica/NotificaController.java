@@ -26,8 +26,12 @@ public class NotificaController {
         return notificaService.save(notificaDTO);
     }
 
-    @GetMapping("/{id}/{statoNotifica}")
+    @GetMapping("az/{id}/{statoNotifica}")
     public Page<Notifica> findByAziendaIdAndStato(@PathVariable long id, @PathVariable String statoNotifica){
         return notificaService.findByAzienda_IdAndStatoNotifica(id,statoNotifica,0,10,"id");
+    }
+    @GetMapping("tr/{id}/{statoNotifica}")
+    public Page<Notifica> findByTrasportatoreIdAndStato(@PathVariable long id, @PathVariable String statoNotifica){
+        return notificaService.findByTrasportatore_IdAndStatoNotifica(id,statoNotifica,0,10,"id");
     }
 }
