@@ -37,4 +37,5 @@ public class Notifica {
     private StatoNotifica statoNotifica;
     private LocalDate dateTime;
     private String inviataDa;
+    private String testo;
 }

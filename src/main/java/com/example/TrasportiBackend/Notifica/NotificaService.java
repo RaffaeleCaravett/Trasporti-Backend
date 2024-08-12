@@ -43,6 +43,7 @@ public class NotificaService {
         notifica.setStatoNotifica(StatoNotifica.Emessa);
         notifica.setDateTime(LocalDate.now());
         notifica.setInviataDa(notificaDTO.inviataDa());
+        notifica.setTesto(notificaDTO.testo());
         return notificaRepository.save(notifica);
     }
 
