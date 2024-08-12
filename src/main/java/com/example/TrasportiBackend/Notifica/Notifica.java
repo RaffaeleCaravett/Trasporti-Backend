@@ -36,4 +36,5 @@ public class Notifica {
     @Enumerated(EnumType.STRING)
     private StatoNotifica statoNotifica;
     private LocalDate dateTime;
+    private String inviataDa;
 }

@@ -42,6 +42,7 @@ public class NotificaService {
         notifica.setTrasportatore(trasportatore);
         notifica.setStatoNotifica(StatoNotifica.Emessa);
         notifica.setDateTime(LocalDate.now());
+        notifica.setInviataDa(notificaDTO.inviataDa());
         return notificaRepository.save(notifica);
     }
 

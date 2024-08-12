@@ -10,6 +10,7 @@ public record NotificaDTO(
         long aziendaId,
         @NotNull(message = "Trasportatore id necessario")
         long trasportatoreId,
-        String statoNotifica
+        String statoNotifica,
+        String inviataDa
 ) {
 }
