@@ -28,10 +28,10 @@ public class NotificaController {
 
     @GetMapping("az/{id}/{statoNotifica}/{sender}")
     public Page<Notifica> findByAziendaIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
-        return notificaService.findByAzienda_IdAndStatoNotifica(id,statoNotifica,sender,0,10,"id");
+        return notificaService.findByAzienda_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
     }
     @GetMapping("tr/{id}/{statoNotifica}/{sender}")
     public Page<Notifica> findByTrasportatoreIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
-        return notificaService.findByTrasportatore_IdAndStatoNotifica(id,statoNotifica,sender,0,10,"id");
+        return notificaService.findByTrasportatore_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
     }
 }
