@@ -8,7 +8,7 @@ import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.enums.Stato;
 import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
-import com.example.TrasportiBackend.payloads.SpedizioneDTO;
+import com.example.TrasportiBackend.payloads.entities.SpedizioneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -118,7 +118,7 @@ public Spedizione putById(long id, SpedizioneDTO spedizioneDTO){
     spedizione.setNumeroPedane(spedizioneDTO.numeroPedane());
     spedizione.setDescrizioneMerce(spedizioneDTO.descrizione());
     spedizione.setAzienda(aziendaRepository.findById(spedizioneDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id "+ spedizioneDTO.azienda_id() + " non trovato in db.")));
-    spedizione.setStato(Stato.Pubblicata);
+    spedizione.setStato(spedizione.getStato());
     return spedizioneRepository.save(spedizione);
 }
 

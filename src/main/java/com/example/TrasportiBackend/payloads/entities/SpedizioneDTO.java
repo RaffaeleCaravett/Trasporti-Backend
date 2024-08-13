@@ -1,4 +1,4 @@
-package com.example.TrasportiBackend.payloads;
+package com.example.TrasportiBackend.payloads.entities;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,8 +18,6 @@ public record SpedizioneDTO(
     String descrizione,
     @NotNull(message = "Numero Pedane necessario")
     long numeroPedane,
-    @NotEmpty(message = "Stato necessario")
-    String stato,
     @NotNull(message = "Azienda_id necessario")
     long azienda_id
 ) {

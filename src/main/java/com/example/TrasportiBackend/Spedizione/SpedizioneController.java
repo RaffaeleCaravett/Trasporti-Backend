@@ -1,7 +1,7 @@
 package com.example.TrasportiBackend.Spedizione;
 
 import com.example.TrasportiBackend.exceptions.SpedizioneHasErrorsException;
-import com.example.TrasportiBackend.payloads.SpedizioneDTO;
+import com.example.TrasportiBackend.payloads.entities.SpedizioneDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
