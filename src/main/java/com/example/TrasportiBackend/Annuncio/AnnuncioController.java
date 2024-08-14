@@ -34,4 +34,13 @@ public Annuncio save(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingRes
         return annuncioService.deleteByAdmin(annuncioId);
     }
 
+    @PutMapping("/{aziendaId}/{annuncioId}")
+    @PreAuthorize("hasAnyAuthority('Admin','Azienda')")
+    public Annuncio putById(@RequestBody @Validated AnnuncioDTO annuncioDTO,BindingResult bindingResult, @PathVariable long aziendaId, @PathVariable long annuncioId){
+    if(bindingResult.hasErrors()){
+        throw new BadRequestException(bindingResult.getAllErrors());
+    }
+    return annuncioService.putById(annuncioDTO,aziendaId,annuncioId);
+    }
+
 }
