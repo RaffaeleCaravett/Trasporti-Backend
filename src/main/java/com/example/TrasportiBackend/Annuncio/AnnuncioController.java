@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/annuncio")
@@ -26,5 +23,15 @@ public Annuncio save(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingRes
     }
     return annuncioService.save(annuncioDTO);
 }
+@DeleteMapping("/byAzienda/{id}/{annuncioId}")
+@PreAuthorize("hasAuthority('Azienda')")
+    public boolean delete(@PathVariable long id,@PathVariable long annuncioId){
+   return annuncioService.deleteByAzienda(id,annuncioId);
+}
+    @DeleteMapping("/byAdmin/{annuncioId}")
+    @PreAuthorize("hasAuthority('Admin')")
+    public boolean deleteByAdmin(@PathVariable long annuncioId){
+        return annuncioService.deleteByAdmin(annuncioId);
+    }
 
 }
