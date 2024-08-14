@@ -8,11 +8,11 @@ public record SpedizioneDTO(
     String da,
     @NotEmpty(message = "A necessario")
     String a,
-    @NotEmpty(message = "Anno da spedire necessaria")
+    @NotNull(message = "Anno da spedire necessaria")
     int daSpedireAnno,
-    @NotEmpty(message = "Mese da spedire necessaria")
+    @NotNull(message = "Mese da spedire necessaria")
     int daSpedireMese,
-    @NotEmpty(message = "Giorno da spedire necessaria")
+    @NotNull(message = "Giorno da spedire necessaria")
     int daSpedireGiorno,
     @NotEmpty(message = "Descrizione necessario")
     String descrizione,
