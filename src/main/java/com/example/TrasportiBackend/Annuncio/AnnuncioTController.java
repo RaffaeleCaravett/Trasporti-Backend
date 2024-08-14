@@ -15,33 +15,6 @@ public class AnnuncioTController {
     @Autowired
     AnnuncioService annuncioService;
 
-    @PostMapping("")
-    @PreAuthorize("hasAnyAuthority('Admin','Azienda')")
-    public Annuncio save(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new BadRequestException(bindingResult.getAllErrors());
-        }
-        return annuncioService.save(annuncioDTO);
-    }
-    @DeleteMapping("/byAzienda/{id}/{annuncioId}")
-    @PreAuthorize("hasAuthority('Azienda')")
-    public boolean delete(@PathVariable long id,@PathVariable long annuncioId){
-        return annuncioService.deleteByAzienda(id,annuncioId);
-    }
-    @DeleteMapping("/byAdmin/{annuncioId}")
-    @PreAuthorize("hasAuthority('Admin')")
-    public boolean deleteByAdmin(@PathVariable long annuncioId){
-        return annuncioService.deleteByAdmin(annuncioId);
-    }
-
-    @PutMapping("/{aziendaId}/{annuncioId}")
-    @PreAuthorize("hasAnyAuthority('Admin','Azienda')")
-    public Annuncio putById(@RequestBody @Validated AnnuncioDTO annuncioDTO,BindingResult bindingResult, @PathVariable long aziendaId, @PathVariable long annuncioId){
-        if(bindingResult.hasErrors()){
-            throw new BadRequestException(bindingResult.getAllErrors());
-        }
-        return annuncioService.putById(annuncioDTO,aziendaId,annuncioId);
-    }
 
     @GetMapping("/byAziendaId/{id}")
     public Page<Annuncio> getByAziendaId(@PathVariable long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){

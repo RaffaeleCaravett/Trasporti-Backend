@@ -10,8 +10,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/spedizione")
-public class SpedizioneController {
+@RequestMapping("/azienda/spedizione")
+public class SpedizioneAzController {
     @Autowired
     SpedizioneService spedizioneService;
 
