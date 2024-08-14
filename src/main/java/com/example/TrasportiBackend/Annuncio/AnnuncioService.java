@@ -33,7 +33,7 @@ public class AnnuncioService {
         Spedizione spedizione = spedizioneRepository.findById(annuncioDTO.spedizioneId()).orElseThrow(()->new UserNotFoundException("Spedizione con id " + annuncioDTO.spedizioneId() + " non trovato in db." ));
         annuncio.setAzienda(azienda);
         annuncio.setSpedizione(spedizione);
-        annuncio.setDataPubblicazione(LocalDate.of(annuncioDTO.dataPubblicazioneAnno(),annuncioDTO.dataPubblicazioneMese(),annuncioDTO.dataPubblicazioneGiorno()));
+        annuncio.setDataPubblicazione(LocalDate.now());
         annuncio.setRetribuzione(annuncioDTO.retribuzione());
         return annuncioRepository.save(annuncio);
     }
@@ -70,7 +70,7 @@ public class AnnuncioService {
             Spedizione spedizione = spedizioneRepository.findById(annuncioDTO.spedizioneId()).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + annuncioDTO.spedizioneId() + " non trovato in db."));
             annuncio.setAzienda(azienda);
             annuncio.setSpedizione(spedizione);
-            annuncio.setDataPubblicazione(LocalDate.of(annuncioDTO.dataPubblicazioneAnno(), annuncioDTO.dataPubblicazioneMese(), annuncioDTO.dataPubblicazioneGiorno()));
+            annuncio.setDataPubblicazione(annuncio.getDataPubblicazione());
             annuncio.setRetribuzione(annuncioDTO.retribuzione());
             return annuncioRepository.save(annuncio);
         }else {
