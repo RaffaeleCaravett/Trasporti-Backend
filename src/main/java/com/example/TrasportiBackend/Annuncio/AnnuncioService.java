@@ -86,7 +86,7 @@ public Page<Annuncio> getByAziendaId(long aziendaId,int page,int size,String ord
     public Page<Annuncio> getByAziendaIdAndStato(long aziendaId,String stato,int page,int size,String orderBy){
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
         Stato state = Stato.valueOf(stato);
-        return annuncioRepository.findByAzienda_IdAndStato(aziendaId,state,pageable);
+        return annuncioRepository.findByAzienda_IdAndSpedizione_Stato(aziendaId,state,pageable);
     }
 public Page<Annuncio> findByRetribuzione(long retribuzione1, long retribuzione2, int page, int size ,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));

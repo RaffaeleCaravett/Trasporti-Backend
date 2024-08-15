@@ -25,6 +25,8 @@ public class SpedizioneAzController {
         }
         return spedizioneService.save(spedizioneDTO);
     }
+
+
     @GetMapping("/assegna")
     @PreAuthorize("hasAnyAuthority('Admin','Azienda')")
     public Spedizione assegna(@RequestParam(defaultValue = "0") long id,@RequestParam(defaultValue = "0") long trasportatoreId,@RequestParam(defaultValue = "0") long aziendaId){

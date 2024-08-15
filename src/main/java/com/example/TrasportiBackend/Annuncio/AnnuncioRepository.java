@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface AnnuncioRepository extends JpaRepository<Annuncio,Long> {
     Optional<Annuncio> findBySpedizione_Id(long spedizioneId);
     Page<Annuncio> findByAzienda_Id(long aziendaId,Pageable pageable);
-    Page<Annuncio> findByAzienda_IdAndStato(long aziendaId, Stato stato, Pageable pageable);
+    Page<Annuncio> findByAzienda_IdAndSpedizione_Stato(long aziendaId, Stato stato, Pageable pageable);
 
     Page<Annuncio> findByRetribuzioneBetween(long da, long a, Pageable pageable);
     Page<Annuncio> findBydataPubblicazioneBetween(LocalDate da, LocalDate a, Pageable pageable);
