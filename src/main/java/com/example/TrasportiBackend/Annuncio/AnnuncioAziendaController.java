@@ -48,6 +48,10 @@ public Annuncio save(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingRes
     public Page<Annuncio> getByAziendaId(@PathVariable long id,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
     return annuncioService.getByAziendaId(id,page,size,orderBy);
     }
+    @GetMapping("/byAziendaId/{id}/{stato}")
+    public Page<Annuncio> getByAziendaIdAndStato(@PathVariable long id,@PathVariable String stato,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return annuncioService.getByAziendaIdAndStato(id,stato,page,size,orderBy);
+    }
     @GetMapping("/byRetribuzioneId/{retribuzione1}/{retribuzione2}")
     public Page<Annuncio> getByRetribuzione(@PathVariable long retribuzione1,@PathVariable long retribuzione2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return annuncioService.findByRetribuzione(retribuzione1,retribuzione2,page,size,orderBy);

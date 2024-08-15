@@ -82,7 +82,11 @@ public Page<Annuncio> getByAziendaId(long aziendaId,int page,int size,String ord
 
     return annuncioRepository.findByAzienda_Id(aziendaId,pageable);
 }
+    public Page<Annuncio> getByAziendaIdAndStato(long aziendaId,String stato,int page,int size,String orderBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
+        return annuncioRepository.findByAzienda_Id(aziendaId,pageable);
+    }
 public Page<Annuncio> findByRetribuzione(long retribuzione1, long retribuzione2, int page, int size ,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
         return annuncioRepository.findByRetribuzioneBetween(retribuzione1,retribuzione2,pageable);
