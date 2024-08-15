@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
+import com.example.TrasportiBackend.enums.Stato;
 import com.example.TrasportiBackend.exceptions.NotOwnerException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
@@ -84,8 +85,8 @@ public Page<Annuncio> getByAziendaId(long aziendaId,int page,int size,String ord
 }
     public Page<Annuncio> getByAziendaIdAndStato(long aziendaId,String stato,int page,int size,String orderBy){
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
-
-        return annuncioRepository.findByAzienda_Id(aziendaId,pageable);
+        Stato state = Stato.valueOf(stato);
+        return annuncioRepository.findByAzienda_IdAndStato(aziendaId,state,pageable);
     }
 public Page<Annuncio> findByRetribuzione(long retribuzione1, long retribuzione2, int page, int size ,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
