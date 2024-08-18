@@ -82,19 +82,30 @@ public class UserController {
     public boolean deleteByIdA(@AuthenticationPrincipal Azienda azienda){
         return userService.deleteAziendaById(azienda.getId());
     }
-    @GetMapping("/findByNomeAndCognomeContaining/{nome}/{cognome}")
-    public Page<Trasportatore>findByNomeAndCognomeContaining(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    @GetMapping("azienda/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    public Page<Trasportatore>findByNomeAndCognomeContainingAz(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByNomeAndCognomeContaining(nome,cognome,page,size,orderBy);
     }
-    @GetMapping("/findBySettore/{settore}")
-    public Page<Azienda>findBySettore(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    @GetMapping("azienda/findBySettore/{settore}")
+    public Page<Azienda>findBySettoreAz(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findBySettore(settore,page,size,orderBy);
     }
-    @GetMapping("/findBySettore/{nomeAzienda}")
-    public Page<Azienda>findByNomeAzienda(@PathVariable String nomeAzienda,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    @GetMapping("trasportatore/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    public Page<Trasportatore>findByNomeAndCognomeContainingTr(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByNomeAndCognomeContaining(nome,cognome,page,size,orderBy);
+    }
+    @GetMapping("trasportatore/findBySettore/{settore}")
+    public Page<Azienda>findBySettoreTr(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findBySettore(settore,page,size,orderBy);
+    }
+    @GetMapping("trasportatore/findBySettore/{nomeAzienda}")
+    public Page<Azienda>trFindByNomeAzienda(@PathVariable String nomeAzienda,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByNomeAzienda(nomeAzienda,page,size,orderBy);
     }
-
+    @GetMapping("azienda/findBySettore/{nomeAzienda}")
+    public Page<Azienda>azFindByNomeAzienda(@PathVariable String nomeAzienda,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByNomeAzienda(nomeAzienda,page,size,orderBy);
+    }
     @GetMapping("/reset/{password}/{oldPassword}/me")
     public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@AuthenticationPrincipal User user){
         return authService.resetPassword(password,oldPassword,user);
@@ -102,5 +113,14 @@ public class UserController {
     @GetMapping("/resetAdmin/{password}/{oldPassword}/{id}")
     public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@PathVariable long id){
         return authService.resetPasswordAdmin(password,oldPassword,id);
+    }
+
+    @GetMapping("/azienda/blocca/{id}")
+    public boolean bloccaTrasportatore(@PathVariable long id){
+        return userService.bloccaTrasportatore(id);
+    }
+    @GetMapping("/azienda/sblocca/{id}")
+    public boolean sbloccaTrasportatore(@PathVariable long id){
+        return userService.sbloccaTrasportatore(id);
     }
 }

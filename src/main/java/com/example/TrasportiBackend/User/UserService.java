@@ -114,5 +114,10 @@ public class UserService {
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
         return aziendaRepository.findByNomeAziendaContaining(nomeAzienda,pageable);
     }
-
+public boolean bloccaTrasportatore(long id){
+  return true;
+}
+    public boolean sbloccaTrasportatore(long id){
+return false;
+    }
     }
