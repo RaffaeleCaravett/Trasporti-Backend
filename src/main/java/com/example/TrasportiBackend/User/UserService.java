@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -144,13 +145,16 @@ Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFo
 if(azienda.getTrasportatoreList().isEmpty()){
     throw new BadRequestException("Non c'è nessun trasportatore da sbloccare.");
 }
+List<Trasportatore> newTList = new ArrayList<>();
 for(Trasportatore trasportatore1 : azienda.getTrasportatoreList()){
-    if(trasportatore1.getId()==tId){
-
+    if(trasportatore1.getId()!=tId){
+newTList.add(trasportatore1);
     }
 }
+azienda.setTrasportatoreList(newTList);
+return true;
         } catch (Exception e) {
-            return false;
+           throw new BadRequestException(e.getMessage());
         }
     }
     }
