@@ -49,7 +49,7 @@ public class AnnuncioService {
             throw new NotOwnerException("L'annuncio non è stato cancellato. Sembra che tu non sia il proprietario dell'annuncio.");
         }
         try {
-            boolean deletedSpedizione = deleteSpedizioneByAnnuncioId(annuncio.getId(),annuncio.getAzienda().getId());
+            boolean deletedSpedizione = deleteSpedizioneByAnnuncioId(annuncio.getSpedizione().getId(),annuncio.getAzienda().getId());
             if(deletedSpedizione) {
                 annuncioRepository.delete(annuncio);
                 return true;
