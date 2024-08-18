@@ -14,6 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Array;
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -114,10 +117,40 @@ public class UserService {
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
         return aziendaRepository.findByNomeAziendaContaining(nomeAzienda,pageable);
     }
-public boolean bloccaTrasportatore(long id){
-  return true;
+public boolean bloccaTrasportatore(long tId,long azId){
+  Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+try{
+Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db"));
+if(!azienda.getTrasportatoreList().isEmpty()) {
+    for (Trasportatore trasportatore1 : azienda.getTrasportatoreList()) {
+        if (trasportatore1.getId() == tId) {
+            throw new BadRequestException("Trasportatore già bloccato");
+        }
+    }
+    azienda.getTrasportatoreList().add(trasportatore);
+}else{
+    azienda.getTrasportatoreList().add(trasportatore);
 }
-    public boolean sbloccaTrasportatore(long id){
-return false;
+return true;
+}catch (Exception e){
+   throw new BadRequestException(e.getMessage());
+}
+
+    }
+    public boolean sbloccaTrasportatore(long tId,long azId) {
+        Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+        try {
+Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db"));
+if(azienda.getTrasportatoreList().isEmpty()){
+    throw new BadRequestException("Non c'è nessun trasportatore da sbloccare.");
+}
+for(Trasportatore trasportatore1 : azienda.getTrasportatoreList()){
+    if(trasportatore1.getId()==tId){
+
+    }
+}
+        } catch (Exception e) {
+            return false;
+        }
     }
     }

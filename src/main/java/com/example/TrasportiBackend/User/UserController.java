@@ -115,12 +115,12 @@ public class UserController {
         return authService.resetPasswordAdmin(password,oldPassword,id);
     }
 
-    @GetMapping("/azienda/blocca/{id}")
-    public boolean bloccaTrasportatore(@PathVariable long id){
-        return userService.bloccaTrasportatore(id);
+    @GetMapping("/azienda/blocca/{id}/{azId}")
+    public boolean bloccaTrasportatore(@PathVariable long id,@PathVariable long azId){
+        return userService.bloccaTrasportatore(id,azId);
     }
-    @GetMapping("/azienda/sblocca/{id}")
-    public boolean sbloccaTrasportatore(@PathVariable long id){
-        return userService.sbloccaTrasportatore(id);
+    @GetMapping("/azienda/sblocca/{id}/{azId}")
+    public boolean sbloccaTrasportatore(@PathVariable long id,@PathVariable long azId){
+        return userService.sbloccaTrasportatore(id,azId);
     }
 }
