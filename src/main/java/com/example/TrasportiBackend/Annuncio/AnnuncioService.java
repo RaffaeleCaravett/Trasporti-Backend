@@ -2,12 +2,15 @@ package com.example.TrasportiBackend.Annuncio;
 
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
+import com.example.TrasportiBackend.Spedizione.SpedizioneService;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.enums.Stato;
+import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.NotOwnerException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +30,8 @@ public class AnnuncioService {
     AziendaRepository aziendaRepository;
     @Autowired
     SpedizioneRepository spedizioneRepository;
+    @Autowired
+    SpedizioneService spedizioneService;
 
     public Annuncio save (AnnuncioDTO annuncioDTO){
         Annuncio annuncio = new Annuncio();
@@ -44,8 +49,13 @@ public class AnnuncioService {
             throw new NotOwnerException("L'annuncio non è stato cancellato. Sembra che tu non sia il proprietario dell'annuncio.");
         }
         try {
-            annuncioRepository.delete(annuncio);
-            return true;
+            boolean deletedSpedizione = deleteSpedizioneByAnnuncioId(annuncio.getId(),annuncio.getAzienda().getId());
+            if(deletedSpedizione) {
+                annuncioRepository.delete(annuncio);
+                return true;
+            }else {
+                throw new BadRequestException("Annuncio non cancellato. Abbiamo avuto qualche problema che risolveremo presto. Contatta l'amministrazione.");
+            }
         }catch (Exception e){
             return false;
         }
@@ -88,9 +98,13 @@ public Page<Annuncio> getByAziendaId(long aziendaId,int page,int size,String ord
         Stato state = Stato.valueOf(stato);
         return annuncioRepository.findByAzienda_IdAndSpedizione_Stato(aziendaId,state,pageable);
     }
-public Page<Annuncio> findByRetribuzione(long retribuzione1, long retribuzione2, int page, int size ,String orderBy){
+    public long getByAziendaIdAndStatoPubblicata(long aziendaId,String stato,int page,int size,String orderBy){
+        Stato state = Stato.valueOf(stato);
+       return annuncioRepository.findByAzienda_IdAndSpedizione_Stato(aziendaId,state).size();
+    }
+public Page<Annuncio> findByRetribuzione(int retribuzione1, int retribuzione2, int page, int size ,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
-        return annuncioRepository.findByRetribuzioneBetween(retribuzione1,retribuzione2,pageable);
+        return annuncioRepository.findByRetribuzioneBetween(retribuzione1, retribuzione2,pageable);
 }
 
 
@@ -101,5 +115,8 @@ public Page<Annuncio> findByRetribuzione(long retribuzione1, long retribuzione2,
         return annuncioRepository.findBydataPubblicazioneBetween(date1,date2,pageable);
     }
 
-
+    @Transactional
+    public boolean deleteSpedizioneByAnnuncioId(long spedizioneId,long aziendaId){
+        return spedizioneService.delete(spedizioneId,aziendaId);
+    }
 }

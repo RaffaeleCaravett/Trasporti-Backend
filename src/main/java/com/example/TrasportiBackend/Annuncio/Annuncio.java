@@ -22,7 +22,7 @@ public class Annuncio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate dataPubblicazione = LocalDate.now();
-    private long retribuzione;
+    private int retribuzione;
     @ManyToOne
     @JoinColumn(name = "azienda_id")
     private Azienda azienda;

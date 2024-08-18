@@ -21,7 +21,7 @@ public class AnnuncioTController {
         return annuncioService.getByAziendaId(id,page,size,orderBy);
     }
     @GetMapping("/byRetribuzioneId/{retribuzione1}/{retribuzione2}")
-    public Page<Annuncio> getByRetribuzione(@PathVariable long retribuzione1,@PathVariable long retribuzione2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    public Page<Annuncio> getByRetribuzione(@PathVariable int retribuzione1,@PathVariable int retribuzione2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return annuncioService.findByRetribuzione(retribuzione1,retribuzione2,page,size,orderBy);
     }
     @GetMapping("/byData/{anno1}/{mese1}/{giorno1}/{anno2}/{mese2}/{giorno2}")

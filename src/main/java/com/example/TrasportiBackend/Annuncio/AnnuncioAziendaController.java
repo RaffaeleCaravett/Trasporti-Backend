@@ -53,11 +53,11 @@ public Annuncio save(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingRes
         return annuncioService.getByAziendaIdAndStato(id,stato,page,size,orderBy);
     }
     @GetMapping("/byAziendaIdAndStatoPubblicata/{id}")
-    public Page<Annuncio> getByAziendaIdAndStato(@PathVariable long id,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
-        return annuncioService.getByAziendaIdAndStato(id,"Pubblicata",page,size,orderBy);
+    public long getByAziendaIdAndStato(@PathVariable long id,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return annuncioService.getByAziendaIdAndStatoPubblicata(id,"Pubblicata",page,size,orderBy);
     }
-    @GetMapping("/byRetribuzioneId/{retribuzione1}/{retribuzione2}")
-    public Page<Annuncio> getByRetribuzione(@PathVariable long retribuzione1,@PathVariable long retribuzione2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    @GetMapping("/byRetribuzione/{retribuzione1}/{retribuzione2}")
+    public Page<Annuncio> getByRetribuzione(@PathVariable int retribuzione1,@PathVariable int retribuzione2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return annuncioService.findByRetribuzione(retribuzione1,retribuzione2,page,size,orderBy);
     }
     @GetMapping("/byData/{anno1}/{mese1}/{giorno1}/{anno2}/{mese2}/{giorno2}")
