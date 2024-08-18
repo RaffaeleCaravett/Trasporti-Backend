@@ -5,7 +5,6 @@ import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.AdminDTO;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
-import com.example.TrasportiBackend.payloads.entities.PatchAziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,14 +49,6 @@ public class UserController {
             throw new BadRequestException(bindingResult.getAllErrors());
         }
         return userService.putAziendaById(currentUser.getId(),aziendaDTO);
-    }
-    @PatchMapping("/azienda/me")
-    @PreAuthorize("hasAuthority('Azienda')")
-    public Azienda patchById(@AuthenticationPrincipal Azienda currentUser, @RequestBody @Validated PatchAziendaDTO aziendaDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new BadRequestException(bindingResult.getAllErrors());
-        }
-        return userService.patchAziendaById(currentUser.getId(),aziendaDTO);
     }
     @PutMapping("/trasportatoreAdmin/{id}")
     @PreAuthorize("hasAuthority('Admin')")

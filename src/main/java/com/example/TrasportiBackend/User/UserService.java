@@ -72,24 +72,6 @@ public class UserService {
             throw new BadRequestException(e.getMessage());
         }
     }
-    public Azienda patchAziendaById(long id , PatchAziendaDTO aziendaDTO) {
-        try {
-            Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
-            azienda.setCap(aziendaDTO.cap());
-            azienda.setCitta(aziendaDTO.citta());
-            azienda.setRegione(aziendaDTO.regione());
-            azienda.setIndirizzo(aziendaDTO.indirizzo());
-            azienda.setEmail(aziendaDTO.email());
-            azienda.setNomeAzienda(aziendaDTO.nomeAzienda());
-            azienda.setFatturatoMedio(aziendaDTO.fatturatoMedio());
-            azienda.setNumeroDipendenti(aziendaDTO.numeroDipendenti());
-            azienda.setSettore(Settore.valueOf(aziendaDTO.settore()));
-            azienda.setPartitaIva(aziendaDTO.partitaIva());
-            return aziendaRepository.save(azienda);
-        }catch (Exception e){
-            throw new BadRequestException(e.getMessage());
-        }
-    }
 
     public boolean deleteTrasportatoreById(long id){
         try{
