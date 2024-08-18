@@ -26,4 +26,7 @@ public class Trasportatore extends User{
     @OneToMany(mappedBy = "trasportatore")
     @JsonIgnore
     private List<Notifica> notifica;
+    @ManyToMany(mappedBy = "trasportatoreList")
+    @JsonIgnore
+    List<Azienda> aziendaList;
 }

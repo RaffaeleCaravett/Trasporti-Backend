@@ -30,4 +30,9 @@ public class Azienda extends User{
     private List<Annuncio> annuncio;
     @OneToMany(mappedBy = "azienda")
     private List<Notifica> notifica;
+    @ManyToMany
+    @JoinTable(name = "azienda_trasportatori_blocchi",
+    joinColumns= @JoinColumn(name = "azienda_id"),
+            inverseJoinColumns = @JoinColumn(name = "trasportatore_id"))
+            private List<Trasportatore> trasportatoreList;
 }
