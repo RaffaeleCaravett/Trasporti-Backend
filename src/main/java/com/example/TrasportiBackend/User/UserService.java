@@ -5,6 +5,7 @@ import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
+import com.example.TrasportiBackend.payloads.entities.PatchAziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +55,24 @@ public class UserService {
     }
 
     public Azienda putAziendaById(long id , AziendaDTO aziendaDTO) {
+        try {
+            Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
+            azienda.setCap(aziendaDTO.cap());
+            azienda.setCitta(aziendaDTO.citta());
+            azienda.setRegione(aziendaDTO.regione());
+            azienda.setIndirizzo(aziendaDTO.indirizzo());
+            azienda.setEmail(aziendaDTO.email());
+            azienda.setNomeAzienda(aziendaDTO.nomeAzienda());
+            azienda.setFatturatoMedio(aziendaDTO.fatturatoMedio());
+            azienda.setNumeroDipendenti(aziendaDTO.numeroDipendenti());
+            azienda.setSettore(Settore.valueOf(aziendaDTO.settore()));
+            azienda.setPartitaIva(aziendaDTO.partitaIva());
+            return aziendaRepository.save(azienda);
+        }catch (Exception e){
+            throw new BadRequestException(e.getMessage());
+        }
+    }
+    public Azienda patchAziendaById(long id , PatchAziendaDTO aziendaDTO) {
         try {
             Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
             azienda.setCap(aziendaDTO.cap());
