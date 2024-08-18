@@ -50,7 +50,7 @@ public class JWTTools {
             String userId = claims.getSubject();
             return trasportatoreRepository.findById(Long.valueOf(userId)).get();
         }catch (Exception e){
-            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login!");
+            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!");
         }
     }
 

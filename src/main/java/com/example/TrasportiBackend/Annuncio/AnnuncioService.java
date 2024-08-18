@@ -13,7 +13,7 @@ import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +33,7 @@ public class AnnuncioService {
     AziendaRepository aziendaRepository;
     @Autowired
     SpedizioneRepository spedizioneRepository;
+
     @Autowired
     SpedizioneService spedizioneService;
     @PersistenceContext
@@ -54,13 +55,10 @@ public class AnnuncioService {
             throw new NotOwnerException("L'annuncio non è stato cancellato. Sembra che tu non sia il proprietario dell'annuncio.");
         }
         try {
-            boolean deletedSpedizione = deleteSpedizione(annuncio.getSpedizione());
-            if(deletedSpedizione) {
+                Spedizione spedizione = annuncio.getSpedizione();
                 annuncioRepository.delete(annuncio);
+                deleteSpedizione(spedizione);
                 return true;
-            }else {
-                throw new BadRequestException("Annuncio non cancellato. Abbiamo avuto qualche problema che risolveremo presto. Contatta l'amministrazione.");
-            }
         }catch (Exception e){
             return false;
         }
@@ -121,16 +119,6 @@ public Page<Annuncio> findByRetribuzione(int retribuzione1, int retribuzione2, i
     }
 
     public boolean deleteSpedizione(Spedizione spedizione) {
-try {
-    Query deletePartecipantsQuery = entityManager.createNativeQuery("DELETE FROM spedizioni WHERE id = ? AND azienda_id = ?");
-    deletePartecipantsQuery.setParameter(1, spedizione.getId());
-    deletePartecipantsQuery.setParameter(2, spedizione.getAzienda().getId());
-    deletePartecipantsQuery.executeUpdate();
-
-    entityManager.remove(entityManager.contains(spedizione) ? spedizione : entityManager.merge(spedizione));
-return true;
-}    catch (Exception e){
-    return false;
-}
-}
+return spedizioneService.delete(spedizione.getId(),spedizione.getAzienda().getId());
+    }
 }
