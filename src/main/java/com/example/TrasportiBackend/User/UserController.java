@@ -1,16 +1,11 @@
 package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.Auth.AuthService;
-import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
-import com.example.TrasportiBackend.payloads.entities.AdminDTO;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
