@@ -36,6 +36,8 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @PostMapping("/TLogin")
     public TrasportatoreLoginSuccess TLogin(@RequestBody @Validated UserLogin trasportatoreDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -134,7 +136,7 @@ public class AuthController {
         public User changePassBySecret(@PathVariable String newPassword,@PathVariable String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()){
-            user.get().setPassword(newPassword);
+            user.get().setPassword(passwordEncoder.encode(newPassword));
         }else{
             throw new UserNotFoundException("User con email " + email + " non trovato in db");
         }
