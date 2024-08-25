@@ -17,7 +17,7 @@ public class SecretCodeService {
     @Autowired
     UserRepository userRepository;
     public SecretCode save(SecretCodeDTO secretCodeDTO){
-        Optional<SecretCode> secretCodeOptional = secretCodeRepository.findByUser_Id(secretCodeDTO.user_id());
+        Optional<SecretCode> secretCodeOptional = secretCodeRepository.findByUser_Email(secretCodeDTO.email());
         byte[] array = new byte[7];
         new Random().nextBytes(array);
         String generatedString = new String(array, Charset.forName("UTF-8"));
@@ -27,11 +27,11 @@ public class SecretCodeService {
            secretCode.setSecretCode(generatedString);
         }else{
             secretCode.setSecretCode(generatedString);
-            secretCode.setUser(userRepository.findById(secretCodeDTO.user_id()).orElseThrow(()->new UserNotFoundException("User con id " + secretCodeDTO.user_id() + " non trovato in db.")));
+            secretCode.setUser(userRepository.findByEmail(secretCodeDTO.email()).orElseThrow(()->new UserNotFoundException("User con email " + secretCodeDTO.email() + " non trovato in db.")));
         }
         return secretCodeRepository.save(secretCode);
     }
     public boolean test(SecretCodeDTO secretCodeDTO){
-        return secretCodeRepository.findBySecretCodeAndUser_Id(secretCodeDTO.secretCode(), secretCodeDTO.user_id()).isPresent();
+        return secretCodeRepository.findBySecretCodeAndUser_Email(secretCodeDTO.secretCode(), secretCodeDTO.email()).isPresent();
     }
 }

@@ -8,6 +8,8 @@ import java.util.Optional;
 @Repository
 public interface SecretCodeRepository extends JpaRepository<SecretCode,Long> {
     Optional<SecretCode> findByUser_Id(long id);
+    Optional<SecretCode> findByUser_Email(String email);
     Optional<SecretCode> findBySecretCodeAndUser_Id(String secretCode,long id);
+    Optional<SecretCode> findBySecretCodeAndUser_Email(String secretCode,String email);
 
 }

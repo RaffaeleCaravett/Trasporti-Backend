@@ -103,13 +103,13 @@ public class AuthController {
         return authService.registerAdmin(aziendaDTO);
     }
 
-    @PostMapping("/resetPassword/{id}")
-    public boolean resetPassword(@RequestBody @Validated ChangePasswordRequest changePasswordRequest, BindingResult bindingResult,@PathVariable long id){
+    @PostMapping("/resetPassword")
+    public boolean resetPassword(@RequestBody @Validated ChangePasswordRequest changePasswordRequest, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new ImpossibleChangePassword(bindingResult.getAllErrors());
         }
         try {
-            SecretCode secretCode = secretCodeService.save(new SecretCodeDTO("",id));
+            SecretCode secretCode = secretCodeService.save(new SecretCodeDTO("",changePasswordRequest.to()));
             emailService.sendEmail(changePasswordRequest.to(), "Informazioni per resettare la password", "Ciao! Per resettare la tua password inserisci il codice qui sotto " + "\n" +
                      "\n" +
                      "\n" +
@@ -130,7 +130,7 @@ public class AuthController {
         }
         return secretCodeService.test(secretCodeDTO);
         }
-        @PostMapping("/changePassBySecretCode/{newPassword}/{email}")
+        @GetMapping("/changePassBySecretCode/{newPassword}/{email}")
         public User changePassBySecret(@PathVariable String newPassword,@PathVariable String email){
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()){
