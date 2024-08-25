@@ -135,7 +135,7 @@ public class AuthService {
     }
 
     public Trasportatore registerTrasportatore(TrasportatoreDTO trasportatoreDTO){
-        if(trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()){
+        if(trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()||aziendaRepository.findByEmail(trasportatoreDTO.email()).isPresent()){
             throw new BadRequestException("Trasportatore con email " + trasportatoreDTO.email() + " già presente in db.");
         }
         Trasportatore trasportatore = new Trasportatore();
@@ -155,7 +155,7 @@ public class AuthService {
         return trasporatoreRepository.save(trasportatore);
     }
     public Azienda registerAzienda(AziendaDTO aziendaDTO){
-        if(aziendaRepository.findByEmail(aziendaDTO.email()).isPresent()){
+        if(aziendaRepository.findByEmail(aziendaDTO.email()).isPresent()||trasporatoreRepository.findByEmail(aziendaDTO.email()).isPresent()){
             throw new BadRequestException("Azienda con email " + aziendaDTO.email() + " presente in db.");
         }
         Azienda azienda = new Azienda();
