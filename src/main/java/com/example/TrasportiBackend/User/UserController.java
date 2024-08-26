@@ -94,6 +94,10 @@ public class UserController {
     public Page<Trasportatore>findByNomeAndCognomeContainingTr(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByNomeAndCognomeContaining(nome,cognome,page,size,orderBy);
     }
+    @GetMapping("trasportatore/findByCittaAndNomeAndCognomeContaining/{nome}/{cognome}/{citta}")
+    public Page<Trasportatore>findByCittaAndNomeAndCognomeContainingTr(@PathVariable String nome,@PathVariable String cognome,@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByCittaAndNomeAndCognome(citta,nome,cognome,page,size,orderBy);
+    }
     @GetMapping("trasportatore/findByCitta/{citta}")
     public Page<Trasportatore>findByCitta(@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByCitta(citta,page,size,orderBy);

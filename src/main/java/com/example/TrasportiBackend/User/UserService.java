@@ -159,6 +159,10 @@ return true;
     }
     public Page<Trasportatore> findByCitta(String citta,int page,int size,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
-        return this.trasporatoreRepository.findByCitta(citta);
+        return this.trasporatoreRepository.findByCitta(citta,pageable);
+    }
+    public Page<Trasportatore> findByCittaAndNomeAndCognome(String citta,String nome,String cognome,int page,int size,String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return this.trasporatoreRepository.findByCittaAndNomeContainingAndCognomeContaining(citta,nome,cognome,pageable);
     }
     }

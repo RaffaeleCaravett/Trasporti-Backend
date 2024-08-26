@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface TrasporatoreRepository extends JpaRepository<Trasportatore,Long> {
 
     Page<Trasportatore> findByNomeContainingAndCognomeContaining(String nome, String cognome, Pageable pageable);
-    Page<Trasportatore> findByCitta(String citta);
+    Page<Trasportatore> findByCitta(String citta, Pageable pageable);
+    Page<Trasportatore> findByCittaAndNomeContainingAndCognomeContaining(String citta,String nome, String cognome, Pageable pageable);
     Optional<Trasportatore> findByEmail(String email);
 }
