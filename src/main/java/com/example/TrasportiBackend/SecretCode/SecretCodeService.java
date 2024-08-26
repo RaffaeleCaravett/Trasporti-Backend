@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.User.User;
 import com.example.TrasportiBackend.User.UserRepository;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.SecretCodeDTO;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,10 @@ public class SecretCodeService {
     }
     public boolean test(SecretCodeDTO secretCodeDTO){
         return secretCodeRepository.findBySecretCodeAndUser_Email(secretCodeDTO.secretCode(), secretCodeDTO.email()).isPresent();
+    }
+
+    public SecretCode findBySecretCodeAndEmail(String secretCode,String email){
+       SecretCode secretCode1= secretCodeRepository.findBySecretCodeAndUser_Email(secretCode,email).orElseThrow(()->new com.example.TrasportiBackend.exceptions.BadRequestException("Non è associato nessun codice segreto con questi parametri nel database."));
+    return secretCode1;
     }
 }

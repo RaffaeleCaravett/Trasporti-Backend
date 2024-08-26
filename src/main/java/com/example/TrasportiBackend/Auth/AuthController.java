@@ -132,11 +132,17 @@ public class AuthController {
         }
         return secretCodeService.test(secretCodeDTO);
         }
-        @GetMapping("/changePassBySecretCode/{newPassword}/{email}")
-        public User changePassBySecret(@PathVariable String newPassword,@PathVariable String email){
+        @GetMapping("/changePassBySecretCode/{newPassword}/{email}/{code}")
+        public User changePassBySecret(@PathVariable String newPassword,@PathVariable String email,@PathVariable String code) {
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()){
-            user.get().setPassword(passwordEncoder.encode(newPassword));
+
+            SecretCode secretCode = secretCodeService.findBySecretCodeAndEmail(code,email);
+            if(secretCode.getUser().getEmail().equals(email)) {
+                user.get().setPassword(passwordEncoder.encode(newPassword));
+            }else{
+                throw new BadRequestException("Le email del codice segreto e quella che hai inserito non coincidono");
+            }
         }else{
             throw new UserNotFoundException("User con email " + email + " non trovato in db");
         }
