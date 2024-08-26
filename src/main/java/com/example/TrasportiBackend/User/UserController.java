@@ -94,6 +94,10 @@ public class UserController {
     public Page<Trasportatore>findByNomeAndCognomeContainingTr(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByNomeAndCognomeContaining(nome,cognome,page,size,orderBy);
     }
+    @GetMapping("trasportatore/findByCitta/{citta}")
+    public Page<Trasportatore>findByCitta(@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByCitta(citta,page,size,orderBy);
+    }
     @GetMapping("trasportatore/findBySettore/{settore}")
     public Page<Azienda>findBySettoreTr(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findBySettore(settore,page,size,orderBy);
@@ -114,6 +118,7 @@ public class UserController {
     public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@AuthenticationPrincipal User user){
         return authService.resetPassword(password,oldPassword,user);
     }
+
     @GetMapping("/resetAdmin/{password}/{oldPassword}/{id}")
     public boolean resetPassword(@PathVariable String password,@PathVariable String oldPassword,@PathVariable long id){
         return authService.resetPasswordAdmin(password,oldPassword,id);

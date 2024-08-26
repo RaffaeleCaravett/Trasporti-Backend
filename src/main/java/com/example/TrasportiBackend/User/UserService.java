@@ -157,4 +157,8 @@ return true;
            throw new BadRequestException(e.getMessage());
         }
     }
+    public Page<Trasportatore> findByCitta(String citta,int page,int size,String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return this.trasporatoreRepository.findByCitta(citta);
+    }
     }
