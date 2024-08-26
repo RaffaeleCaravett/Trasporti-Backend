@@ -111,12 +111,12 @@ public class AuthController {
             throw new ImpossibleChangePassword(bindingResult.getAllErrors());
         }
         try {
-            SecretCode secretCode = secretCodeService.save(new SecretCodeDTO("",changePasswordRequest.to()));
+            String secretCode = secretCodeService.save(new SecretCodeDTO("",changePasswordRequest.to()));
             emailService.sendEmail(changePasswordRequest.to(), "Informazioni per resettare la password", "Ciao! Per resettare la tua password inserisci il codice qui sotto " + "\n" +
                      "\n" +
                      "\n" +
                      "\n" +
-                    secretCode.getSecretCode() + " e la tua mail nel form che vedi sulla schermata di Trasporti e premi invio."
+                    secretCode + " e la tua mail nel form che vedi sulla schermata di Trasporti e premi invio."
             );
         return true;
         }catch (Exception e){

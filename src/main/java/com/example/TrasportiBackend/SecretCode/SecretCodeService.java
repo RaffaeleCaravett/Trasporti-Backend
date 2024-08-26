@@ -19,7 +19,7 @@ public class SecretCodeService {
     SecretCodeRepository secretCodeRepository;
     @Autowired
     UserRepository userRepository;
-    public SecretCode save(SecretCodeDTO secretCodeDTO){
+    public String save(SecretCodeDTO secretCodeDTO){
         Optional<SecretCode> secretCodeOptional = secretCodeRepository.findByUser_Email(secretCodeDTO.email());
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();
@@ -38,7 +38,8 @@ public class SecretCodeService {
             User user = userRepository.findByEmail(secretCodeDTO.email()).orElseThrow(()->new UserNotFoundException("User con email " + secretCodeDTO.email() + " non trovato in db."));
             secretCode.setUser(user);
         }
-        return secretCodeRepository.save(secretCode);
+       secretCodeRepository.save(secretCode);
+       return saltStr;
     }
     public boolean test(SecretCodeDTO secretCodeDTO){
         return secretCodeRepository.findBySecretCodeAndUser_Email(secretCodeDTO.secretCode(), secretCodeDTO.email()).isPresent();
