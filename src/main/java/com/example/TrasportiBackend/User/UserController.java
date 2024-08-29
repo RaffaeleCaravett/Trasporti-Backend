@@ -102,6 +102,18 @@ public class UserController {
     public Page<Trasportatore>findByCitta(@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findByCitta(citta,page,size,orderBy);
     }
+    @GetMapping("azienda/trasportatore/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    public Page<Trasportatore>azFindByNomeAndCognomeContainingTr(@PathVariable String nome,@PathVariable String cognome,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByNomeAndCognomeContaining(nome,cognome,page,size,orderBy);
+    }
+    @GetMapping("azienda/trasportatore/findByCittaAndNomeAndCognomeContaining/{nome}/{cognome}/{citta}")
+    public Page<Trasportatore>azFindByCittaAndNomeAndCognomeContainingTr(@PathVariable String nome,@PathVariable String cognome,@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByCittaAndNomeAndCognome(citta,nome,cognome,page,size,orderBy);
+    }
+    @GetMapping("azienda/trasportatore/findByCitta/{citta}")
+    public Page<Trasportatore>azFindByCitta(@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.findByCitta(citta,page,size,orderBy);
+    }
     @GetMapping("trasportatore/findBySettore/{settore}")
     public Page<Azienda>findBySettoreTr(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findBySettore(settore,page,size,orderBy);

@@ -195,7 +195,7 @@ public class AuthService {
             throw new PasswordMismatchException("La vecchia password non coincide con quella che abbiamo noi in database");
         }
         try {
-            user.setPassword(password);
+            user.setPassword(bcrypt.encode(password));
             userRepository.save(user);
             return true;
         }catch (Exception e){
