@@ -3,6 +3,7 @@ package com.example.TrasportiBackend.User;
 import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Notifica.Notifica;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
+import com.example.TrasportiBackend.Statistiche.Statistica;
 import com.example.TrasportiBackend.enums.Settore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -35,4 +36,7 @@ public class Azienda extends User{
     joinColumns= @JoinColumn(name = "azienda_id"),
             inverseJoinColumns = @JoinColumn(name = "trasportatore_id"))
             private List<Trasportatore> trasportatoreList;
+    @OneToOne(mappedBy = "azienda")
+    @JsonIgnore
+    private Statistica statistica;
 }
