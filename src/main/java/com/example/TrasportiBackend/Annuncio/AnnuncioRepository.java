@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface AnnuncioRepository extends JpaRepository<Annuncio,Long> {
     Optional<Annuncio> findBySpedizione_Id(long spedizioneId);
     Page<Annuncio> findByAzienda_Id(long aziendaId,Pageable pageable);
+    List<Annuncio> findByAzienda_Id(long aziendaId);
+
     Page<Annuncio> findByAzienda_IdAndSpedizione_Stato(long aziendaId, Stato stato, Pageable pageable);
     List<Annuncio> findByAzienda_IdAndSpedizione_Stato(long aziendaId, Stato stato);
 
