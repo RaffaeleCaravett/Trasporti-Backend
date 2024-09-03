@@ -33,6 +33,12 @@ public class StatisticaService {
         if (annuncios.isEmpty()) {
             return statistica1;
         }
+        statistica1.setAnnunciGuasti(0);
+        statistica1.setAnnunciATermine(0);
+        statistica1.setAnnunciInCorso(0);
+        statistica1.setAnnunciPubblicati(0);
+        statistica1.setAnnunciPresiInCarico(0);
+        statistica1.setAnnunciStoppati(0);
         for (Annuncio a : annuncios) {
             switch (a.getSpedizione().getStato()) {
                 case A_termine:
