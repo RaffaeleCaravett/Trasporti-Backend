@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.Statistiche;
 
 import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
+import com.example.TrasportiBackend.enums.Stato;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,26 @@ public class StatisticaService {
             if(annuncios.isEmpty()){
                 return  statistica1;
             }
-            
+            for(Annuncio a : annuncios){
+                switch (a.getSpedizione().getStato()) {
+                    case A_termine:
+                        statistica1.setAnnunciATermine(statistica1.getAnnunciATermine()+1);
+                            break;
+                    case Guasto:
+                        statistica1.setAnnunciGuasti(statistica1.getAnnunciGuasti()+1);
+                        break;
+                    case Stoppata:
+                        statistica1.setAnnunciStoppati(statistica1.getAnnunciStoppati()+1);
+                        break;
+                    case In_corso:
+                        statistica1.setAnnunciInCorso(statistica1.getAnnunciInCorso()+1);
+                        break;
+                    case Presa_in_carico:
+                        statistica1.setAnnunciPresiInCarico(statistica1.getAnnunciPresiInCarico()+1);
+                        break;
+
+                }
+            }
         }
 
 
