@@ -2,6 +2,8 @@ package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Notifica.Notifica;
+import com.example.TrasportiBackend.Recensioni.RecensioneAz;
+import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Statistiche.Statistica;
 import com.example.TrasportiBackend.enums.Settore;
@@ -39,4 +41,8 @@ public class Azienda extends User{
     @OneToOne(mappedBy = "azienda")
     @JsonIgnore
     private Statistica statistica;
+    @OneToMany(mappedBy = "da")
+    private List<RecensioneT> recensioniInviate;
+    @OneToMany(mappedBy = "a")
+    private List<RecensioneAz> recensioniRicevute;
 }

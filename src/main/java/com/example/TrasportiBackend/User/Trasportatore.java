@@ -1,6 +1,8 @@
 package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.Notifica.Notifica;
+import com.example.TrasportiBackend.Recensioni.RecensioneAz;
+import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -29,4 +31,8 @@ public class Trasportatore extends User{
     @ManyToMany(mappedBy = "trasportatoreList")
     @JsonIgnore
     List<Azienda> aziendaList;
+    @OneToMany(mappedBy = "da")
+    private List<RecensioneAz> recensioniInviate;
+    @OneToMany(mappedBy = "a")
+    private List<RecensioneT> recensioniRicevute;
 }
