@@ -1,7 +1,10 @@
 package com.example.TrasportiBackend.Spedizione;
 
+import com.example.TrasportiBackend.Notifica.Notifica;
+import com.example.TrasportiBackend.User.Trasportatore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,5 +29,8 @@ public class SpedizioneTController {
     public Page<Spedizione> findByDaAndA(@RequestParam(defaultValue = "") String da,@RequestParam(defaultValue = "") String a,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return spedizioneService.findByDaAndA(da,a,page,size,orderBy);
     }
-
+    @GetMapping("/richiedi/{spedizioneId}/{statoSpedizione}/me")
+    public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore,@PathVariable String statoSpedizione, @PathVariable long spedizioneId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+        return spedizioneService.richiedi(trasportatore.getId(),spedizioneId,statoSpedizione);
+    }
 }

@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.Spedizione;
 
 
 import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
+import com.example.TrasportiBackend.Notifica.Notifica;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
@@ -148,4 +149,7 @@ public Page<Spedizione> getAllByAziendaId(long id,int page,int size,String order
         return spedizioneRepository.findByDaContainingAndAContaining(da,a,pageable);
     }
 
+    public Notifica richiedi(long tId,long spedizioneId,String statoSpedizione){
+    
+    }
 }
