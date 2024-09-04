@@ -4,9 +4,7 @@ import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
-import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
-import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
 import com.example.TrasportiBackend.payloads.entities.RecensioneTDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +30,6 @@ public class RecensioneService {
         recensioneT.setCommento(recensioneTDTO.message());
         recensioneT.setDa(azienda);
         recensioneT.setA(trasportatore);
-        NotificaDTO notificaDTO = new NotificaDTO(
 
-        )
     }
 }
