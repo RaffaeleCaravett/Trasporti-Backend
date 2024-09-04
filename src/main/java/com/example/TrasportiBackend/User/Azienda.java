@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Notifica.Notifica;
+import com.example.TrasportiBackend.Notifica.NotificaRecensione;
 import com.example.TrasportiBackend.Recensioni.RecensioneAz;
 import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
@@ -45,4 +46,6 @@ public class Azienda extends User{
     private List<RecensioneT> recensioniInviate;
     @OneToMany(mappedBy = "a")
     private List<RecensioneAz> recensioniRicevute;
+    @OneToMany(mappedBy = "da")
+    private List<NotificaRecensione> notificaRecensioneInviate;
 }

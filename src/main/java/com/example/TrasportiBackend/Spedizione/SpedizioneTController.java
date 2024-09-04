@@ -29,8 +29,8 @@ public class SpedizioneTController {
     public Page<Spedizione> findByDaAndA(@RequestParam(defaultValue = "") String da,@RequestParam(defaultValue = "") String a,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return spedizioneService.findByDaAndA(da,a,page,size,orderBy);
     }
-    @GetMapping("/richiedi/{spedizioneId}/{statoSpedizione}/me")
-    public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore,@PathVariable String statoSpedizione, @PathVariable long spedizioneId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
-        return spedizioneService.richiedi(trasportatore.getId(),spedizioneId,statoSpedizione);
+    @GetMapping("/richiedi/{spedizioneId}/me")
+    public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore, @PathVariable long spedizioneId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+        return spedizioneService.richiedi(trasportatore.getId(),spedizioneId);
     }
 }
