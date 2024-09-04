@@ -31,6 +31,11 @@ public class NotificaRecensioneService {
         Pageable pageable = PageRequest.of(0,10, Sort.by("id"));
         return notificaRecensioneRepository.findByA_Id(tId,pageable);
     }
+    public List<NotificaRecensione> getNotificheByTrasportatoreIdAndStato(long tId,String stato){
+        Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+        StatoNotifica statoNotifica = StatoNotifica.valueOf(stato);
+        return notificaRecensioneRepository.findByA_IdAndStatoNotifica(tId,statoNotifica);
+    }
     public boolean leggi(List<NotificaRecensione> recensiones){
         try {
             for (NotificaRecensione n : recensiones) {
