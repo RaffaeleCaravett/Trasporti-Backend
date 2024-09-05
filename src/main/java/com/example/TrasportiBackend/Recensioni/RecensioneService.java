@@ -101,10 +101,10 @@ public class RecensioneService {
     }
 
     private boolean deleteAz(long da,long rece_id){
-        RecensioneT recensioneT = recensioneTRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
+        RecensioneAz recensioneAz = recensioneAzRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
 
-        if(recensioneT.getDa().getId()==da){
-            recensioneTRepository.delete(recensioneT);
+        if(recensioneAz.getDa().getId()==da){
+            recensioneAzRepository.delete(recensioneAz);
             return true;
         }else {
             return false;
