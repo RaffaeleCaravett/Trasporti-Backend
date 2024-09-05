@@ -110,4 +110,25 @@ public class RecensioneService {
             return false;
         }
     }
+
+    private RecensioneT putTbyId(long da,long rece_id,RecensioneTDTO recensioneTDTO){
+        Azienda azienda = aziendaRepository.findById(da).orElseThrow(()->new UserNotFoundException("Azienda con id " + da + " non trovata in db."));
+        Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
+
+        RecensioneT recensioneT = recensioneTRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
+
+        recensioneT.setCommento(recensioneTDTO.message());
+        recensioneT.setLocalDate(LocalDate.now());
+
+        NotificaRecensione notificaRecensione = new NotificaRecensione();
+
+        notificaRecensione.setStatoNotifica(StatoNotifica.Emessa);
+        notificaRecensione.setDa(azienda);
+        notificaRecensione.setA(trasportatore);
+        notificaRecensione.setDateTime(recensioneT.getLocalDate());
+        notificaRecensione.setTesto("L'azienda " + azienda.getNomeAzienda() + " ti ha lasciato una recensione.");
+        notificaRecensioneRepository.save(notificaRecensione);
+
+        return recensioneTRepository.save(recensioneT);
+    }
 }

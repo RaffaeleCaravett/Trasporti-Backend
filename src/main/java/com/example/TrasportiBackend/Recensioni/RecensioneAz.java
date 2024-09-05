@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.Recensioni;
 
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.enums.PoloRecensione;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,4 +32,5 @@ public class RecensioneAz {
     @JoinColumn(name = "trasportatore_id")
     @JsonIgnore
     private Trasportatore da;
+    private PoloRecensione poloRecensione;
 }
