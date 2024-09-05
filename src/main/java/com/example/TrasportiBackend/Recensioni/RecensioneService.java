@@ -6,6 +6,7 @@ import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.enums.PoloRecensione;
 import com.example.TrasportiBackend.enums.StatoNotifica;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
@@ -37,6 +38,7 @@ public class RecensioneService {
 
         Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
+        PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
 
         RecensioneT recensioneT = new RecensioneT();
 
@@ -44,6 +46,7 @@ public class RecensioneService {
         recensioneT.setDa(azienda);
         recensioneT.setA(trasportatore);
         recensioneT.setLocalDate(LocalDate.now());
+recensioneT.setPoloRecensione(poloRecensione);
 
         NotificaRecensione notificaRecensione = new NotificaRecensione();
 
@@ -60,6 +63,7 @@ public class RecensioneService {
 
         Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
+PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
 
         RecensioneAz recensioneT = new RecensioneAz();
 
@@ -67,6 +71,7 @@ public class RecensioneService {
         recensioneT.setA(azienda);
         recensioneT.setDa(trasportatore);
         recensioneT.setLocalDate(LocalDate.now());
+recensioneT.setPoloRecensione(poloRecensione);
 
         return recensioneAzRepository.save(recensioneT);
     }
@@ -114,11 +119,14 @@ public class RecensioneService {
     private RecensioneT putTbyId(long da,long rece_id,RecensioneTDTO recensioneTDTO){
         Azienda azienda = aziendaRepository.findById(da).orElseThrow(()->new UserNotFoundException("Azienda con id " + da + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
+        PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
 
         RecensioneT recensioneT = recensioneTRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
 
+
         recensioneT.setCommento(recensioneTDTO.message());
         recensioneT.setLocalDate(LocalDate.now());
+        recensioneT.setPoloRecensione(poloRecensione);
 
         NotificaRecensione notificaRecensione = new NotificaRecensione();
 
@@ -126,7 +134,7 @@ public class RecensioneService {
         notificaRecensione.setDa(azienda);
         notificaRecensione.setA(trasportatore);
         notificaRecensione.setDateTime(recensioneT.getLocalDate());
-        notificaRecensione.setTesto("L'azienda " + azienda.getNomeAzienda() + " ti ha lasciato una recensione.");
+        notificaRecensione.setTesto("L'azienda " + azienda.getNomeAzienda() + " ha modificato una recensione esistente.");
         notificaRecensioneRepository.save(notificaRecensione);
 
         return recensioneTRepository.save(recensioneT);
