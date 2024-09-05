@@ -139,4 +139,18 @@ recensioneT.setPoloRecensione(poloRecensione);
 
         return recensioneTRepository.save(recensioneT);
     }
+    private RecensioneAz putAzbyId(long da,long rece_id,RecensioneAzDTO recensioneTDTO){
+        Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
+        Trasportatore trasportatore = trasporatoreRepository.findById(da).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + da + " non trovato in db."));
+        PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
+
+        RecensioneAz recensioneT = recensioneAzRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
+
+
+        recensioneT.setCommento(recensioneTDTO.message());
+        recensioneT.setLocalDate(LocalDate.now());
+        recensioneT.setPoloRecensione(poloRecensione);
+
+        return recensioneAzRepository.save(recensioneT);
+    }
 }
