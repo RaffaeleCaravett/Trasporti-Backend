@@ -7,6 +7,7 @@ import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.StatoNotifica;
+import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.RecensioneAzDTO;
 import com.example.TrasportiBackend.payloads.entities.RecensioneTDTO;
@@ -86,5 +87,27 @@ public class RecensioneService {
         StatoNotifica statoNotifica = StatoNotifica.valueOf(stato);
 
         return recensioneAzRepository.findByA_IdAndStatoNotifica(azienda.getId(),statoNotifica,pageable);
+    }
+
+    private boolean deleteT(long da,long rece_id){
+        RecensioneT recensioneT = recensioneTRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
+
+ if(recensioneT.getDa().getId()==da){
+     recensioneTRepository.delete(recensioneT);
+ return true;
+ }else {
+     return false;
+ }
+    }
+
+    private boolean deleteAz(long da,long rece_id){
+        RecensioneT recensioneT = recensioneTRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
+
+        if(recensioneT.getDa().getId()==da){
+            recensioneTRepository.delete(recensioneT);
+            return true;
+        }else {
+            return false;
+        }
     }
 }
