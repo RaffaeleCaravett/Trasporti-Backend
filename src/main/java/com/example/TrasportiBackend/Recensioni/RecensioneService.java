@@ -35,7 +35,7 @@ public class RecensioneService {
   @Autowired
     NotificaRecensioneRepository notificaRecensioneRepository;
 
-    private RecensioneT saveRT(RecensioneTDTO recensioneTDTO){
+    public RecensioneT saveRT(RecensioneTDTO recensioneTDTO){
 
         Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
@@ -60,7 +60,7 @@ recensioneT.setPoloRecensione(poloRecensione);
 
         return recensioneTRepository.save(recensioneT);
     }
-    private RecensioneAz saveRAz(RecensioneAzDTO recensioneTDTO){
+    public RecensioneAz saveRAz(RecensioneAzDTO recensioneTDTO){
 
         Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
@@ -77,7 +77,7 @@ recensioneT.setPoloRecensione(poloRecensione);
         return recensioneAzRepository.save(recensioneT);
     }
 
-    private Page<RecensioneT> getAllPaginatedT(int page,int size,String orderBy,long tId,String stato){
+    public Page<RecensioneT> getAllPaginatedT(int page,int size,String orderBy,long tId,String stato){
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
         Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
@@ -86,7 +86,7 @@ recensioneT.setPoloRecensione(poloRecensione);
         return recensioneTRepository.findByA_IdAndStatoNotifica(trasportatore.getId(),statoNotifica,pageable);
     }
 
-    private Page<RecensioneAz> getAllPaginatedAz(int page,int size,String orderBy,long azId,String stato){
+    public Page<RecensioneAz> getAllPaginatedAz(int page,int size,String orderBy,long azId,String stato){
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
         Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db."));
@@ -95,7 +95,7 @@ recensioneT.setPoloRecensione(poloRecensione);
         return recensioneAzRepository.findByA_IdAndStatoNotifica(azienda.getId(),statoNotifica,pageable);
     }
 
-    private boolean deleteT(long da,long rece_id){
+    public boolean deleteT(long da,long rece_id){
         RecensioneT recensioneT = recensioneTRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
 
  if(recensioneT.getDa().getId()==da){
@@ -106,7 +106,7 @@ recensioneT.setPoloRecensione(poloRecensione);
  }
     }
 
-    private boolean deleteAz(long da,long rece_id){
+    public boolean deleteAz(long da,long rece_id){
         RecensioneAz recensioneAz = recensioneAzRepository.findById(rece_id).orElseThrow(()->new BadRequestException("Recensione con id " + rece_id + " non trovata in db."));
 
         if(recensioneAz.getDa().getId()==da){
@@ -117,7 +117,7 @@ recensioneT.setPoloRecensione(poloRecensione);
         }
     }
 
-    private RecensioneT putTbyId(long da,long rece_id,RecensioneTDTO recensioneTDTO){
+    public RecensioneT putTbyId(long da,long rece_id,RecensioneTDTO recensioneTDTO){
         Azienda azienda = aziendaRepository.findById(da).orElseThrow(()->new UserNotFoundException("Azienda con id " + da + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
         PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
@@ -140,7 +140,7 @@ recensioneT.setPoloRecensione(poloRecensione);
 
         return recensioneTRepository.save(recensioneT);
     }
-    private RecensioneAz putAzbyId(long da,long rece_id,RecensioneAzDTO recensioneTDTO){
+    public RecensioneAz putAzbyId(long da,long rece_id,RecensioneAzDTO recensioneTDTO){
         Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(da).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + da + " non trovato in db."));
         PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
