@@ -9,6 +9,7 @@ import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.PoloRecensione;
 import com.example.TrasportiBackend.enums.StatoNotifica;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
+import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.RecensioneAzDTO;
 import com.example.TrasportiBackend.payloads.entities.RecensioneTDTO;
@@ -101,7 +102,7 @@ recensioneT.setPoloRecensione(poloRecensione);
      recensioneTRepository.delete(recensioneT);
  return true;
  }else {
-     return false;
+     throw new IdsMismatchException("Non hai i diritti per cancellare questa recensione");
  }
     }
 
@@ -112,7 +113,7 @@ recensioneT.setPoloRecensione(poloRecensione);
             recensioneAzRepository.delete(recensioneAz);
             return true;
         }else {
-            return false;
+            throw new IdsMismatchException("Non hai i diritti per cancellare questa recensione");
         }
     }
 
