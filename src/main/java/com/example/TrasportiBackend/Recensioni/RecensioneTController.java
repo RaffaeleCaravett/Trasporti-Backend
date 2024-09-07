@@ -21,11 +21,11 @@ public class RecensioneTController {
         }
         return recensioneService.saveRT(recensioneAzDTO);
     }
-    @PutMapping("/{id}/{recensioneAzDTOId}")
-    public RecensioneT putById(@PathVariable long id, @PathVariable long recensioneAzDTOId, @RequestBody @Validated RecensioneTDTO recensioneAzDTO, BindingResult bindingResult){
+    @PutMapping("/{id}/{recensioneTDTOId}")
+    public RecensioneT putById(@PathVariable long id, @PathVariable long recensioneTDTOId, @RequestBody @Validated RecensioneTDTO recensioneAzDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
-        return recensioneService.putTbyId(id,recensioneAzDTOId,recensioneAzDTO);
+        return recensioneService.putTbyId(id,recensioneTDTOId,recensioneAzDTO);
     }
 }
