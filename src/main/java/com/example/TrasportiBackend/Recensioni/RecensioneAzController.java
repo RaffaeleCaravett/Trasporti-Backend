@@ -39,6 +39,6 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
 
     @DeleteMapping("/{daId}/{receId}")
     public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
-        return recensioneService.deleteT(daId,receId);
+        return recensioneService.deleteAz(daId,receId);
     }
 }

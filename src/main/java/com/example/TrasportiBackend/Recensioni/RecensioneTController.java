@@ -33,4 +33,8 @@ public class RecensioneTController {
     public Page<RecensioneT> getAllPaginatedT (@PathVariable long TId, @PathVariable String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedT(page,size,orderBy,TId,stato);
     }
+    @DeleteMapping("/{daId}/{receId}")
+    public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
+        return recensioneService.deleteT(daId,receId);
+    }
 }
