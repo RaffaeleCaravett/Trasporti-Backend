@@ -10,6 +10,7 @@ import com.example.TrasportiBackend.enums.PoloRecensione;
 import com.example.TrasportiBackend.enums.StatoNotifica;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.IdsMismatchException;
+import com.example.TrasportiBackend.exceptions.ReceAlreadyExists;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.RecensioneAzDTO;
 import com.example.TrasportiBackend.payloads.entities.RecensioneTDTO;
@@ -42,7 +43,7 @@ public class RecensioneService {
         PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
 
         if(recensioneTRepository.findByA_IdAndDa_Id(trasportatore.getId(),azienda.getId()).isPresent()){
-            throw new 
+            throw new ReceAlreadyExists("Hai già recensito questo Trasportatore");
         }
 
         RecensioneT recensioneT = new RecensioneT();
@@ -69,7 +70,9 @@ recensioneT.setPoloRecensione(poloRecensione);
         Azienda azienda = aziendaRepository.findById(recensioneTDTO.azienda_id()).orElseThrow(()->new UserNotFoundException("Azienda con id " + recensioneTDTO.azienda_id() + " non trovata in db."));
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
 PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
-
+        if(recensioneAzRepository.findByA_IdAndDa_Id(azienda.getId(),trasportatore.getId()).isPresent()){
+            throw new ReceAlreadyExists("Hai già recensito questa Azienda");
+        }
         RecensioneAz recensioneT = new RecensioneAz();
 
         recensioneT.setCommento(recensioneTDTO.message());
