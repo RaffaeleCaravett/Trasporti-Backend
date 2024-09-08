@@ -41,6 +41,10 @@ public class RecensioneService {
         Trasportatore trasportatore = trasporatoreRepository.findById(recensioneTDTO.trasportatore_id()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + recensioneTDTO.trasportatore_id() + " non trovato in db."));
         PoloRecensione poloRecensione= PoloRecensione.valueOf(recensioneTDTO.polo());
 
+        if(recensioneTRepository.findByA_IdAndDa_Id(trasportatore.getId(),azienda.getId()).isPresent()){
+            throw new 
+        }
+
         RecensioneT recensioneT = new RecensioneT();
 
         recensioneT.setCommento(recensioneTDTO.message());
