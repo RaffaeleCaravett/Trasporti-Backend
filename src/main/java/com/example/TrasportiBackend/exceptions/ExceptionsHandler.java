@@ -80,14 +80,23 @@ public class ExceptionsHandler {
         return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(NotOwnerException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ErrorsDTO handleNotOwner(NotOwnerException e) {
         return new ErrorsDTO(e.getError(), new Date());
     }
     @ExceptionHandler(NotificaNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)  // 404
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ErrorsDTO handleNotificaNotFound(NotificaNotFoundException e) {
         return new ErrorsDTO(e.getError(), new Date());
+    }
+    @ExceptionHandler(ReceAlreadyExists.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorsWithListDTO handleNotificaNotFound(ReceAlreadyExists e) {
+        if(e.getErrorList()==null){
+           return new ErrorsWithListDTO(e.getError(), new Date(),new ArrayList<>());
+        }
+        List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        return new ErrorsWithListDTO(e.getError(), new Date(),errorsList);
     }
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500
