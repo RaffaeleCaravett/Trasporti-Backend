@@ -4,6 +4,7 @@ import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.RecensioneAzDTO;
 import com.example.TrasportiBackend.payloads.entities.RecensioneTDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,5 +28,9 @@ public class RecensioneTController {
             throw new BadRequestException(bindingResult.getAllErrors());
         }
         return recensioneService.putTbyId(id,recensioneTDTOId,recensioneAzDTO);
+    }
+    @GetMapping("/paginated/{TId}/{stato}")
+    public Page<RecensioneT> getAllPaginatedT (@PathVariable long TId, @PathVariable String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+        return recensioneService.getAllPaginatedT(page,size,orderBy,TId,stato);
     }
 }
