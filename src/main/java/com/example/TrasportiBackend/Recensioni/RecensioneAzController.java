@@ -36,4 +36,9 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     public Page<RecensioneAz> getAllPaginatedAz (@PathVariable long AzId, @PathVariable String stato,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
     return recensioneService.getAllPaginatedAz(page,size,orderBy,AzId,stato);
     }
+
+    @DeleteMapping("/{daId}/{receId}")
+    public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
+        return recensioneService.deleteT(daId,receId);
+    }
 }
