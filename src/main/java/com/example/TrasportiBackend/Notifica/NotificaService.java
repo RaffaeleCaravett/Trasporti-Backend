@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.Notifica;
 
+import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
 import com.example.TrasportiBackend.User.Azienda;
@@ -11,6 +12,7 @@ import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.NotificaNotFoundException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,4 +94,5 @@ public class NotificaService {
 
         return notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
     }
+
 }

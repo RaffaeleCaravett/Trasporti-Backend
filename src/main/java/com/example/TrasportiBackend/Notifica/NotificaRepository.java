@@ -1,5 +1,7 @@
 package com.example.TrasportiBackend.Notifica;
 
+import com.example.TrasportiBackend.Recensioni.RecensioneAz;
+import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.enums.StatoNotifica;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -81,18 +81,18 @@ recensioneT.setPoloRecensione(poloRecensione);
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
         Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
-        StatoNotifica statoNotifica = StatoNotifica.valueOf(stato);
+        PoloRecensione statoNotifica = PoloRecensione.valueOf(stato);
 
-        return recensioneTRepository.findByA_IdAndStatoNotifica(trasportatore.getId(),statoNotifica,pageable);
+        return recensioneTRepository.findByA_IdAndPoloRecensione(trasportatore.getId(),statoNotifica,pageable);
     }
 
     public Page<RecensioneAz> getAllPaginatedAz(int page,int size,String orderBy,long azId,String stato){
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
         Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db."));
-        StatoNotifica statoNotifica = StatoNotifica.valueOf(stato);
+        PoloRecensione statoNotifica = PoloRecensione.valueOf(stato);
 
-        return recensioneAzRepository.findByA_IdAndStatoNotifica(azienda.getId(),statoNotifica,pageable);
+        return recensioneAzRepository.findByA_IdAndPoloRecensione(azienda.getId(),statoNotifica,pageable);
     }
 
     public boolean deleteT(long da,long rece_id){
