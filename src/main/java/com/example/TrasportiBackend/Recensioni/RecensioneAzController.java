@@ -6,6 +6,7 @@ import com.example.TrasportiBackend.payloads.entities.RecensioneTDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class RecensioneAzController {
 
 
 @PostMapping("")
+@PreAuthorize("hasAuthority('Azienda')")
 public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO, BindingResult bindingResult){
     if(bindingResult.hasErrors()){
         throw new BadRequestException(bindingResult.getAllErrors());
@@ -26,6 +28,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     return recensioneService.saveRAz(recensioneAzDTO);
 }
     @PutMapping("/{id}/{recensioneAzDTOId}")
+    @PreAuthorize("hasAuthority('Azienda')")
     public RecensioneAz putById(@PathVariable long id, @PathVariable long recensioneAzDTOId, @RequestBody @Validated RecensioneAzDTO recensioneAzDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
@@ -38,6 +41,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     }
 
     @DeleteMapping("/{daId}/{receId}")
+    @PreAuthorize("hasAuthority('Azienda')")
     public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
         return recensioneService.deleteAz(daId,receId);
     }
