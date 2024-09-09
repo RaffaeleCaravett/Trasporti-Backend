@@ -66,7 +66,7 @@ public class JWTTools {
             String userId = claims.getSubject();
             return aziendaRepository.findById(Long.parseLong(userId)).get();
         }catch (Exception e){
-            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login!");
+            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!");
         }
     }
 
@@ -82,7 +82,7 @@ public class JWTTools {
             String userId = claims.getSubject();
             return adminRepository.findById(Long.parseLong(userId)).get();
         }catch (Exception e){
-            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login!");
+            throw new UnauthorizedException("Il token non è valido! Per favore effettua nuovamente il login o refresha la pagina!");
         }
     }
 
