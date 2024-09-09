@@ -13,5 +13,6 @@ import java.util.Optional;
 public interface RecensioneTRepository extends JpaRepository<RecensioneT,Long> {
     Page<RecensioneT> findByA_IdAndPoloRecensione(long tId, PoloRecensione poloRecensione, Pageable pageable);
     Optional<RecensioneT> findByA_IdAndDa_Id(long tId, long AzId);
+    Page<RecensioneT> findByA_Id(long tId,Pageable pageable);
 
 }

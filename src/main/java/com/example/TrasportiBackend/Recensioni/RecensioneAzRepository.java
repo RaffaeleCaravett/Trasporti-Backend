@@ -14,4 +14,6 @@ public interface RecensioneAzRepository extends JpaRepository<RecensioneAz,Long>
 
     Page<RecensioneAz> findByA_IdAndPoloRecensione(long tId, PoloRecensione poloRecensione, Pageable pageable);
     Optional<RecensioneAz> findByA_IdAndDa_Id(long AzId,long tId);
+    Page<RecensioneAz> findByA_Id(long azId,Pageable pageable);
+
 }
