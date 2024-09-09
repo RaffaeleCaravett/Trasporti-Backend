@@ -92,6 +92,13 @@ recensioneT.setPoloRecensione(poloRecensione);
 
         return recensioneTRepository.findByA_IdAndPoloRecensione(trasportatore.getId(),statoNotifica,pageable);
     }
+    public Page<RecensioneT> getAllPaginatedT(int page,int size,String orderBy,long tId){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+        Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+
+        return recensioneTRepository.findByA_Id(trasportatore.getId());
+    }
 
     public Page<RecensioneAz> getAllPaginatedAz(int page,int size,String orderBy,long azId,String stato){
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
