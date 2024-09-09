@@ -97,7 +97,7 @@ recensioneT.setPoloRecensione(poloRecensione);
 
         Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
 
-        return recensioneTRepository.findByA_Id(trasportatore.getId());
+        return recensioneTRepository.findByA_Id(trasportatore.getId(),pageable);
     }
 
     public Page<RecensioneAz> getAllPaginatedAz(int page,int size,String orderBy,long azId,String stato){
@@ -107,6 +107,13 @@ recensioneT.setPoloRecensione(poloRecensione);
         PoloRecensione statoNotifica = PoloRecensione.valueOf(stato);
 
         return recensioneAzRepository.findByA_IdAndPoloRecensione(azienda.getId(),statoNotifica,pageable);
+    }
+    public Page<RecensioneAz> getAllPaginatedAz(int page,int size,String orderBy,long azId){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+        Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db."));
+
+        return recensioneAzRepository.findByA_Id(azienda.getId(),pageable);
     }
 
     public boolean deleteT(long da,long rece_id){
