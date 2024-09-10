@@ -12,14 +12,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/azienda/recensione")
+@RequestMapping("/trasportatore")
 public class RecensioneAzController {
 
 @Autowired
     RecensioneService recensioneService;
 
 
-@PostMapping("")
+@PostMapping("/recensione")
 @PreAuthorize("hasAuthority('Azienda')")
 public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO, BindingResult bindingResult){
     if(bindingResult.hasErrors()){
@@ -27,7 +27,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     }
     return recensioneService.saveRAz(recensioneAzDTO);
 }
-    @PutMapping("/{id}/{recensioneAzDTOId}")
+    @PutMapping("/recensione/{id}/{recensioneAzDTOId}")
     @PreAuthorize("hasAuthority('Azienda')")
     public RecensioneAz putById(@PathVariable long id, @PathVariable long recensioneAzDTOId, @RequestBody @Validated RecensioneAzDTO recensioneAzDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -35,17 +35,25 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
         }
         return recensioneService.putAzbyId(id,recensioneAzDTOId,recensioneAzDTO);
     }
-    @GetMapping("/paginatedAndStato/{AzId}/{stato}")
+    @GetMapping("/recensione/paginatedAndStato/{AzId}/{stato}")
     public Page<RecensioneAz> getAllPaginatedStatoAz (@PathVariable long AzId, @PathVariable String stato,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
     return recensioneService.getAllPaginatedAz(page,size,orderBy,AzId,stato);
     }
-    @GetMapping("/paginated/{AzId}")
+    @GetMapping("/recensione/paginated/{AzId}")
     public Page<RecensioneAz> getAllPaginatedAz (@PathVariable long AzId,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedAz(page,size,orderBy,AzId);
     }
-    @DeleteMapping("/{daId}/{receId}")
+    @DeleteMapping("/recensione/{daId}/{receId}")
     @PreAuthorize("hasAuthority('Azienda')")
     public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
         return recensioneService.deleteAz(daId,receId);
+    }
+    @GetMapping("/recensioneAz/paginatedAndStato/{TId}/{stato}")
+    public Page<RecensioneT> getAllPaginatedTAndStato (@PathVariable long TId, @PathVariable String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+        return recensioneService.getAllPaginatedT(page,size,orderBy,TId,stato);
+    }
+    @GetMapping("/recensioneAz/paginated/{TId}")
+    public Page<RecensioneT> getAllPaginatedT (@PathVariable long TId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+        return recensioneService.getAllPaginatedT(page,size,orderBy,TId);
     }
 }
