@@ -17,7 +17,7 @@ public class RecensioneTController {
     RecensioneService recensioneService;
 
     @PostMapping("/recensione")
-    @PreAuthorize("hasAuthority('Trasportatore')")
+    @PreAuthorize("hasAuthority('Azienda')")
     public RecensioneT save(@RequestBody @Validated RecensioneTDTO recensioneAzDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
@@ -25,7 +25,7 @@ public class RecensioneTController {
         return recensioneService.saveRT(recensioneAzDTO);
     }
     @PutMapping("/recensione/{id}/{recensioneTDTOId}")
-    @PreAuthorize("hasAuthority('Trasportatore')")
+    @PreAuthorize("hasAuthority('Azienda')")
     public RecensioneT putById(@PathVariable long id, @PathVariable long recensioneTDTOId, @RequestBody @Validated RecensioneTDTO recensioneAzDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
@@ -41,7 +41,7 @@ public class RecensioneTController {
         return recensioneService.getAllPaginatedT(page,size,orderBy,TId);
     }
     @DeleteMapping("/recensione/{daId}/{receId}")
-    @PreAuthorize("hasAuthority('Trasportatore')")
+    @PreAuthorize("hasAuthority('Azienda')")
     public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
         return recensioneService.deleteT(daId,receId);
     }

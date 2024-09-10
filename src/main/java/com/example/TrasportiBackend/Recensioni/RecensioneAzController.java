@@ -20,7 +20,7 @@ public class RecensioneAzController {
 
 
 @PostMapping("/recensione")
-@PreAuthorize("hasAuthority('Azienda')")
+@PreAuthorize("hasAuthority('Trasportatore')")
 public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO, BindingResult bindingResult){
     if(bindingResult.hasErrors()){
         throw new BadRequestException(bindingResult.getAllErrors());
@@ -28,7 +28,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     return recensioneService.saveRAz(recensioneAzDTO);
 }
     @PutMapping("/recensione/{id}/{recensioneAzDTOId}")
-    @PreAuthorize("hasAuthority('Azienda')")
+    @PreAuthorize("hasAuthority('Trasportatore')")
     public RecensioneAz putById(@PathVariable long id, @PathVariable long recensioneAzDTOId, @RequestBody @Validated RecensioneAzDTO recensioneAzDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
@@ -44,7 +44,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
         return recensioneService.getAllPaginatedAz(page,size,orderBy,AzId);
     }
     @DeleteMapping("/recensione/{daId}/{receId}")
-    @PreAuthorize("hasAuthority('Azienda')")
+    @PreAuthorize("hasAuthority('Trasportatore')")
     public boolean deleteByDaIdAndReceID (@PathVariable long daId, @PathVariable long receId){
         return recensioneService.deleteAz(daId,receId);
     }
