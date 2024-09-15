@@ -43,6 +43,7 @@ public class Azienda extends User{
     @JsonIgnore
     private Statistica statistica;
     @OneToMany(mappedBy = "da")
+    @JsonIgnore
     private List<RecensioneT> recensioniInviate;
     @OneToMany(mappedBy = "a")
     private List<RecensioneAz> recensioniRicevute;

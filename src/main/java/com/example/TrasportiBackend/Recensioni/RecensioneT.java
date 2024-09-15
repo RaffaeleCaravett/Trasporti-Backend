@@ -27,7 +27,6 @@ import java.time.LocalDate;
         private LocalDate localDate = LocalDate.now();
         @ManyToOne
         @JoinColumn(name = "azienda_id")
-        @JsonIgnore
         private Azienda da;
         @ManyToOne
         @JoinColumn(name = "trasportatore_id")

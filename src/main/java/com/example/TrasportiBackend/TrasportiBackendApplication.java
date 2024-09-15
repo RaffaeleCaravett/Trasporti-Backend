@@ -10,3 +10,4 @@ public class TrasportiBackendApplication {
 		SpringApplication.run(TrasportiBackendApplication.class, args);
 	}
 }
+
