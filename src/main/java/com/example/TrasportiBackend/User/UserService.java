@@ -5,6 +5,7 @@ import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
+import com.example.TrasportiBackend.payloads.entities.AziendaPutDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,7 +58,7 @@ public class UserService {
         }
     }
 
-    public Azienda putAziendaById(long id , AziendaDTO aziendaDTO) {
+    public Azienda putAziendaById(long id , AziendaPutDTO aziendaDTO) {
         try {
             Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
             azienda.setCap(aziendaDTO.cap());

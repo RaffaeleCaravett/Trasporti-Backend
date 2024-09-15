@@ -3,6 +3,7 @@ package com.example.TrasportiBackend.User;
 import com.example.TrasportiBackend.Auth.AuthService;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
+import com.example.TrasportiBackend.payloads.entities.AziendaPutDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,7 @@ public class UserController {
     }
     @PutMapping("/azienda/me")
     @PreAuthorize("hasAuthority('Azienda')")
-    public Azienda putById(@AuthenticationPrincipal Azienda currentUser,@RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult){
+    public Azienda putById(@AuthenticationPrincipal Azienda currentUser, @RequestBody @Validated AziendaPutDTO aziendaDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
@@ -55,7 +56,7 @@ public class UserController {
     }
     @PutMapping("/aziendaAdmin/{id}")
     @PreAuthorize("hasAuthority('Admin')")
-    public Azienda putByIdAdmin(@PathVariable long id,@RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult){
+    public Azienda putByIdAdmin(@PathVariable long id,@RequestBody @Validated AziendaPutDTO aziendaDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
