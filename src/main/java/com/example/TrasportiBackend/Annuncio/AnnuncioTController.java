@@ -32,7 +32,7 @@ public class AnnuncioTController {
         return annuncioService.findByData(anno1,mese1,giorno1,anno2,mese2,giorno2,page,size,orderBy);
     }
     @GetMapping("/byDataSpedizione/{data1}/{data2}")
-    public Page<Annuncio> getByData(@PathVariable int data1,@PathVariable int data2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy, @RequestParam(defaultValue = "DESC") String direction){
+    public Page<Annuncio> getByData(@PathVariable String data1,@PathVariable String data2,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy, @RequestParam(defaultValue = "DESC") String direction){
         return annuncioService.findByDaSpedire(data1,data2,page,size,orderBy,direction);
     }
     @GetMapping("/byNomeAzienda/{nomeAzienda}")
