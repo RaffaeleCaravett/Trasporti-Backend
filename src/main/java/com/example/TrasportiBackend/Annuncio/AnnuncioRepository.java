@@ -21,5 +21,7 @@ public interface AnnuncioRepository extends JpaRepository<Annuncio,Long> {
 
     Page<Annuncio> findByRetribuzioneBetween(int da,int a, Pageable pageable);
     Page<Annuncio> findBydataPubblicazioneBetween(LocalDate da, LocalDate a, Pageable pageable);
-
+    Page<Annuncio> findBySpedizione_DaSpedireBetween(LocalDate da, LocalDate a, Pageable pageable);
+    Page<Annuncio> findByAzienda_NomeAzienda(String nomeAzienda, Pageable pageable);
+    Page<Annuncio> findBySpedizione_NumeroPedane(Long numeroPedane, Pageable pageable);
 }
