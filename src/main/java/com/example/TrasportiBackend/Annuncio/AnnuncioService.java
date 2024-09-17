@@ -105,10 +105,22 @@ public Page<Annuncio> getByAziendaId(long aziendaId,int page,int size,String ord
         Stato state = Stato.valueOf(stato);
        return annuncioRepository.findByAzienda_IdAndSpedizione_Stato(aziendaId,state).size();
     }
-public Page<Annuncio> findByRetribuzione(int retribuzione1, int retribuzione2, int page, int size ,String orderBy){
+public Page<Annuncio> findByRetribuzione(int retribuzione1, int retribuzione2,long azId, int page, int size ,String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        return annuncioRepository.findByRetribuzioneBetweenAndAzienda_Id(retribuzione1, retribuzione2, azId,pageable);
+}
+
+
+    public Page<Annuncio> findByData(int anno1,int mese1,int giorno1,int anno2,int mese2,int giorno2,long azId, int page, int size ,String orderBy){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+        LocalDate date1= LocalDate.of(anno1,mese1,giorno1);
+        LocalDate date2 = LocalDate.of(anno2,mese2,giorno2);
+        return annuncioRepository.findBydataPubblicazioneBetweenAndAzienda_Id(date1,date2,azId,pageable);
+    }
+    public Page<Annuncio> findByRetribuzione(int retribuzione1, int retribuzione2, int page, int size ,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
         return annuncioRepository.findByRetribuzioneBetween(retribuzione1, retribuzione2,pageable);
-}
+    }
 
 
     public Page<Annuncio> findByData(int anno1,int mese1,int giorno1,int anno2,int mese2,int giorno2, int page, int size ,String orderBy){
@@ -147,6 +159,6 @@ return annuncioRepository.findBySpedizioneAContainingIgnoreCase(a,pageable);
         }
 public Page<Annuncio> findByDaAndA(String da,String a,int page,int size, String orderBy,String direction){
                     Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
-return annuncioRepository.findBySpedizioneDaContainingIgnoreCaseAndAContainingIgnoreCase(da,pageable);
+return annuncioRepository.findBySpedizioneDaContainingIgnoreCaseAndAContainingIgnoreCase(da,a,pageable);
 }
 }
