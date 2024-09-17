@@ -123,13 +123,18 @@ return spedizioneService.delete(spedizione.getId(),spedizione.getAzienda().getId
     }
 public Page<Annuncio> findByDaSpedire(String da, String a,int page,int size, String orderBy,String direction){
         Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
+        LocalDate da1 = LocalDate.parse(da);
+        LocalDate a1 =LocalDate.parse(a);
+        return annuncioRepository.findBySpedizione_DaSpedireBetween(da1,a1,pageable);
 }
     public Page<Annuncio> getByNomeAzienda(String nomeAzienda,int page,int size, String orderBy,String direction){
         Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
 
+
     }
         public Page<Annuncio>getByNumeroPedane(long numeroPedane,int page,int size, String orderBy,String direction){
             Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
+
 
         }
 }
