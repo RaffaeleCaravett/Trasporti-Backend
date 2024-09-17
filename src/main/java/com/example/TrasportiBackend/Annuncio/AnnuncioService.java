@@ -151,14 +151,14 @@ return annuncioRepository.findBySpedizione_NumeroPedane(numeroPedane,pageable);
 
         public Page<Annuncio> findByDa(String da,int page,int size, String orderBy,String direction){
                     Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
-return annuncioRepository.findBySpedizioneDaContainingIgnoreCase(da,pageable);
+return annuncioRepository.findBySpedizione_DaContainingIgnoreCase(da,pageable);
         }
         public Page<Annuncio> findByA(String a,int page,int size, String orderBy,String direction){
                     Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
-return annuncioRepository.findBySpedizioneAContainingIgnoreCase(a,pageable);
+return annuncioRepository.findBySpedizione_AContainingIgnoreCase(a,pageable);
         }
 public Page<Annuncio> findByDaAndA(String da,String a,int page,int size, String orderBy,String direction){
                     Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
-return annuncioRepository.findBySpedizioneDaContainingIgnoreCaseAndAContainingIgnoreCase(da,a,pageable);
+return annuncioRepository.findBySpedizione_DaContainingIgnoreCaseAndSpedizione_AContainingIgnoreCase(da,a,pageable);
 }
 }

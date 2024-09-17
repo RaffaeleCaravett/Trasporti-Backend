@@ -37,10 +37,10 @@ public interface AnnuncioRepository extends JpaRepository<Annuncio,Long> {
 
     Page<Annuncio> findBySpedizione_NumeroPedane(Long numeroPedane, Pageable pageable);
 
-    Page<Annuncio> findBySpedizioneDaContainingIgnoreCase(String da, Pageable pageable);
+    Page<Annuncio> findBySpedizione_DaContainingIgnoreCase(String da, Pageable pageable);
 
-    Page<Annuncio> findBySpedizioneAContainingIgnoreCase(String a, Pageable pageable);
+    Page<Annuncio> findBySpedizione_AContainingIgnoreCase(String a, Pageable pageable);
 
-    Page<Annuncio> findBySpedizioneDaContainingIgnoreCaseAndAContainingIgnoreCase(String da, String a, Pageable pageable);
+    Page<Annuncio> findBySpedizione_DaContainingIgnoreCaseAndSpedizione_AContainingIgnoreCase(String da, String a, Pageable pageable);
 }
 
