@@ -129,12 +129,11 @@ public Page<Annuncio> findByDaSpedire(String da, String a,int page,int size, Str
 }
     public Page<Annuncio> getByNomeAzienda(String nomeAzienda,int page,int size, String orderBy,String direction){
         Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
-
+        return annuncioRepository.findByAzienda_NomeAzienda(nomeAzienda,pageable);
 
     }
         public Page<Annuncio>getByNumeroPedane(long numeroPedane,int page,int size, String orderBy,String direction){
             Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
-
-
+return annuncioRepository.findBySpedizione_NumeroPedane(numeroPedane,pageable);
         }
 }
