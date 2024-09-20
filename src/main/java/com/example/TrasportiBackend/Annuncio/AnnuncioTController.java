@@ -19,6 +19,10 @@ public class AnnuncioTController {
     AnnuncioService annuncioService;
 
 
+@GetMapping("")
+public Page<Annuncio> getAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy, @RequestParam(defaultValue="DESC") String direction){
+    return this.annuncioService.getAllPaginated(page,size,orderBy,direction);
+}
     @GetMapping("/byAziendaId/{id}")
     public Page<Annuncio> getByAziendaId(@PathVariable long id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy, @RequestParam(defaultValue = "DESC") String direction){
         return annuncioService.getByAziendaId(id,page,size,orderBy);
