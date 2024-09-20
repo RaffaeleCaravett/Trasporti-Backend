@@ -161,5 +161,8 @@ public Page<Annuncio> findByDaAndA(String da,String a,int page,int size, String 
                     Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
 return annuncioRepository.findBySpedizione_DaContainingIgnoreCaseAndSpedizione_AContainingIgnoreCase(da,a,pageable);
 }
-public Page<Annuncio> findAllPaginated()
+public Page<Annuncio> findAllPaginated(int page, int size, String orderBy, String direction){
+        Pageable pageable = PageRequest.of(page,size,Sort.by(Sort.Direction.fromString(direction),orderBy));
+        return annuncioRepository.findAll(pageable);
+}
 }
