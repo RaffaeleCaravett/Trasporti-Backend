@@ -33,4 +33,5 @@ public class SpedizioneTController {
     public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore, @PathVariable long spedizioneId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return spedizioneService.richiedi(trasportatore.getId(),spedizioneId);
     }
+
 }

@@ -173,7 +173,7 @@ public class SpedizioneService {
         notifica.setAzienda(spedizione.getAzienda());
         notifica.setInviataDa(trasportatore.getNome() + " " + trasportatore.getCognome());
         notifica.setDateTime(LocalDate.now());
-        notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di assegnarsi la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
+        notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
         return notificaRepository.save(notifica);
     }
