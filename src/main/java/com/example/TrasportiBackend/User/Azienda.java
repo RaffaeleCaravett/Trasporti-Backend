@@ -9,6 +9,7 @@ import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Statistiche.Statistica;
 import com.example.TrasportiBackend.chat.Chat;
 import com.example.TrasportiBackend.enums.Settore;
+import com.example.TrasportiBackend.messaggi.Messaggi;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -53,4 +54,10 @@ public class Azienda extends User{
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
     private List<Chat> chats;
+    @OneToMany(mappedBy = "azienda_as_receiver")
+    @JsonIgnore
+    private List<Messaggi> messaggi_as_receiver;
+    @OneToMany(mappedBy = "azienda_as_sender")
+    @JsonIgnore
+    private List<Messaggi> messaggi_as_sender;
 }

@@ -6,6 +6,7 @@ import com.example.TrasportiBackend.Recensioni.RecensioneAz;
 import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.chat.Chat;
+import com.example.TrasportiBackend.messaggi.Messaggi;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -41,5 +42,11 @@ public class Trasportatore extends User{
     private List<NotificaRecensione> notificaRecensioneRicevute;
     @OneToMany(mappedBy = "trasportatore")
     @JsonIgnore
-    private List<Trasportatore> trasportatores;
+    private List<Chat> chats;
+    @OneToMany(mappedBy = "trasportatore_as_receiver")
+    @JsonIgnore
+    private List<Messaggi> messaggi_as_receiver;
+    @OneToMany(mappedBy = "trasportatore_as_sender")
+    @JsonIgnore
+    private List<Messaggi> messaggi_as_sender;
 }
