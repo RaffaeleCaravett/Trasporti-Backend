@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.chat;
 
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.messaggi.Messaggi;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
