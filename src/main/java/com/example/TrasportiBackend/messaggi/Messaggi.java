@@ -1,5 +1,7 @@
 package com.example.TrasportiBackend.messaggi;
 
+import com.example.TrasportiBackend.User.Azienda;
+import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.chat.Chat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -23,6 +25,13 @@ public class Messaggi {
     @ManyToOne
     @JsonIgnore
     private Chat chat;
-    private String sender;
+    @ManyToOne
+    private Azienda azienda_as_sender;
+    @ManyToOne
+    private Trasportatore trasportatore_as_sender;
+    @ManyToOne
+    private Azienda azienda_as_receiver;
+    @ManyToOne
+    private Trasportatore trasportatore_as_receiver;
     private LocalDate createdAt;
 }
