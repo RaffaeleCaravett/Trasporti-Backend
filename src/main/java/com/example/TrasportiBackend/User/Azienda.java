@@ -7,6 +7,7 @@ import com.example.TrasportiBackend.Recensioni.RecensioneAz;
 import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Statistiche.Statistica;
+import com.example.TrasportiBackend.chat.Chat;
 import com.example.TrasportiBackend.enums.Settore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -49,4 +50,7 @@ public class Azienda extends User{
     private List<RecensioneAz> recensioniRicevute;
     @OneToMany(mappedBy = "da")
     private List<NotificaRecensione> notificaRecensioneInviate;
+    @OneToMany(mappedBy = "azienda")
+    @JsonIgnore
+    private List<Chat> chats;
 }
