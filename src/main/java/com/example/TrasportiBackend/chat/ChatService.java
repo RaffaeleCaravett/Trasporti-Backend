@@ -7,4 +7,9 @@ import org.springframework.stereotype.Service;
 public class ChatService {
     @Autowired
     ChatRepository chatRepository;
+
+
+    public Chat save(ChatDTO chatDTO){
+        Chat chat = new Chat();
+    }
 }
