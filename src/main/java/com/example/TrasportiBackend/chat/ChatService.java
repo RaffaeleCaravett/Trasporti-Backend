@@ -1,6 +1,7 @@
 package com.example.TrasportiBackend.chat;
 
 import com.example.TrasportiBackend.User.AziendaRepository;
+import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.payloads.entities.ChatDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,8 @@ public class ChatService {
     ChatRepository chatRepository;
 @Autowired
     AziendaRepository aziendaRepository;
-
+@Autowired
+    TrasporatoreRepository trasporatoreRepository;
     public Chat save(ChatDTO chatDTO){
         Chat chat = new Chat();
         chat.
