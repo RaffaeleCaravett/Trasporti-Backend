@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ChatRepository extends JpaRepository<Chat,Long> {
     Optional<Chat> findByAzienda_IdAndTrasportatore_Id(long azId, long trId);
+    List<Chat> findByAzienda_Id(long id);
+    List<Chat> findByTrasportatore_Id(long id);
 }
