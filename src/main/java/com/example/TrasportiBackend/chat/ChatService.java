@@ -7,6 +7,8 @@ import com.example.TrasportiBackend.payloads.entities.ChatDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ChatService {
     @Autowired
@@ -21,5 +23,10 @@ public class ChatService {
         chat.setTrasportatore(trasporatoreRepository.findById(chatDTO.trasportatore_id()).orElseThrow(()-> new UserNotFoundException("Trasportatore con id "+ chatDTO.trasportatore_id() + " non trovato in db.")));
 
         return chatRepository.save(chat);
+    }
+
+
+    public List<Chat> getByAziendaId(long id){
+        return chatRepository.findByAzienda_Id(id);
     }
 }
