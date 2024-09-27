@@ -20,10 +20,15 @@ public class ChatService {
     TrasporatoreRepository trasporatoreRepository;
     public Chat save(ChatDTO chatDTO){
         Chat chat = new Chat();
+
         chat.setAzienda(aziendaRepository.findById(chatDTO.azienda_id()).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ chatDTO.azienda_id() + " non trovata in db.")));
         chat.setTrasportatore(trasporatoreRepository.findById(chatDTO.trasportatore_id()).orElseThrow(()-> new UserNotFoundException("Trasportatore con id "+ chatDTO.trasportatore_id() + " non trovato in db.")));
 
-        return chatRepository.save(chat);
+        if(getByAziendaIdAndTrasportatoreId(chat.getAzienda().getId(),chat.getTrasportatore().getId()).isPresent()){
+            return getByAziendaIdAndTrasportatoreId(chat.getAzienda().getId(),chat.getTrasportatore().getId()).get();
+        }else{
+            return chatRepository.save(chat);
+        }
     }
 
 
