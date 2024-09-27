@@ -29,4 +29,7 @@ public class ChatService {
     public List<Chat> getByAziendaId(long id){
         return chatRepository.findByAzienda_Id(id);
     }
+    public List<Chat> getByTrasportatoreId(long id){
+        return chatRepository.findByTrasportatore_Id(id);
+    }
 }
