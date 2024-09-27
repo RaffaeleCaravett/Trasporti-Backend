@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatService {
@@ -31,5 +32,8 @@ public class ChatService {
     }
     public List<Chat> getByTrasportatoreId(long id){
         return chatRepository.findByTrasportatore_Id(id);
+    }
+    public Optional<Chat> getByAziendaIdAndTrasportatoreId(long aziendaId, long trasportatoreId){
+        return chatRepository.findByAzienda_IdAndTrasportatore_Id(aziendaId,trasportatoreId);
     }
 }
