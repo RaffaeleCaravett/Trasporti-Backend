@@ -89,6 +89,15 @@ public class ExceptionsHandler {
     public ErrorsDTO handleNotificaNotFound(NotificaNotFoundException e) {
         return new ErrorsDTO(e.getError(), new Date());
     }
+    @ExceptionHandler(DtoHasErrors.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorsWithListDTO handleNotificaNotFound(DtoHasErrors e) {
+        if(e.getErrorList()==null){
+            return new ErrorsWithListDTO(e.getError(), new Date(),new ArrayList<>());
+        }
+        List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        return new ErrorsWithListDTO(e.getError(), new Date(),errorsList);
+    }
     @ExceptionHandler(ReceAlreadyExists.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorsWithListDTO handleNotificaNotFound(ReceAlreadyExists e) {
