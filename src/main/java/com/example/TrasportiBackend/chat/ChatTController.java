@@ -17,6 +17,7 @@ public class ChatTController {
     @Autowired
     ChatService chatService;
     @PostMapping("")
+    @PreAuthorize("hasAuthority('Trasportatore')")
     public Chat save (@RequestBody @Validated ChatDTO chatDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
 
