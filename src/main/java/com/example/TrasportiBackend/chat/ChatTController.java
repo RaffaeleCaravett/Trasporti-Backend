@@ -1,6 +1,7 @@
 package com.example.TrasportiBackend.chat;
 
 import com.example.TrasportiBackend.exceptions.DtoHasErrors;
+import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.ChatDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,5 +29,10 @@ throw new DtoHasErrors(bindingResult.getAllErrors());
     @PreAuthorize("hasAuthority('Trasportatore')")
 public List<Chat> getByTId(@PathVariable long id){
         return chatService.getByTrasportatoreId(id);
+    }
+    @GetMapping("/byAziendaIdAndTrasportatoreId/{aziendaId}/{trasportatoreId}")
+    @PreAuthorize("hasAuthority('Trasportatore')")
+  public Chat findByAzIdAndTId(@PathVariable long aziendaId,@PathVariable long trasportatoreId){
+        return chatService.getByAziendaIdAndTrasportatoreId(aziendaId,trasportatoreId).orElseThrow(()-> new UserNotFoundException("Chat non trovata"));
     }
 }
