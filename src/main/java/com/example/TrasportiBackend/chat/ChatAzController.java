@@ -24,10 +24,10 @@ public class ChatAzController {
         }
         return chatService.save(chatDTO);
     }
-    @GetMapping("/byTId/{id}")
+    @GetMapping("/byAzId/{id}")
     @PreAuthorize("hasAuthority('Azienda')")
-    public List<Chat> getByTId(@PathVariable long id){
-        return chatService.getByTrasportatoreId(id);
+    public List<Chat> getByAzId(@PathVariable long id){
+        return chatService.getByAziendaId(id);
     }
     @GetMapping("/byAziendaIdAndTrasportatoreId/{aziendaId}/{trasportatoreId}")
     @PreAuthorize("hasAuthority('Azienda')")
