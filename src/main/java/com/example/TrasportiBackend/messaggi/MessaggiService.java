@@ -7,4 +7,9 @@ import org.springframework.stereotype.Service;
 public class MessaggiService {
     @Autowired
     MessaggiRepository messaggiRepository;
+
+
+    public Messaggi save(MessaggioDTO messaggioDTO){
+
+    }
 }
