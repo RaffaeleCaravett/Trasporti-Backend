@@ -37,6 +37,6 @@ public class Messaggi {
     @ManyToOne
     @JoinColumn(name="tr_receiver_id")
     private Trasportatore trasportatore_as_receiver;
-    private LocalDate createdAt;,
-    
+    private LocalDate createdAt;
+    private String testo;
 }
