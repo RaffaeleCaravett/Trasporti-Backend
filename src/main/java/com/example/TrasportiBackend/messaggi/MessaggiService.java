@@ -13,6 +13,8 @@ import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class MessaggiService {
     @Autowired
@@ -43,8 +45,12 @@ messaggi.setChat(chat);
 messaggi.setTesto(messaggi.getTesto());
 if(isAziendaReceiver){
     messaggi.setAzienda_as_receiver(azienda);
+    messaggi.setTrasportatore_as_sender(trasportatore);
 }else{
     messaggi.setAzienda_as_sender(azienda);
+    messaggi.setTrasportatore_as_receiver(trasportatore);
 }
+messaggi.setCreatedAt(LocalDate.now());
+return messaggiRepository.save(messaggi);
     }
 }
