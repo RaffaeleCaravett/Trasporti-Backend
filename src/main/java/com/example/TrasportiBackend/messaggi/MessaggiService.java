@@ -19,38 +19,39 @@ import java.time.LocalDate;
 public class MessaggiService {
     @Autowired
     MessaggiRepository messaggiRepository;
-@Autowired
+    @Autowired
     ChatRepository chatRepository;
-@Autowired
+    @Autowired
     AziendaRepository aziendaRepository;
-@Autowired
+    @Autowired
     TrasporatoreRepository trasporatoreRepository;
-    public Messaggi save(MessaggioDTO messaggioDTO){
-        Chat chat = chatRepository.findById(messaggioDTO.chat_id()).orElseThrow(()-> new UserNotFoundException("Chat non trovata in db."));
+
+    public Messaggi save(MessaggioDTO messaggioDTO) {
+        Chat chat = chatRepository.findById(messaggioDTO.chat_id()).orElseThrow(() -> new UserNotFoundException("Chat non trovata in db."));
         Azienda azienda = new Azienda();
         Trasportatore trasportatore = new Trasportatore();
         boolean isAziendaReceiver = false;
-if(SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Azienda)){
-    azienda=aziendaRepository.findById(messaggioDTO.sender_id()).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ messaggioDTO.sender_id() + " non trovata in db."));
-    trasportatore=trasporatoreRepository.findById(messaggioDTO.receiver_id()).orElseThrow(()-> new UserNotFoundException("Trasportatore con id "+ messaggioDTO.receiver_id() + " non trovato in db."));
-}else if(SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Trasportatore)){
-    trasportatore=trasporatoreRepository.findById(messaggioDTO.sender_id()).orElseThrow(()-> new UserNotFoundException("Trasportatore con id "+ messaggioDTO.sender_id() + " non trovato in db."));
-    azienda=aziendaRepository.findById(messaggioDTO.receiver_id()).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ messaggioDTO.receiver_id() + " non trovata in db."));
-    isAziendaReceiver=true;
-}else {
-    throw new BadRequestException("Non stai specificando bene il sender_type");
-}
-Messaggi messaggi = new Messaggi();
-messaggi.setChat(chat);
-messaggi.setTesto(messaggi.getTesto());
-if(isAziendaReceiver){
-    messaggi.setAzienda_as_receiver(azienda);
-    messaggi.setTrasportatore_as_sender(trasportatore);
-}else{
-    messaggi.setAzienda_as_sender(azienda);
-    messaggi.setTrasportatore_as_receiver(trasportatore);
-}
-messaggi.setCreatedAt(LocalDate.now());
-return messaggiRepository.save(messaggi);
+        if (SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Azienda)) {
+            azienda = aziendaRepository.findById(messaggioDTO.sender_id()).orElseThrow(() -> new UserNotFoundException("Azienda con id " + messaggioDTO.sender_id() + " non trovata in db."));
+            trasportatore = trasporatoreRepository.findById(messaggioDTO.receiver_id()).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + messaggioDTO.receiver_id() + " non trovato in db."));
+        } else if (SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Trasportatore)) {
+            trasportatore = trasporatoreRepository.findById(messaggioDTO.sender_id()).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + messaggioDTO.sender_id() + " non trovato in db."));
+            azienda = aziendaRepository.findById(messaggioDTO.receiver_id()).orElseThrow(() -> new UserNotFoundException("Azienda con id " + messaggioDTO.receiver_id() + " non trovata in db."));
+            isAziendaReceiver = true;
+        } else {
+            throw new BadRequestException("Non stai specificando bene il sender_type");
+        }
+        Messaggi messaggi = new Messaggi();
+        messaggi.setChat(chat);
+        messaggi.setTesto(messaggi.getTesto());
+        if (isAziendaReceiver) {
+            messaggi.setAzienda_as_receiver(azienda);
+            messaggi.setTrasportatore_as_sender(trasportatore);
+        } else {
+            messaggi.setAzienda_as_sender(azienda);
+            messaggi.setTrasportatore_as_receiver(trasportatore);
+        }
+        messaggi.setCreatedAt(LocalDate.now());
+        return messaggiRepository.save(messaggi);
     }
 }
