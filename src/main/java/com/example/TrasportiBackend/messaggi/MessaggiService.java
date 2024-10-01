@@ -29,10 +29,14 @@ public class MessaggiService {
         Trasportatore trasportatore = new Trasportatore();
 if(SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Azienda)){
     azienda=aziendaRepository.findById(messaggioDTO.sender_id()).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ messaggioDTO.sender_id() + " non trovata in db."));
+    trasportatore=trasporatoreRepository.findById(messaggioDTO.receiver_id()).orElseThrow(()-> new UserNotFoundException("Trasportatore con id "+ messaggioDTO.receiver_id() + " non trovato in db."));
 }else if(SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Trasportatore)){
     trasportatore=trasporatoreRepository.findById(messaggioDTO.sender_id()).orElseThrow(()-> new UserNotFoundException("Trasportatore con id "+ messaggioDTO.sender_id() + " non trovato in db."));
+    azienda=aziendaRepository.findById(messaggioDTO.receiver_id()).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ messaggioDTO.receiver_id() + " non trovata in db."));
 }else {
     throw new BadRequestException("Non stai specificando bene il sender_type");
 }
+
+
     }
 }
