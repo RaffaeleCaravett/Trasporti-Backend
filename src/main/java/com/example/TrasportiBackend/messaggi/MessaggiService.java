@@ -25,6 +25,6 @@ public class MessaggiService {
         Chat chat = chatRepository.findById(messaggioDTO.chat_id()).orElseThrow(()-> new UserNotFoundException("Chat non trovata in db."));
         Azienda azienda = new Azienda();
         Trasportatore trasportatore = new Trasportatore();
-
+if(messaggioDTO.senderType().equals())
     }
 }
