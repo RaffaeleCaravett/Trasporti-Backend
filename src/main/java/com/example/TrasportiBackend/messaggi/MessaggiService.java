@@ -6,6 +6,7 @@ import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.chat.Chat;
 import com.example.TrasportiBackend.chat.ChatRepository;
+import com.example.TrasportiBackend.enums.SenderType;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class MessaggiService {
         Chat chat = chatRepository.findById(messaggioDTO.chat_id()).orElseThrow(()-> new UserNotFoundException("Chat non trovata in db."));
         Azienda azienda = new Azienda();
         Trasportatore trasportatore = new Trasportatore();
-if(messaggioDTO.senderType().equals())
+if(SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Azienda)){
+    azienda=aziendaRepository.findById(messaggioDTO.sender_id()).orElseThrow(()-> new UserNotFoundException("Azienda con id "+ messaggioDTO.sender_id() + " non trovata in db."));
+}else if(SenderType.valueOf(messaggioDTO.senderType()).equals(SenderType.Azienda)){
+    
+}
     }
 }
