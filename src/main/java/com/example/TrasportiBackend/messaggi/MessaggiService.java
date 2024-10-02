@@ -71,6 +71,16 @@ public class MessaggiService {
         }
         Messaggi messaggi = messaggiRepository.findById(messaggioId).orElseThrow(()-> new BadRequestException("Messaggio non trovato in db"));
         messaggi.setTesto(messaggioDTO.testo());
-        return messaggiRepository.save(messaggi);git add 
+        return messaggiRepository.save(messaggi);
+    }
+
+    public boolean deleteById(long message_id,long sender_id,String sender_type){
+        if(SenderType.Azienda.equals(sender_type)){
+            azienda= aziendaRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
+        }else if(SenderType.Trasportatore.equals(sender_type)){
+            trasportatore= trasporatoreRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
+        }else{
+            throw new TypeMismatchException("Il tipo " + sender_type + " non è identificabile");
+        }
     }
 }
