@@ -54,4 +54,8 @@ public class MessaggiService {
         messaggi.setCreatedAt(LocalDate.now());
         return messaggiRepository.save(messaggi);
     }
+
+    public Messaggi putById(long messaggioId , long sender_id, String sender_type){
+        SenderType senderType = SenderType.valueOf(sender_type);
+    }
 }
