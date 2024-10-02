@@ -9,6 +9,7 @@ import com.example.TrasportiBackend.chat.ChatRepository;
 import com.example.TrasportiBackend.enums.SenderType;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.TypeMismatchException;
+import com.example.TrasportiBackend.exceptions.UnauthorizedException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,30 +58,33 @@ public class MessaggiService {
         return messaggiRepository.save(messaggi);
     }
 
-    public Messaggi putById(long messaggioId , long sender_id, String sender_type, MessaggioDTO messaggioDTO){
+    public Messaggi putById(long messaggioId, long sender_id, String sender_type, MessaggioDTO messaggioDTO) {
         SenderType senderType = SenderType.valueOf(sender_type);
         Azienda azienda = new Azienda();
         Trasportatore trasportatore = new Trasportatore();
 
-        if(SenderType.Azienda.equals(senderType)){
-         azienda= aziendaRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
-        }else if(SenderType.Trasportatore.equals(senderType)){
-            trasportatore= trasporatoreRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
-        }else{
+        if (SenderType.Azienda.equals(senderType)) {
+            azienda = aziendaRepository.findById(sender_id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
+        } else if (SenderType.Trasportatore.equals(senderType)) {
+            trasportatore = trasporatoreRepository.findById(sender_id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
+        } else {
             throw new TypeMismatchException("Il tipo " + sender_type + " non è identificabile");
         }
-        Messaggi messaggi = messaggiRepository.findById(messaggioId).orElseThrow(()-> new BadRequestException("Messaggio non trovato in db"));
+        Messaggi messaggi = messaggiRepository.findById(messaggioId).orElseThrow(() -> new BadRequestException("Messaggio non trovato in db"));
         messaggi.setTesto(messaggioDTO.testo());
         return messaggiRepository.save(messaggi);
     }
 
-    public boolean deleteById(long message_id,long sender_id,String sender_type){
-        if(SenderType.Azienda.equals(sender_type)){
-            azienda= aziendaRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
-        }else if(SenderType.Trasportatore.equals(sender_type)){
-            trasportatore= trasporatoreRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
-        }else{
-            throw new TypeMismatchException("Il tipo " + sender_type + " non è identificabile");
+    public boolean deleteById(long message_id, long sender_id, String sender_type) {
+        SenderType senderType = SenderType.valueOf(sender_type);
+        Messaggi messaggi = messaggiRepository.findById(message_id).orElseThrow(() -> new BadRequestException("Messaggio non trovato in db"));
+        if ((SenderType.Azienda.equals(senderType) && messaggi.getAzienda_as_sender().getId() == sender_id) || (SenderType.Trasportatore.equals(senderType) && messaggi.getTrasportatore_as_sender().getId() == sender_id)) {
+         messaggi.setTesto("Questo messaggio è stato eliminato.");
+         messaggi.setCreatedAt(LocalDate.now());
+         messaggiRepository.save(messaggi);
+         return true;
+        } else {
+            throw new UnauthorizedException("Non si hanno i diritti di eliminare questo messaggio.");
         }
     }
 }
