@@ -57,11 +57,10 @@ public class MessaggiService {
         return messaggiRepository.save(messaggi);
     }
 
-    public Messaggi putById(long messaggioId , long sender_id, String sender_type){
+    public Messaggi putById(long messaggioId , long sender_id, String sender_type, MessaggioDTO messaggioDTO){
         SenderType senderType = SenderType.valueOf(sender_type);
         Azienda azienda = new Azienda();
         Trasportatore trasportatore = new Trasportatore();
-        boolean isAzienda = false;
 
         if(SenderType.Azienda.equals(senderType)){
          azienda= aziendaRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
@@ -70,5 +69,8 @@ public class MessaggiService {
         }else{
             throw new TypeMismatchException("Il tipo " + sender_type + " non è identificabile");
         }
+        Messaggi messaggi = messaggiRepository.findById(messaggioId).orElseThrow(()-> new BadRequestException("Messaggio non trovato in db"));
+        messaggi.setTesto(messaggioDTO.testo());
+        return messaggiRepository.save(messaggi);git add 
     }
 }
