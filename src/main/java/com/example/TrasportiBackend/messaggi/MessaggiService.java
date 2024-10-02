@@ -57,5 +57,13 @@ public class MessaggiService {
 
     public Messaggi putById(long messaggioId , long sender_id, String sender_type){
         SenderType senderType = SenderType.valueOf(sender_type);
+        Azienda azienda = new Azienda();
+        Trasportatore trasportatore = new Trasportatore();
+        boolean isAzienda = false;
+        if(SenderType.Azienda.equals(senderType)){
+
+        }else if(SenderType.Trasportatore.equals(senderType)){
+
+        }
     }
 }
