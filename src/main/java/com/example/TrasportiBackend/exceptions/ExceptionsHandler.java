@@ -107,6 +107,15 @@ public class ExceptionsHandler {
         List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
         return new ErrorsWithListDTO(e.getError(), new Date(),errorsList);
     }
+    @ExceptionHandler(TypeMismatchException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorsWithListDTO handleNotificaNotFound(TypeMismatchException e) {
+        if(e.getErrorList()==null){
+            return new ErrorsWithListDTO(e.getError(), new Date(),new ArrayList<>());
+        }
+        List<String> errorsList = e.getErrorList().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList();
+        return new ErrorsWithListDTO(e.getError(), new Date(),errorsList);
+    }
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)  // 500
     public ErrorsDTO handleGeneric(Exception e) {

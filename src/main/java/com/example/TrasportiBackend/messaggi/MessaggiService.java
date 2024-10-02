@@ -8,9 +8,11 @@ import com.example.TrasportiBackend.chat.Chat;
 import com.example.TrasportiBackend.chat.ChatRepository;
 import com.example.TrasportiBackend.enums.SenderType;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
+import com.example.TrasportiBackend.exceptions.TypeMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jndi.TypeMismatchNamingException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -60,10 +62,13 @@ public class MessaggiService {
         Azienda azienda = new Azienda();
         Trasportatore trasportatore = new Trasportatore();
         boolean isAzienda = false;
+
         if(SenderType.Azienda.equals(senderType)){
-
+         azienda= aziendaRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
         }else if(SenderType.Trasportatore.equals(senderType)){
-
+            trasportatore= trasporatoreRepository.findById(sender_id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
+        }else{
+            throw new TypeMismatchException("Il tipo " + sender_type + " non è identificabile");
         }
     }
 }
