@@ -17,6 +17,7 @@ import org.springframework.jndi.TypeMismatchNamingException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class MessaggiService {
@@ -86,5 +87,9 @@ public class MessaggiService {
         } else {
             throw new UnauthorizedException("Non si hanno i diritti di eliminare questo messaggio.");
         }
+
+    }
+    public List<Messaggi> getByChatId(long chatId){
+        return messaggiRepository.findByChat_Id(chatId);
     }
 }
