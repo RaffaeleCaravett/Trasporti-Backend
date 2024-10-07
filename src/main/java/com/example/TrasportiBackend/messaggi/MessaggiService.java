@@ -76,14 +76,13 @@ public class MessaggiService {
         return messaggiRepository.save(messaggi);
     }
 
-    public boolean deleteById(long message_id, long sender_id, String sender_type) {
+    public Messaggi deleteById(long message_id, long sender_id, String sender_type) {
         SenderType senderType = SenderType.valueOf(sender_type);
         Messaggi messaggi = messaggiRepository.findById(message_id).orElseThrow(() -> new BadRequestException("Messaggio non trovato in db"));
         if ((SenderType.Azienda.equals(senderType) && messaggi.getAzienda_as_sender().getId() == sender_id) || (SenderType.Trasportatore.equals(senderType) && messaggi.getTrasportatore_as_sender().getId() == sender_id)) {
          messaggi.setTesto("Questo messaggio è stato eliminato.");
          messaggi.setCreatedAt(LocalDate.now());
-         messaggiRepository.save(messaggi);
-         return true;
+         return messaggiRepository.save(messaggi);
         } else {
             throw new UnauthorizedException("Non si hanno i diritti di eliminare questo messaggio.");
         }

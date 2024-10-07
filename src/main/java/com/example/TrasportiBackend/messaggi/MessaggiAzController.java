@@ -37,5 +37,9 @@ public class MessaggiAzController {
     public Messaggi putById(@RequestBody @Validated MessaggioDTO messaggioDTO,BindingResult bindingResult, @PathVariable long uId,@PathVariable long messaggioId){
         return messaggiService.putById(messaggioId,uId,"Azienda",messaggioDTO);
     }
-    
+    @DeleteMapping("/{uId}/{messaggioId}")
+    @PreAuthorize("hasAuthority('Azienda')")
+    public Messaggi deleteById(@PathVariable long id, @PathVariable long messaggioId){
+        return messaggiService.deleteById(messaggioId,id,"Azienda");
+    }
 }
