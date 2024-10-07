@@ -12,8 +12,7 @@ public class WebSocketController {
 
     @MessageMapping("/update")
     @SendTo("/topic/update")
-    public Messaggi updateMessage(Messaggi messaggi) throws InterruptedException {
-        Thread.sleep(1000);
+    public Messaggi updateMessage(Messaggi messaggi) throws InterruptedException {Thread.sleep(1000);
         return messaggi;
     }
 }
