@@ -2,17 +2,28 @@ package com.example.TrasportiBackend.Pdf;
 
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.export.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -21,10 +32,10 @@ public class PdfJasperService {
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
     public byte[] employeeJasperReportInBytes(AnnuncioDTO annuncioDTO, Trasportatore trasportatore) throws Exception {
-        Path verbaleUCCPath = Paths.get(basePathReport + "emp24.jrxml");
+        Path richiestaAssegnazioneSpedizionePath = Paths.get(basePathReport + "richiesta.jrxml");
         InputStream fullReport = null;
         try {
-            fullReport = Files.newInputStream(verbaleUCCPath);
+            fullReport = Files.newInputStream(richiestaAssegnazioneSpedizionePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +56,6 @@ public class PdfJasperService {
             e.printStackTrace();
         }
 
-        var unifiedCandidate = loadUnifiedCandidateService.loadByTypeAndId(type,id);
 
 
         LocalDateTime ldtNow = LocalDateTime.now(ZoneId.of("CET"));
@@ -58,19 +68,11 @@ public class PdfJasperService {
         String ora = ldtNow.format(timeFormatter);
 
         Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("tribunale", tribunalJpa.getCity().getName());
-        parameters.put("type", type);
-        parameters.put("reportType", reportType);
         parameters.put("logoRep", logoRep);
-        parameters.put("candidato", unifiedCandidate.getFullName());
-        parameters.put("luogoNascita", unifiedCandidate.getPlaceOfBirth());
-        parameters.put("comune", unifiedCandidate.getPlaceOfResidence());
-        parameters.put("indirizzo", unifiedCandidate.getAddress());
         parameters.put("anno", anno);
         parameters.put("giorno", giorno);
         parameters.put("mese", mese);
         parameters.put("ora", ora);
-        parameters.put("id", id.toString());
 
         JasperPrint jasperPrint = null;
         try {
