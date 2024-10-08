@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class PdfJasperService {
 
-    @Value("#{'${base.path}'}")
+    @Value("#{'${base.url.path}'}")
     private String basePathReport;
     public byte[] employeeJasperReportInBytes(AnnuncioDTO annuncioDTO, Trasportatore trasportatore) throws Exception {
         Path verbaleUCCPath = Paths.get(basePathReport + "emp24.jrxml");
