@@ -81,7 +81,7 @@ public class PdfJasperService {
         String mese = ldtNow.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN);
         String ora = ldtNow.format(timeFormatter);
         String nomeTrasportatore = trasportatore.getNome() + " " + trasportatore.getCognome();
-        int eta = trasportatore.getEta();
+        String eta = String.valueOf(trasportatore.getEta());
         String indirizzo = trasportatore.getIndirizzo() + " - " + trasportatore.getCitta()+ ", " + trasportatore.getCap();
         String codiceFiscale = trasportatore.getCodiceFiscale();
         String nomeAzienda = annuncio.getAzienda().getNomeAzienda();
@@ -93,18 +93,38 @@ public class PdfJasperService {
         String giornoPubblicazioneAnnuncio = String.valueOf(annuncio.getDataPubblicazione().getDayOfMonth());
         String retribuzione = String.valueOf(annuncio.getRetribuzione());
         String dataPubblicazioneAnnuncio = annuncio.getDataPubblicazione().getDayOfMonth() + " - " + annuncio.getDataPubblicazione().getMonth() + " - " + annuncio.getDataPubblicazione().getYear();
-        
+        String partenzaDa = annuncio.getSpedizione().getDa();
+        String arrivoA = annuncio.getSpedizione().getA();
+        String dataDaSpedire = annuncio.getSpedizione().getDaSpedire().getDayOfMonth() + " - " + annuncio.getSpedizione().getDaSpedire().getMonth() + " - " + annuncio.getSpedizione().getDaSpedire().getYear();
+        String descrizioneMerce = annuncio.getSpedizione().getDescrizioneMerce();
+        String numeroPedane = String.valueOf(annuncio.getSpedizione().getNumeroPedane());
 
 
-da - a - daSpedire - descrizioneMerce - numeroPedane
 
 
         Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("nomeTrasportatore", nomeTrasportatore);
+        parameters.put("eta", eta);
+        parameters.put("indirizzo", indirizzo);
+        parameters.put("codiceFiscale", codiceFiscale);
+        parameters.put("nomeAzienda", nomeAzienda);
+        parameters.put("partitaIva", partitaIva);
+        parameters.put("indirizzoAzienda", indirizzoAzienda);
+        parameters.put("annoPubblicazioneAnnuncio", annoPubblicazioneAnnuncio);
+        parameters.put("mesePubblicazioneAnnuncio", mesePubblicazioneAnnuncio);
+        parameters.put("giornoPubblicazioneAnnuncio", giornoPubblicazioneAnnuncio);
         parameters.put("logoRep", logoRep);
         parameters.put("anno", anno);
         parameters.put("giorno", giorno);
         parameters.put("mese", mese);
         parameters.put("ora", ora);
+        parameters.put("numeroPedane",numeroPedane);
+        parameters.put("descrizioneMerce",descrizioneMerce);
+        parameters.put("dataDaSpedire",dataDaSpedire);
+        parameters.put("arrivoA",arrivoA);
+        parameters.put("partenzaDa",partenzaDa);
+        parameters.put("dataPubblicazioneAnnuncio",dataPubblicazioneAnnuncio);
+        parameters.put("retribuzione", retribuzione);
 
         JasperPrint jasperPrint = null;
         try {
