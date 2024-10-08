@@ -21,20 +21,14 @@ import java.time.LocalDateTime;
 @RequestMapping("/azienda/jasper")
 public class PdfJasperController {
 
-    @Autowired
-    UserService userService;
+
 
     @Autowired
     PdfJasperService pdfJasperService;
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('Azienda')")
-    public byte[] GeneraPdfIncaricoSpedizione(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult, @PathVariable long id) throws Exception {
-        if(bindingResult.hasErrors()){
-            throw new DtoHasErrors(bindingResult.getAllErrors());
-        }
+    public byte[] GeneraPdfIncaricoSpedizione(@PathVariable long annuncioId, @PathVariable long id) throws Exception {
 
-        Trasportatore trasportatore = userService.getTrasportatoreById(id);
-
-       return pdfJasperService.employeeJasperReportInBytes(annuncioDTO,trasportatore);
+       return pdfJasperService.JasperReportInBytes(annuncioId,id);
     }
 }

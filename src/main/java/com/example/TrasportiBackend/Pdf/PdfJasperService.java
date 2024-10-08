@@ -1,10 +1,16 @@
 package com.example.TrasportiBackend.Pdf;
 
+import com.example.TrasportiBackend.Annuncio.Annuncio;
+import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
+import com.example.TrasportiBackend.Annuncio.AnnuncioService;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.User.UserService;
+import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.export.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +34,18 @@ import java.util.Map;
 
 @Service
 public class PdfJasperService {
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    AnnuncioRepository annuncioRepository;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
-    public byte[] employeeJasperReportInBytes(AnnuncioDTO annuncioDTO, Trasportatore trasportatore) throws Exception {
+    public byte[] JasperReportInBytes(long annuncioId, long id) throws Exception {
+
+
+        Trasportatore trasportatore = userService.getTrasportatoreById(id);
+        Annuncio annuncio = annuncioRepository.findById(id).orElseThrow(()->new UserNotFoundException("Annuncio con id " + id + " non trovato in db"));
+
         Path richiestaAssegnazioneSpedizionePath = Paths.get(basePathReport + "richiesta.jrxml");
         InputStream fullReport = null;
         try {
@@ -66,6 +80,24 @@ public class PdfJasperService {
         String giorno = String.valueOf(ldtNow.getDayOfMonth());
         String mese = ldtNow.getMonth().getDisplayName(TextStyle.FULL, Locale.ITALIAN);
         String ora = ldtNow.format(timeFormatter);
+        String nomeTrasportatore = trasportatore.getNome() + " " + trasportatore.getCognome();
+        int eta = trasportatore.getEta();
+        String indirizzo = trasportatore.getIndirizzo() + " - " + trasportatore.getCitta()+ ", " + trasportatore.getCap();
+        String codiceFiscale = trasportatore.getCodiceFiscale();
+        String nomeAzienda = annuncio.getAzienda().getNomeAzienda();
+        String partitaIva = annuncio.getAzienda().getPartitaIva();
+        String indirizzoAzienda = annuncio.getAzienda().getIndirizzo() + " - " + annuncio.getAzienda().getCitta() + ", " + annuncio.getAzienda().getCap();
+
+        String annoPubblicazioneAnnuncio = String.valueOf(annuncio.getDataPubblicazione().getYear());
+        String mesePubblicazioneAnnuncio = String.valueOf(annuncio.getDataPubblicazione().getMonth());
+        String giornoPubblicazioneAnnuncio = String.valueOf(annuncio.getDataPubblicazione().getDayOfMonth());
+        String retribuzione = String.valueOf(annuncio.getRetribuzione());
+        String dataPubblicazioneAnnuncio = annuncio.getDataPubblicazione().getDayOfMonth() + " - " + annuncio.getDataPubblicazione().getMonth() + " - " + annuncio.getDataPubblicazione().getYear();
+        
+
+
+da - a - daSpedire - descrizioneMerce - numeroPedane
+
 
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("logoRep", logoRep);
