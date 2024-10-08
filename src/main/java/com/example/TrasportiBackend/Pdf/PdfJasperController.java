@@ -28,16 +28,16 @@ public class PdfJasperController {
     PdfJasperService pdfJasperService;
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('Azienda')")
-    public void GeneraPdfIncaricoSpedizione(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult, @PathVariable long id){
+    public void GeneraPdfIncaricoSpedizione(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult, @PathVariable long id) throws Exception {
         if(bindingResult.hasErrors()){
             throw new DtoHasErrors(bindingResult.getAllErrors());
         }
 
         Trasportatore trasportatore = userService.getTrasportatoreById(id);
-        byte[] bytes = pdfJasperService.employeeJasperReportInBytes();
+        byte[] bytes = pdfJasperService.employeeJasperReportInBytes(annuncioDTO,trasportatore);
         if (null != bytes) {
             ByteArrayResource resource = new ByteArrayResource(bytes);
-            String fileName = "Employee24_JasperReport" + "_" + LocalDateTime.now() + ".pdf";
+            String fileName = "Employee24_JasperReport" + "_" + LocalDateTime.now() + ".docx";
             return ResponseEntity.ok()
                     .header(com.google.common.net.HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                     .contentLength(resource.contentLength())
