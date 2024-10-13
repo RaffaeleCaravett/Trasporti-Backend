@@ -98,6 +98,7 @@ public class PdfJasperService {
         String dataDaSpedire = annuncio.getSpedizione().getDaSpedire().getDayOfMonth() + " - " + annuncio.getSpedizione().getDaSpedire().getMonth() + " - " + annuncio.getSpedizione().getDaSpedire().getYear();
         String descrizioneMerce = annuncio.getSpedizione().getDescrizioneMerce();
         String numeroPedane = String.valueOf(annuncio.getSpedizione().getNumeroPedane());
+        String email = annuncio.getAzienda().getEmail();
 
 
 
@@ -125,6 +126,7 @@ public class PdfJasperService {
         parameters.put("partenzaDa",partenzaDa);
         parameters.put("dataPubblicazioneAnnuncio",dataPubblicazioneAnnuncio);
         parameters.put("retribuzione", retribuzione);
+        parameters.put("email",email);
 
         JasperPrint jasperPrint = null;
         try {
