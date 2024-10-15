@@ -116,11 +116,11 @@ public class UserController {
         return userService.findByCitta(citta,page,size,orderBy);
     }
     @GetMapping("azienda/trasportatore")
-    public Page<Trasportatore>azFindAllT(@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    public Page<Trasportatore>azFindAllT(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.getAllTrasportatori(page,size,orderBy);
     }
     @GetMapping("trasportatore/trasportatore")
-    public Page<Trasportatore>tFindAllT(@PathVariable String citta,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+    public Page<Trasportatore>tFindAllT(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.getAllTrasportatori(page,size,orderBy);
     }
     @GetMapping("trasportatore/findBySettore/{settore}")
