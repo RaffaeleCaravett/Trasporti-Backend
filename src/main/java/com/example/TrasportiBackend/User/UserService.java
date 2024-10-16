@@ -79,7 +79,9 @@ public class UserService {
 
     public boolean deleteTrasportatoreById(long id){
         try{
-            trasporatoreRepository.deleteById(id);
+            Trasportatore trasportatore = trasporatoreRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
+            trasportatore.setIsActive(0);
+            /*trasporatoreRepository.deleteById(id);*/
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -88,7 +90,9 @@ public class UserService {
     }
     public boolean deleteAziendaById(long id){
         try{
-            aziendaRepository.deleteById(id);
+            Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
+            azienda.setIsActive(0);
+            /*aziendaRepository.deleteById(id);*/
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
