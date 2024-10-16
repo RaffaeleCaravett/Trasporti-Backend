@@ -25,6 +25,7 @@ public class Trasportatore extends User{
     private String codiceFiscale;
     private String partitaIva;
     private long flottaMezzi;
+    private boolean isActive;
     @OneToMany(mappedBy = "trasportatore")
     @JsonIgnore
     private List<Spedizione> spedizione;

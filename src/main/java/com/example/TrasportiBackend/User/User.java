@@ -28,12 +28,13 @@ public abstract class User implements  UserDetails{
     private String indirizzo;
     private long cap;
     private String password;
+    private int isActive;
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToOne(mappedBy = "user")
     @JsonIgnore
     private SecretCode secretCode;
-    private boolean isActive;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));

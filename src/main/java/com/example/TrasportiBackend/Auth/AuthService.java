@@ -152,6 +152,7 @@ public class AuthService {
         trasportatore.setEmail(trasportatoreDTO.email());
         trasportatore.setPassword(bcrypt.encode(trasportatoreDTO.password()));
         trasportatore.setRole(Role.Trasportatore);
+        trasportatore.setIsActive(1);
         return trasporatoreRepository.save(trasportatore);
     }
     public Azienda registerAzienda(AziendaDTO aziendaDTO){
@@ -171,6 +172,7 @@ public class AuthService {
         azienda.setPartitaIva(aziendaDTO.partitaIva());
         azienda.setPassword(bcrypt.encode(aziendaDTO.password()));
         azienda.setRole(Role.Azienda);
+        azienda.setIsActive(1);
         return aziendaRepository.save(azienda);
     }
     public Admin registerAdmin(AdminDTO adminDTO){
