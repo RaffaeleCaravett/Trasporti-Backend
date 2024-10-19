@@ -123,6 +123,10 @@ public class UserController {
     public Page<Trasportatore>tFindAllT(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.getAllTrasportatori(page,size,orderBy);
     }
+    @GetMapping("trasportatore/azienda")
+    public Page<Azienda>tFindAllAz(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return userService.getAllAziende(page,size,orderBy);
+    }
     @GetMapping("trasportatore/findBySettore/{settore}")
     public Page<Azienda>findBySettoreTr(@PathVariable String settore,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return userService.findBySettore(settore,page,size,orderBy);

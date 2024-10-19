@@ -47,7 +47,7 @@ public class MessaggiService {
         }
         Messaggi messaggi = new Messaggi();
         messaggi.setChat(chat);
-        messaggi.setTesto(messaggi.getTesto());
+        messaggi.setTesto(messaggioDTO.testo());
         if (isAziendaReceiver) {
             messaggi.setAzienda_as_receiver(azienda);
             messaggi.setTrasportatore_as_sender(trasportatore);
