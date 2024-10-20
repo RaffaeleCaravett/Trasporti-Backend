@@ -3,6 +3,7 @@ package com.example.TrasportiBackend.messaggi;
 import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.chat.Chat;
+import com.example.TrasportiBackend.enums.StatoMessaggio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,4 +40,5 @@ public class Messaggi {
     private Trasportatore trasportatore_as_receiver;
     private LocalDate createdAt;
     private String testo;
+    private StatoMessaggio statoMessaggio;
 }

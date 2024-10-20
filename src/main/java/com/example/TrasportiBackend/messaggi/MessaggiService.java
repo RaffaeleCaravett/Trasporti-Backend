@@ -61,13 +61,11 @@ public class MessaggiService {
 
     public Messaggi putById(long messaggioId, long sender_id, String sender_type, MessaggioDTO messaggioDTO) {
         SenderType senderType = SenderType.valueOf(sender_type);
-        Azienda azienda = new Azienda();
-        Trasportatore trasportatore = new Trasportatore();
 
         if (SenderType.Azienda.equals(senderType)) {
-            azienda = aziendaRepository.findById(sender_id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
+            aziendaRepository.findById(sender_id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + sender_id + " non trovata in database"));
         } else if (SenderType.Trasportatore.equals(senderType)) {
-            trasportatore = trasporatoreRepository.findById(sender_id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
+            trasporatoreRepository.findById(sender_id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + sender_id + " non trovato in database"));
         } else {
             throw new TypeMismatchException("Il tipo " + sender_type + " non è identificabile");
         }
