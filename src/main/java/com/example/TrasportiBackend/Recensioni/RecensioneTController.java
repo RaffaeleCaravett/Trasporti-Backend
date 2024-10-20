@@ -36,7 +36,7 @@ public class RecensioneTController {
     public Page<RecensioneT> getAllPaginatedTAndStato (@PathVariable long TId, @PathVariable String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedT(page,size,orderBy,TId,stato);
     }
-    @GetMapping("/recensione/paginated/{TId}")
+    @GetMapping("/recensioneTr/paginated/{TId}")
     public Page<RecensioneT> getAllPaginatedT (@PathVariable long TId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedT(page,size,orderBy,TId);
     }

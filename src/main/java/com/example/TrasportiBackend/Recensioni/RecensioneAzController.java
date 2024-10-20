@@ -39,7 +39,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     public Page<RecensioneAz> getAllPaginatedStatoAz (@PathVariable long AzId, @PathVariable String stato,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
     return recensioneService.getAllPaginatedAz(page,size,orderBy,AzId,stato);
     }
-    @GetMapping("/recensione/paginated/{AzId}")
+    @GetMapping("/recensioneAz/paginated/{AzId}")
     public Page<RecensioneAz> getAllPaginatedAz (@PathVariable long AzId,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedAz(page,size,orderBy,AzId);
     }
@@ -52,7 +52,7 @@ public RecensioneAz save(@RequestBody @Validated RecensioneAzDTO recensioneAzDTO
     public Page<RecensioneT> getAllPaginatedTAndStato (@PathVariable long TId, @PathVariable String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedT(page,size,orderBy,TId,stato);
     }
-    @GetMapping("/recensioneAz/paginated/{TId}")
+    @GetMapping("/recensioneTr/paginated/{TId}")
     public Page<RecensioneT> getAllPaginatedT (@PathVariable long TId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
         return recensioneService.getAllPaginatedT(page,size,orderBy,TId);
     }

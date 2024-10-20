@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 
     @Entity
-    @Table(name = "recensioni_az")
+    @Table(name = "recensioni_tr")
     @Getter
     @Setter
     @NoArgsConstructor
