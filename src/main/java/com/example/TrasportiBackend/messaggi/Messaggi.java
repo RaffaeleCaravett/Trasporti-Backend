@@ -28,16 +28,16 @@ public class Messaggi {
     private Chat chat;
     @ManyToOne
     @JoinColumn(name="az_sender_id")
-    private Azienda azienda_as_sender;
+    private Azienda aziendaAsSender;
     @ManyToOne
     @JoinColumn(name="tr_sender_id")
-    private Trasportatore trasportatore_as_sender;
+    private Trasportatore trasportatoreAsSender;
     @ManyToOne
     @JoinColumn(name="az_receiver_id")
-    private Azienda azienda_as_receiver;
+    private Azienda aziendaAsReceiver;
     @ManyToOne
     @JoinColumn(name="tr_receiver_id")
-    private Trasportatore trasportatore_as_receiver;
+    private Trasportatore trasportatoreAsReceiver;
     private LocalDate createdAt;
     private String testo;
     private StatoMessaggio statoMessaggio;

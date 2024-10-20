@@ -54,10 +54,10 @@ public class Azienda extends User{
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
     private List<Chat> chats;
-    @OneToMany(mappedBy = "azienda_as_receiver")
+    @OneToMany(mappedBy = "aziendaAsReceiver")
     @JsonIgnore
     private List<Messaggi> messaggi_as_receiver;
-    @OneToMany(mappedBy = "azienda_as_sender")
+    @OneToMany(mappedBy = "aziendaAsSender")
     @JsonIgnore
     private List<Messaggi> messaggi_as_sender;
 }

@@ -45,10 +45,10 @@ public class Trasportatore extends User{
     @OneToMany(mappedBy = "trasportatore")
     @JsonIgnore
     private List<Chat> chats;
-    @OneToMany(mappedBy = "trasportatore_as_receiver")
+    @OneToMany(mappedBy = "trasportatoreAsReceiver")
     @JsonIgnore
     private List<Messaggi> messaggi_as_receiver;
-    @OneToMany(mappedBy = "trasportatore_as_sender")
+    @OneToMany(mappedBy = "trasportatoreAsSender")
     @JsonIgnore
     private List<Messaggi> messaggi_as_sender;
 }
