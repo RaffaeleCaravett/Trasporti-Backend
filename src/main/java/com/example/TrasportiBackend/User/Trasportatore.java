@@ -36,6 +36,7 @@ public class Trasportatore extends User{
     @JsonIgnore
     List<Azienda> aziendaList;
     @OneToMany(mappedBy = "da")
+    @JsonIgnore
     private List<RecensioneAz> recensioniInviate;
     @OneToMany(mappedBy = "a")
     private List<RecensioneT> recensioniRicevute;

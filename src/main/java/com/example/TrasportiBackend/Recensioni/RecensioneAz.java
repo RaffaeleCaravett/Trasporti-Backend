@@ -30,7 +30,6 @@ public class RecensioneAz {
     private Azienda a;
     @ManyToOne
     @JoinColumn(name = "trasportatore_id")
-    @JsonIgnore
     private Trasportatore da;
     private PoloRecensione poloRecensione;
 }
