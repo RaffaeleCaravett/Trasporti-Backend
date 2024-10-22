@@ -32,11 +32,12 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // 0. Questo metodo verrà eseguito per ogni request che richieda di essere autenticati
         // 1. Verifichiamo se c'è l'header Authorization e estraiamo il token da esso
+        if (!request.getRequestURI().startsWith("/socket.io")) {
         String authHeader = request.getHeader("Authorization"); // authHeader --> Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjk5ODczNTI3LCJleHAiOjE3MDA0NzgzMjd9.bCJaensC-bddAiDfU6Jt6JNN8Wooo6lEzypQkylEnUY
         if ((authHeader == null || !authHeader.startsWith("Bearer ")) && !request.getRequestURI().startsWith("/trasporti-chat")) {
             throw new UnauthorizedException("Per favore passa il Bearer Token nell'Authorization header");
         } else {
-            if (!request.getRequestURI().startsWith("/trasporti-chat")) {
+
                 String token = authHeader.substring(7);
 //            System.out.println("TOKEN -> " + token);
                 // 2. Verifico che il token non sia nè scaduto nè sia stato manipolato
