@@ -6,10 +6,7 @@ import com.example.TrasportiBackend.chat.Chat;
 import com.example.TrasportiBackend.enums.StatoMessaggio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -19,6 +16,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Messaggi {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
