@@ -13,5 +13,6 @@ public interface MessaggiRepository extends JpaRepository<Messaggi, Long> {
     List<Messaggi> findByTrasportatoreAsReceiver_IdAndStatoMessaggio(long tId, StatoMessaggio statoMessaggio);
 
     List<Messaggi> findByAziendaAsReceiver_IdAndStatoMessaggio(long tId, StatoMessaggio statoMessaggio);
+    List<Messaggi> findAllByRoom(String room);
 
 }

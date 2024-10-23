@@ -110,4 +110,9 @@ public class MessaggiService {
         }
       return messaggis.stream().peek(m -> m.setStatoMessaggio(StatoMessaggio.Letto)).toList();
     }
+
+
+    List<Messaggi> findAllByRoom(String room){
+        return messaggiRepository.findAllByRoom(room);
+    }
 }
