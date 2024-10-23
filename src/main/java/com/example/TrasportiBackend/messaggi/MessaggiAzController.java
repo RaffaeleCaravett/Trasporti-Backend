@@ -3,6 +3,7 @@ package com.example.TrasportiBackend.messaggi;
 import com.example.TrasportiBackend.exceptions.DtoHasErrors;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,11 @@ public class MessaggiAzController {
     private MessaggiService messaggiService;
 
 
+    @CrossOrigin
+    @GetMapping("/room/{room}")
+    public ResponseEntity<List<Messaggi>> getMessages(@PathVariable String room){
+      return ResponseEntity.ok(messaggiService.findAllByRoom(room));
+    }
 
     @PostMapping("")
     @PreAuthorize("hasAuthority('Azienda')")
