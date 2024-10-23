@@ -41,4 +41,5 @@ public class Messaggi {
     private LocalDate createdAt;
     private String testo;
     private StatoMessaggio statoMessaggio;
+    private String room;
 }

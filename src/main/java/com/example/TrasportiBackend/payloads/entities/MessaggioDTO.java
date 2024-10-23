@@ -15,6 +15,8 @@ public record MessaggioDTO(
         @NotEmpty(message = "sender_type necessario")
         String senderType,
         @NotEmpty(message = "Testo vuoto")
-        String testo
+        String testo,
+        @NotEmpty(message = "Room obbligatoria.")
+        String room
 ) {
 }
