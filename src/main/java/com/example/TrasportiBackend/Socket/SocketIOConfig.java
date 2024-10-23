@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import com.corundumstudio.socketio.Configuration;
@@ -23,34 +24,15 @@ public class SocketIOConfig {
     private int SOCKETPORT;
     private SocketIOServer server;
 
+
     @Bean
     public SocketIOServer socketIOServer() {
-        Configuration config = new Configuration();
+
+        com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname(SOCKETHOST);
         config.setPort(SOCKETPORT);
-        server = new SocketIOServer(config);
-        server.start();
-        server.addConnectListener(new ConnectListener() {
-            @Override
-            public void onConnect(SocketIOClient client) {
 
-                log.info("new user connected with socket " + client.getSessionId());
-            }
-        });
-
-        server.addDisconnectListener(new DisconnectListener() {
-            @Override
-            public void onDisconnect(SocketIOClient client) {
-                client.getNamespace().getAllClients().stream().forEach(data-> {
-                    log.info("user disconnected "+data.getSessionId().toString());});
-            }
-        });
-        return server;
-    }
-
-    @PreDestroy
-    public void stopSocketIOServer() {
-        this.server.stop();
+        return new SocketIOServer(config);
     }
 
 }
