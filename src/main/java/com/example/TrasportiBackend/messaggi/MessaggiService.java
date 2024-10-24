@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -92,7 +94,9 @@ public class MessaggiService {
 
     }
     public List<Messaggi> getByChatId(long chatId){
-        return messaggiRepository.findByChat_Id(chatId);
+        return Collections.sort(messaggiRepository.findByChat_Id(chatId),(s1,s2)->{
+            return s1.getCreatedAt().isBefore(s2.getCreatedAt());
+        });
     }
 
     @Transactional
