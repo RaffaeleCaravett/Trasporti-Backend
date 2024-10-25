@@ -7,6 +7,7 @@ import com.example.TrasportiBackend.enums.StatoMessaggio;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Messaggi {
+public class Messaggi{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -40,4 +41,6 @@ public class Messaggi {
     private String testo;
     private StatoMessaggio statoMessaggio;
     private String room;
+
+
 }

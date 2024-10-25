@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface MessaggiRepository extends JpaRepository<Messaggi, Long> {
-    List<Messaggi> findByChat_Id(long chatId);
+    List<Messaggi> findByChat_IdOrderByCreatedAt(long chatId);
 
     List<Messaggi> findByTrasportatoreAsReceiver_IdAndStatoMessaggio(long tId, StatoMessaggio statoMessaggio);
 

@@ -85,38 +85,38 @@ public class MessaggiService {
         SenderType senderType = SenderType.valueOf(sender_type);
         Messaggi messaggi = messaggiRepository.findById(message_id).orElseThrow(() -> new BadRequestException("Messaggio non trovato in db"));
         if ((SenderType.Azienda.equals(senderType) && messaggi.getAziendaAsSender().getId() == sender_id) || (SenderType.Trasportatore.equals(senderType) && messaggi.getTrasportatoreAsSender().getId() == sender_id)) {
-         messaggi.setTesto("Questo messaggio è stato eliminato.");
-         messaggi.setCreatedAt(LocalDate.now());
-         return messaggiRepository.save(messaggi);
+            messaggi.setTesto("Questo messaggio è stato eliminato.");
+            messaggi.setCreatedAt(LocalDate.now());
+            return messaggiRepository.save(messaggi);
         } else {
             throw new UnauthorizedException("Non si hanno i diritti di eliminare questo messaggio.");
         }
 
     }
-    public List<Messaggi> getByChatId(long chatId){
-        return Collections.sort(messaggiRepository.findByChat_Id(chatId),(s1,s2)->{
-            return s1.getCreatedAt().isBefore(s2.getCreatedAt());
-        });
+
+    public List<Messaggi> getByChatId(long chatId) {
+        List<Messaggi> messaggis = messaggiRepository.findByChat_IdOrderByCreatedAt(chatId);
+        return messaggis;
     }
 
     @Transactional
-    public List<Messaggi> leggi (long chatId, long uId, String senderType){
+    public List<Messaggi> leggi(long chatId, long uId, String senderType) {
         Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new UserNotFoundException("Chat non trovata in db."));
 
         SenderType senderType1 = SenderType.valueOf(senderType);
-        List<Messaggi> messaggis= new ArrayList<>();
-        if(senderType1.equals(SenderType.Azienda)&&chat.getTrasportatore().getId()==uId){
-            messaggis = messaggiRepository.findByTrasportatoreAsReceiver_IdAndStatoMessaggio(uId,StatoMessaggio.Consegnato);
-        }else if(senderType1.equals(SenderType.Trasportatore)&&chat.getAzienda().getId()==uId){
-            messaggis = messaggiRepository.findByAziendaAsReceiver_IdAndStatoMessaggio(uId,StatoMessaggio.Consegnato);
-        }else {
+        List<Messaggi> messaggis = new ArrayList<>();
+        if (senderType1.equals(SenderType.Azienda) && chat.getTrasportatore().getId() == uId) {
+            messaggis = messaggiRepository.findByTrasportatoreAsReceiver_IdAndStatoMessaggio(uId, StatoMessaggio.Consegnato);
+        } else if (senderType1.equals(SenderType.Trasportatore) && chat.getAzienda().getId() == uId) {
+            messaggis = messaggiRepository.findByAziendaAsReceiver_IdAndStatoMessaggio(uId, StatoMessaggio.Consegnato);
+        } else {
             throw new BadRequestException("Sembra che qualcosa sia andato storto nell'elaborazione della richiesta");
         }
-      return messaggis.stream().peek(m -> m.setStatoMessaggio(StatoMessaggio.Letto)).toList();
+        return messaggis.stream().peek(m -> m.setStatoMessaggio(StatoMessaggio.Letto)).toList();
     }
 
 
-    List<Messaggi> findAllByRoom(String room){
+    List<Messaggi> findAllByRoom(String room) {
         return messaggiRepository.findAllByRoom(room);
     }
 }
