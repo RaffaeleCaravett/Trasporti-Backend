@@ -17,7 +17,7 @@ public class SocketService {
 
     public void sendSocketmessage(SocketIOClient senderClient, Messaggi message, String room) {
         log.info("room : " + room);
-        System.out.println(senderClient.getNamespace().getRoomOperations(room));
+        System.out.println(senderClient.getNamespace().getAllClients());
         for (
                 SocketIOClient client : senderClient.getNamespace().getRoomOperations(room).getClients()
         ) {
