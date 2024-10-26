@@ -4,10 +4,10 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
-import com.example.TrasportiBackend.Socket.costants.Costants;
-import com.example.TrasportiBackend.messaggi.Messaggi;
+import com.example.TrasportiBackend.messaggi.MessaggiService;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +23,8 @@ public class SocketModule {
     private final SocketIOServer server;
 
     private final SocketService socketService;
+    @Autowired
+    private MessaggiService messaggiService;
 
     public SocketModule(SocketIOServer server, SocketService socketService) {
         this.server = server;
@@ -34,8 +36,8 @@ public class SocketModule {
 
     private DataListener<MessaggioDTO> onChatReceived() {
         return (senderClient,data, ackSender)-> {
-            log.info(data.toString());
-            socketService.saveMessage(senderClient, data);
+            socketService.sendSocketmessage(senderClient,messaggiService.save(data),senderClient.getHandshakeData().getUrlParams().get("room").toString());
+            //socketService.saveMessage(senderClient, data);
         }
         ;
     }

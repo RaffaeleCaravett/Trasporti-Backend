@@ -6,7 +6,8 @@ import com.example.TrasportiBackend.messaggi.MessaggiService;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SocketService {
@@ -18,7 +19,7 @@ public class SocketService {
                 SocketIOClient client: senderClient.getNamespace().getRoomOperations(room).getClients()
         ) {
             if (!client.getSessionId().equals(senderClient.getSessionId())) {
-                client.sendEvent("read_message", message.getTesto());
+                client.sendEvent("read_message", message);
             }
         }
     }
