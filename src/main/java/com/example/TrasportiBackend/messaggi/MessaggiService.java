@@ -93,9 +93,8 @@ public class MessaggiService {
         }
 
     }
-
     public List<Messaggi> getByChatId(long chatId) {
-        List<Messaggi> messaggis = messaggiRepository.findByChat_IdOrderByCreatedAt(chatId);
+        List<Messaggi> messaggis = messaggiRepository.findByChat_IdOrderByIdAsc(chatId);
         return messaggis;
     }
 

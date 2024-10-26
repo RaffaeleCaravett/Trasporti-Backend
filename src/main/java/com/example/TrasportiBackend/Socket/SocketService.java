@@ -16,6 +16,8 @@ public class SocketService {
     private final MessaggiService messageService;
 
     public void sendSocketmessage(SocketIOClient senderClient, Messaggi message, String room) {
+        log.info("room : " + room);
+        System.out.println(senderClient.getNamespace().getRoomOperations(room));
         for (
                 SocketIOClient client : senderClient.getNamespace().getRoomOperations(room).getClients()
         ) {
@@ -31,7 +33,6 @@ public class SocketService {
         );
 
         sendSocketmessage(senderClient, storedMessage, message.room());
-        log.info("Messaggio mandato");
     }
 
     public void saveInfoMessage(SocketIOClient senderClient, MessaggioDTO message, String room) {
