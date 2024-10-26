@@ -36,8 +36,7 @@ public class SocketModule {
 
     private DataListener<MessaggioDTO> onChatReceived() {
         return (senderClient,data, ackSender)-> {
-            socketService.sendSocketmessage(senderClient,messaggiService.save(data),senderClient.getHandshakeData().getUrlParams().get("room").toString());
-            //socketService.saveMessage(senderClient, data);
+            socketService.saveMessage(senderClient, data);
         }
         ;
     }

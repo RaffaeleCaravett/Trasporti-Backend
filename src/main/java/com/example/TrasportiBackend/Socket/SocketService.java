@@ -7,6 +7,7 @@ import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class SocketService {
 
     public void sendSocketmessage(SocketIOClient senderClient, Messaggi message, String room) {
         for (
-                SocketIOClient client: senderClient.getNamespace().getRoomOperations(room).getClients()
+                SocketIOClient client : senderClient.getNamespace().getRoomOperations(room).getClients()
         ) {
             if (!client.getSessionId().equals(senderClient.getSessionId())) {
                 client.sendEvent("read_message", message);
@@ -25,18 +26,17 @@ public class SocketService {
     }
 
     public void saveMessage(SocketIOClient senderClient, MessaggioDTO message) {
-
         Messaggi storedMessage = messageService.save(
-      message
+                message
         );
 
         sendSocketmessage(senderClient, storedMessage, message.room());
-
+        log.info("Messaggio mandato");
     }
 
     public void saveInfoMessage(SocketIOClient senderClient, MessaggioDTO message, String room) {
         Messaggi storedMessage = messageService.save(
-               message
+                message
         );
 
         sendSocketmessage(senderClient, storedMessage, room);
