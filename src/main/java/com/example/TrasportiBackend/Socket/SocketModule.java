@@ -13,12 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
-
-@Component
 
 public class SocketModule {
-
+/*
 
     private final SocketIOServer server;
 
@@ -72,4 +69,5 @@ public class SocketModule {
             }
         ;
     }
+ */
 }

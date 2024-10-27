@@ -8,13 +8,13 @@ import com.corundumstudio.socketio.SocketIOServer;
 
 import lombok.RequiredArgsConstructor;
 @Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class ServerCommandLineRunner implements CommandLineRunner {
-
+public class ServerCommandLineRunner  {
+/*
     private final SocketIOServer server;
 
     @Override
     public void run(String... args) throws Exception {
         server.start();
     }
+*/
 }
