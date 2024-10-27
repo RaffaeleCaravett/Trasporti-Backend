@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.example.TrasportiBackend.User.*;
+import com.example.TrasportiBackend.messaggi.MessaggiService;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class SocketIOController {
     private SocketIOServer socketServer;
     @Autowired
             private UserService userService;
+
     SocketIOController(SocketIOServer socketServer){
         this.socketServer=socketServer;
 

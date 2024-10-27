@@ -34,4 +34,9 @@ public class ChatAzController {
     public Chat findByAzIdAndTId(@PathVariable long aziendaId,@PathVariable long trasportatoreId){
         return chatService.getByAziendaIdAndTrasportatoreId(aziendaId,trasportatoreId).orElseThrow(()-> new UserNotFoundException("Chat non trovata"));
     }
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('Azienda')")
+public Chat getById(@PathVariable long id){
+        return chatService.getById(id);
+    }
 }

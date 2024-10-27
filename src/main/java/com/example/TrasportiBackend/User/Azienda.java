@@ -34,7 +34,7 @@ public class Azienda extends User{
     @OneToMany(mappedBy = "azienda")
     @JsonIgnore
     private List<Annuncio> annuncio;
-    @OneToMany(mappedBy = "azienda",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "azienda")
     private List<Notifica> notifica;
     @ManyToMany
     @JoinTable(name = "azienda_trasportatori_blocchi",

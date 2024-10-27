@@ -46,4 +46,7 @@ public class ChatService {
     public Optional<Chat> getByAziendaIdAndTrasportatoreId(long aziendaId, long trasportatoreId){
         return chatRepository.findByAzienda_IdAndTrasportatore_Id(aziendaId,trasportatoreId);
     }
+    public Chat getById(long id){
+        return chatRepository.findById(id).orElseThrow();
+    }
 }
