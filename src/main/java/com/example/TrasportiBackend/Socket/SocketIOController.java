@@ -55,13 +55,6 @@ public class SocketIOController {
         @Override
         public void onData(SocketIOClient client, MessaggioDTO message, AckRequest acknowledge) throws Exception {
 
-            /**
-             * Sending message to target user
-             * target user should subscribe the socket event with his/her name.
-             * Send the same payload to user
-             */
-
-            log.info(message.sender_id() +" user send message to user "+message.receiver_id()+" and message is "+message.testo());
             Trasportatore trasportatore= new Trasportatore();
             Azienda azienda = new Azienda();
             if(message.receiverType().equals("Trasportatore")){
@@ -70,11 +63,8 @@ public class SocketIOController {
                 azienda = userService.getAziendaById(message.receiver_id());
             }
 
-            socketServer.getBroadcastOperations().sendEvent(message.receiverType().equals("Trasportatore")?trasportatore.getNome()+" "+trasportatore.getCognome():azienda.getNomeAzienda(),client, message);
-
-            /**
-             * After sending message to target user we can send acknowledge to sender
-             */
+            socketServer.getBroadcastOperations().sendEvent(message.receiverType().equals("Trasportatore")?trasportatore.getEmail():azienda.getEmail(),client, message);
+            
             acknowledge.sendAckData("Message send to target user successfully");
         }
     };

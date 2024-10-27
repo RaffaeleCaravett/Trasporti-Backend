@@ -35,8 +35,6 @@ public class SocketIOConfig {
         server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
-
-                log.info("new user connected with socket " + client.getSessionId());
             }
         });
 

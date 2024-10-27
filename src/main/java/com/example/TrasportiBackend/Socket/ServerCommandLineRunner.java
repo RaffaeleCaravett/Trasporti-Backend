@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import com.corundumstudio.socketio.SocketIOServer;
 
 import lombok.RequiredArgsConstructor;
+/*
 @Component
+ */
 public class ServerCommandLineRunner  {
 /*
     private final SocketIOServer server;
