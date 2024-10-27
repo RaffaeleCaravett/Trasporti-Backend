@@ -7,11 +7,13 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.example.TrasportiBackend.User.*;
+import com.example.TrasportiBackend.messaggi.Messaggi;
 import com.example.TrasportiBackend.messaggi.MessaggiService;
 import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Log4j2
@@ -22,6 +24,8 @@ public class SocketIOController {
     @Autowired
             private UserService userService;
 
+    @Autowired
+            private MessaggiService messaggiService;
     SocketIOController(SocketIOServer socketServer){
         this.socketServer=socketServer;
 
@@ -66,7 +70,8 @@ public class SocketIOController {
             }
 
             socketServer.getBroadcastOperations().sendEvent(message.receiverType().equals("Trasportatore")?trasportatore.getEmail():azienda.getEmail(),client, message);
-            
+            Messaggi messaggi = messaggiService.save(message);
+
             acknowledge.sendAckData("Message send to target user successfully");
         }
     };

@@ -30,32 +30,4 @@ public record MessaggioDTO(
         @NotEmpty(message = "Room obbligatoria.")
         @JsonProperty("room")
         String room
-) {
-@Autowired
-        private static UserService userService;
-
-        public Azienda getAziendaAsSender(){
-                if(senderType.equals("Azienda")){
-                        return userService.getAziendaById(sender_id);
-                }
-                return null;
-        }
-        public Trasportatore getTrasportatoreAsSender(){
-                if(senderType.equals("Trasportatore")){
-                        return userService.getTrasportatoreById(sender_id);
-                }
-                return null;
-        }
-        public Azienda getAziendaAsReceiver(){
-                if(receiverType.equals("Azienda")){
-                        return userService.getAziendaById(receiver_id);
-                }
-                return null;
-        }
-        public Trasportatore getTrasportatoreAsReceiver(){
-                if(senderType.equals("Trasportatore")){
-                        return userService.getTrasportatoreById(receiver_id);
-                }
-                return null;
-        }
-}
+) { }
