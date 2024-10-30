@@ -6,6 +6,8 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.corundumstudio.socketio.listener.EventInterceptor;
+import com.corundumstudio.socketio.transport.NamespaceClient;
 import com.example.TrasportiBackend.User.*;
 import com.example.TrasportiBackend.messaggi.Messaggi;
 import com.example.TrasportiBackend.messaggi.MessaggiService;
@@ -13,7 +15,8 @@ import com.example.TrasportiBackend.payloads.entities.MessaggioDTO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @Log4j2
@@ -31,6 +34,7 @@ public class SocketIOController {
 
         this.socketServer.addConnectListener(onUserConnectWithSocket);
         this.socketServer.addDisconnectListener(onUserDisconnectWithSocket);
+
 
         /**
          * Here we create only one event listener
@@ -56,6 +60,7 @@ public class SocketIOController {
             log.info("Perform operation on user disconnect in controller");
         }
     };
+
 
     public DataListener<MessaggioDTO> onSendMessage = new DataListener<MessaggioDTO>() {
         @Override
