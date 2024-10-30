@@ -30,11 +30,14 @@ public class SocketIOConfig {
         Configuration config = new Configuration();
         config.setHostname(SOCKETHOST);
         config.setPort(SOCKETPORT);
+        config.setAllowCustomRequests(true);
+        config.setOrigin("https://trasporti.netlify.app");
         server = new SocketIOServer(config);
         server.start();
         server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
+                log.info("connected");
             }
         });
 
@@ -45,6 +48,7 @@ public class SocketIOConfig {
                     log.info("user disconnected "+data.getSessionId().toString());});
             }
         });
+
         return server;
     }
 
