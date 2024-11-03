@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.Socket;
 
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.Transport;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import jakarta.annotation.PreDestroy;
@@ -32,8 +33,14 @@ public class SocketIOConfig {
         config.setPort(SOCKETPORT);
         config.setAllowCustomRequests(true);
         config.setOrigin("https://trasporti.netlify.app");
+        config.setAllowHeaders("*");
+        config.setTransports(Transport.POLLING,Transport.WEBSOCKET);
+
         server = new SocketIOServer(config);
+        CustomSocketIOChannelInitializer customSocketIOChannelInitializer = new CustomSocketIOChannelInitializer(config);
+        server.setPipelineFactory(customSocketIOChannelInitializer);
         server.start();
+
         server.addConnectListener(new ConnectListener() {
             @Override
             public void onConnect(SocketIOClient client) {
