@@ -30,7 +30,7 @@ public class SpedizioneTController {
         return spedizioneService.findByDaAndA(da,a,page,size,orderBy);
     }
     @GetMapping("/richiedi/{spedizioneId}/me")
-    public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore, @PathVariable long spedizioneId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+    public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore, @PathVariable long spedizioneId){
         return spedizioneService.richiedi(trasportatore.getId(),spedizioneId);
     }
 
