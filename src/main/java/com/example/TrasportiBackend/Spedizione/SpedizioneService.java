@@ -10,6 +10,7 @@ import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.Stato;
 import com.example.TrasportiBackend.enums.StatoNotifica;
+import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.SpedizioneDTO;
@@ -176,6 +177,10 @@ public class SpedizioneService {
         notifica.setDateTime(LocalDate.now());
         notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
-        return notificaRepository.save(notifica);
+        if(!notificaRepository.findByTesto(notifica.getTesto()).isPresent()){
+            return notificaRepository.save(notifica);
+        }else{
+            throw new BadRequestException("Hai già richiesto questa spedizione.");
+        }
     }
 }
