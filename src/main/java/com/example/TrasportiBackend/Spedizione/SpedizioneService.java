@@ -162,6 +162,7 @@ public class SpedizioneService {
         return spedizioneRepository.findByDaContainingAndAContaining(da, a, pageable);
     }
 
+
     public Notifica richiedi(long tId, long spedizioneId) {
         Trasportatore trasportatore = trasportatoreRepository.findById(tId).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
         Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + spedizioneId + " non trovata in db."));

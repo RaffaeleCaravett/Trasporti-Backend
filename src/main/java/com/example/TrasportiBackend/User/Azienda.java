@@ -35,6 +35,7 @@ public class Azienda extends User{
     @JsonIgnore
     private List<Annuncio> annuncio;
     @OneToMany(mappedBy = "azienda")
+    @JsonIgnore
     private List<Notifica> notifica;
     @ManyToMany
     @JoinTable(name = "azienda_trasportatori_blocchi",
