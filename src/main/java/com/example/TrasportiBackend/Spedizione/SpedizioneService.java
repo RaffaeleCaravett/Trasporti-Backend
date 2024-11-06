@@ -39,25 +39,25 @@ public class SpedizioneService {
         spedizione.setDaSpedire(LocalDate.of(spedizioneDTO.daSpedireAnno(), spedizioneDTO.daSpedireMese(), spedizioneDTO.daSpedireGiorno()));
         spedizione.setNumeroPedane(spedizioneDTO.numeroPedane());
         spedizione.setDescrizioneMerce(spedizioneDTO.descrizione());
-        spedizione.setAzienda(aziendaRepository.findById(spedizioneDTO.azienda_id()).orElseThrow(() -> new UserNotFoundException("Azienda con id " + spedizioneDTO.azienda_id() + " non trovato in db.")));
+        spedizione.setAzienda(userService.getAziendaById(spedizioneDTO.azienda_id()));
         spedizione.setStato(Stato.Pubblicata);
         return spedizioneRepository.save(spedizione);
     }
 
     public Spedizione assegna(long id, long trasportatoreId, long aziendaId) {
-        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(() -> new UserNotFoundException("Azienda con id " + aziendaId + " non trovata in db."));
+        Azienda azienda = userService.getAziendaById(aziendaId);
         Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e l'id dell'azienda che ha creato la spedizione non coincidono");
         }
-        spedizione.setTrasportatore(trasportatoreRepository.findById(trasportatoreId).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + trasportatoreId + " non trovato in db.")));
+        spedizione.setTrasportatore(userService.getTrasportatoreById(trasportatoreId));
         spedizione.setStato(Stato.Presa_in_carico);
 
         return spedizioneRepository.save(spedizione);
     }
 
     public Spedizione completa(long id, long trasportatoreId, long aziendaId) {
-        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(() -> new UserNotFoundException("Azienda con id " + aziendaId + " non trovata in db."));
+        Azienda azienda = userService.getAziendaById(aziendaId);
         Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
@@ -70,7 +70,7 @@ public class SpedizioneService {
     }
 
     public Spedizione stoppa(long id, long trasportatoreId, long aziendaId) {
-        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(() -> new UserNotFoundException("Azienda con id " + aziendaId + " non trovata in db."));
+        Azienda azienda = userService.getAziendaById(aziendaId);
         Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
@@ -83,7 +83,7 @@ public class SpedizioneService {
     }
 
     public Spedizione guasto(long id, long trasportatoreId, long aziendaId) {
-        Azienda azienda = aziendaRepository.findById(aziendaId).orElseThrow(() -> new UserNotFoundException("Azienda con id " + aziendaId + " non trovata in db."));
+        Azienda azienda = userService.getAziendaById(aziendaId);
         Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
@@ -126,7 +126,7 @@ public class SpedizioneService {
         spedizione.setDaSpedire(LocalDate.of(spedizioneDTO.daSpedireAnno(), spedizioneDTO.daSpedireMese(), spedizioneDTO.daSpedireGiorno()));
         spedizione.setNumeroPedane(spedizioneDTO.numeroPedane());
         spedizione.setDescrizioneMerce(spedizioneDTO.descrizione());
-        spedizione.setAzienda(aziendaRepository.findById(spedizioneDTO.azienda_id()).orElseThrow(() -> new UserNotFoundException("Azienda con id " + spedizioneDTO.azienda_id() + " non trovato in db.")));
+        spedizione.setAzienda(userService.getAziendaById(spedizioneDTO.azienda_id()));
         spedizione.setStato(spedizione.getStato());
         return spedizioneRepository.save(spedizione);
     }
@@ -161,7 +161,7 @@ public class SpedizioneService {
 
 
     public Notifica richiedi(long tId, long spedizioneId) {
-        Trasportatore trasportatore = trasportatoreRepository.findById(tId).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+        Trasportatore trasportatore = userService.getTrasportatoreById(tId);
         Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + spedizioneId + " non trovata in db."));
 
         Notifica notifica = new Notifica();
