@@ -46,7 +46,7 @@ public class SpedizioneService {
 
     public Spedizione assegna(long id, long trasportatoreId, long aziendaId) {
         Azienda azienda = userService.getAziendaById(aziendaId);
-        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
+        Spedizione spedizione = findById(id);
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e l'id dell'azienda che ha creato la spedizione non coincidono");
         }
@@ -58,7 +58,7 @@ public class SpedizioneService {
 
     public Spedizione completa(long id, long trasportatoreId, long aziendaId) {
         Azienda azienda = userService.getAziendaById(aziendaId);
-        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
+        Spedizione spedizione = findById(id);
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
         }
@@ -71,7 +71,7 @@ public class SpedizioneService {
 
     public Spedizione stoppa(long id, long trasportatoreId, long aziendaId) {
         Azienda azienda = userService.getAziendaById(aziendaId);
-        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
+        Spedizione spedizione = findById(id);
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
         }
@@ -84,7 +84,7 @@ public class SpedizioneService {
 
     public Spedizione guasto(long id, long trasportatoreId, long aziendaId) {
         Azienda azienda = userService.getAziendaById(aziendaId);
-        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
+        Spedizione spedizione = findById(id);
         if (azienda.getId() != spedizione.getAzienda().getId()) {
             throw new IdsMismatchException("Gli id della tua azienda e dell'azienda che ha creato la spedizione non coincidono");
         }
@@ -109,7 +109,7 @@ public class SpedizioneService {
     }
 
     public boolean deleteByAdmin(long spedizioneId) {
-        Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + spedizioneId + " non trovata in db."));
+        Spedizione spedizione = findById(spedizioneId);
         try {
             spedizioneRepository.delete(spedizione);
             return true;
@@ -119,7 +119,7 @@ public class SpedizioneService {
     }
 
     public Spedizione putById(long id, SpedizioneDTO spedizioneDTO) {
-        Spedizione spedizione = spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
+        Spedizione spedizione = findById(id);
 
         spedizione.setA(spedizioneDTO.a());
         spedizione.setDa(spedizioneDTO.da());
@@ -162,7 +162,7 @@ public class SpedizioneService {
 
     public Notifica richiedi(long tId, long spedizioneId) {
         Trasportatore trasportatore = userService.getTrasportatoreById(tId);
-        Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + spedizioneId + " non trovata in db."));
+        Spedizione spedizione = findById(spedizioneId);
 
         Notifica notifica = new Notifica();
         notifica.setSpedizione(spedizione);
@@ -179,5 +179,8 @@ public class SpedizioneService {
         }else{
             throw new BadRequestException("Hai già richiesto questa spedizione.");
         }
+    }
+    public Spedizione findById(long id){
+        return spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
     }
 }
