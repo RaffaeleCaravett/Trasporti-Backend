@@ -40,11 +40,11 @@ public class PdfJasperService {
     AnnuncioRepository annuncioRepository;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
-    public byte[] richiedi (long annuncioId, long id) throws Exception {
+    public byte[] richiedi (long annuncioId, long tId) throws Exception {
 
 
-        Trasportatore trasportatore = userService.getTrasportatoreById(id);
-        Annuncio annuncio = annuncioRepository.findById(id).orElseThrow(()->new UserNotFoundException("Annuncio con id " + id + " non trovato in db"));
+        Trasportatore trasportatore = userService.getTrasportatoreById(tId);
+        Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(()->new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
 
         Path richiestaAssegnazioneSpedizionePath = Paths.get(basePathReport + "richiesta.jrxml");
         InputStream fullReport = null;

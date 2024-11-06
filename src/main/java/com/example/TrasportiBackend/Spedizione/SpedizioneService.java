@@ -160,7 +160,7 @@ public class SpedizioneService {
     }
 
 
-    public Notifica richiedi(long tId, long spedizioneId) {
+    public byte[] richiedi(long tId, long spedizioneId) {
         Trasportatore trasportatore = userService.getTrasportatoreById(tId);
         Spedizione spedizione = findById(spedizioneId);
 
@@ -174,9 +174,13 @@ public class SpedizioneService {
         notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
         if(!notificaRepository.findByTesto(notifica.getTesto()).isPresent()){
-
-            return notificaRepository.save(notifica);
-        }else{
+            notificaRepository.save(notifica);
+            try {
+                return pdfJasperService.richiedi(spedizione.getAnnuncio().getId(), tId);
+            }catch (Exception e){
+                throw new BadRequestException(e.getMessage());
+            }
+            }else{
             throw new BadRequestException("Hai già richiesto questa spedizione.");
         }
     }
