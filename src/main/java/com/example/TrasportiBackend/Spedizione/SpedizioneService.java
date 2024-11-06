@@ -174,9 +174,10 @@ public class SpedizioneService {
         notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
         if(!notificaRepository.findByTesto(notifica.getTesto()).isPresent()){
-            notificaRepository.save(notifica);
             try {
-                return pdfJasperService.richiedi(spedizione.getAnnuncio().getId(), tId);
+                byte[] file = pdfJasperService.richiedi(spedizione.getAnnuncio().getId(), tId);
+                notificaRepository.save(notifica);
+                return file;
             }catch (Exception e){
                 throw new BadRequestException(e.getMessage());
             }
