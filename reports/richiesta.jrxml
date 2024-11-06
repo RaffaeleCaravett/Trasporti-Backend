@@ -1,5 +1,5 @@
 <!-- Created with Jaspersoft Studio version 7.0.0.final utlizzo versione della libreria JasperReports7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
-<jasperReport name="verbale Diffida" language="java" pageWidth="595" pageHeight="1000" columnWidth="500" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="73a89477-7180-4faa-bf4c-633a2d704dd0">
+<jasperReport name="verbale Diffida" language="java" pageWidth="595" pageHeight="1000" columnWidth="500" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
     <property name="ireport.zoom" value="1.4641000000000006"/>
     <property name="ireport.x" value="0"/>
     <property name="ireport.y" value="547"/>
