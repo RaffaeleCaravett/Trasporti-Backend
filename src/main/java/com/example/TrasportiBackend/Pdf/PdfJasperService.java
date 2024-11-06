@@ -40,7 +40,7 @@ public class PdfJasperService {
     AnnuncioRepository annuncioRepository;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
-    public byte[] JasperReportInBytes(long annuncioId, long id) throws Exception {
+    public byte[] richiedi (long annuncioId, long id) throws Exception {
 
 
         Trasportatore trasportatore = userService.getTrasportatoreById(id);

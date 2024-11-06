@@ -4,10 +4,8 @@ package com.example.TrasportiBackend.Spedizione;
 import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
 import com.example.TrasportiBackend.Notifica.Notifica;
 import com.example.TrasportiBackend.Notifica.NotificaRepository;
-import com.example.TrasportiBackend.User.Azienda;
-import com.example.TrasportiBackend.User.AziendaRepository;
-import com.example.TrasportiBackend.User.TrasporatoreRepository;
-import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.Pdf.PdfJasperService;
+import com.example.TrasportiBackend.User.*;
 import com.example.TrasportiBackend.enums.Stato;
 import com.example.TrasportiBackend.enums.StatoNotifica;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
@@ -29,13 +27,11 @@ public class SpedizioneService {
     @Autowired
     SpedizioneRepository spedizioneRepository;
     @Autowired
-    AnnuncioRepository annuncioRepository;
-    @Autowired
-    AziendaRepository aziendaRepository;
-    @Autowired
-    TrasporatoreRepository trasportatoreRepository;
+    UserService userService;
     @Autowired
     NotificaRepository notificaRepository;
+    @Autowired
+    PdfJasperService pdfJasperService;
     public Spedizione save(SpedizioneDTO spedizioneDTO) {
         Spedizione spedizione = new Spedizione();
         spedizione.setA(spedizioneDTO.a());
@@ -178,6 +174,7 @@ public class SpedizioneService {
         notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
         if(!notificaRepository.findByTesto(notifica.getTesto()).isPresent()){
+
             return notificaRepository.save(notifica);
         }else{
             throw new BadRequestException("Hai già richiesto questa spedizione.");
