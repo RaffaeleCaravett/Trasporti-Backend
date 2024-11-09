@@ -25,6 +25,6 @@ public class NotificaTrasportatoreController {
     }
     @GetMapping("/{id}/{statoNotifica}/{sender}")
     public Page<Notifica> findByTrasportatoreIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
-        return notificaService.findByTrasportatore_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
+        return notificaService.findByTrasportatore_IdAndStatoNotifica(id,statoNotifica,0,10,"id");
     }
 }

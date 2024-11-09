@@ -13,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface NotificaRepository extends JpaRepository<Notifica,Long> {
     Page<Notifica> findByAzienda_IdAndStatoNotificaAndInviataDa(long aziendaId, StatoNotifica statoNotifica,String inviataDa, Pageable pageable);
-    Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndInviataDa(long aziendaId, StatoNotifica statoNotifica,String inviataDa, Pageable pageable);
+    Page<Notifica> findByTrasportatore_IdAndStatoNotifica(long aziendaId, StatoNotifica statoNotifica, Pageable pageable);
     Optional<Notifica> findByTesto(String testo);
 }

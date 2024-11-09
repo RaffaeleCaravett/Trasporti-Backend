@@ -88,11 +88,11 @@ public class NotificaService {
 
         return notificaRepository.findByAzienda_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
     }
-    public Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndSender(long id,String statoNotifica,String sender,int page,int size,String orderBy){
+    public Page<Notifica> findByTrasportatore_IdAndStatoNotifica(long id,String statoNotifica,int page,int size,String orderBy){
         StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
-        return notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
+        return notificaRepository.findByTrasportatore_IdAndStatoNotifica(id,statoNotifica1,pageable);
     }
 
 }

@@ -28,7 +28,7 @@ public class NotificaRecensioneService {
 
     public Page<NotificaRecensione> getNotificheByTrasportatoreId(long tId){
         Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
-        Pageable pageable = PageRequest.of(0,10, Sort.by("id"));
+        Pageable pageable = PageRequest.of(0,25, Sort.by("id"));
         return notificaRecensioneRepository.findByA_Id(tId,pageable);
     }
     public List<NotificaRecensione> getNotificheByTrasportatoreIdAndStato(long tId,String stato){
