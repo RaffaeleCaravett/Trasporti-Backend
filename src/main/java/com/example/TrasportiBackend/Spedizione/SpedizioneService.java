@@ -169,7 +169,7 @@ public class SpedizioneService {
         notifica.setStatoNotifica(StatoNotifica.Emessa);
         notifica.setTrasportatore(trasportatore);
         notifica.setAzienda(spedizione.getAzienda());
-        notifica.setInviataDa(trasportatore.getNome() + " " + trasportatore.getCognome());
+        notifica.setInviataDa("tr");
         notifica.setDateTime(LocalDate.now());
         notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
