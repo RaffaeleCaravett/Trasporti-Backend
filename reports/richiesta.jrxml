@@ -26,139 +26,131 @@
     <parameter name="indirizzo" class="java.lang.String"/>
     <parameter name="codiceFiscale" class="java.lang.String"/>
     <parameter name="logoRep" class="java.lang.String"/>
-        <queryString>
-            <![CDATA[]]>
-        </queryString>
-        <background>
-            <band splitType="Stretch"/>
-        </background>
-        <title>
-            <band height="91" splitType="Stretch">
-                <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
-                <image hAlign="Center">
-                    <reportElement x="0" y="0" width="555" height="91" uuid="279a8888-c854-469a-954b-5f201a953447"/>
-                    <imageExpression><![CDATA["C:/Users/Utente/Desktop/Progetti/Trasporti/TrasportiBackend/reports/img/img.png"]]></imageExpression>
-                </image>
-            </band>
-        </title>
-        <pageHeader>
-            <band height="517" splitType="Stretch">
-                <staticText>
-                    <reportElement x="20" y="50" width="500" height="30" uuid="0e2459f8-04e7-4aa0-92a2-41dfd3925f99">
-                        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-                    </reportElement>
-                    <textElement textAlignment="Center">
-                        <font fontName="Times New Roman" size="10" isBold="true"/>
-                    </textElement>
-                    <text><![CDATA[Azienda che mette in contatto aziende terze con trasportatori, per soddisfare le esigenze e le richieste di trasporti su tutto il territorio nazionale ed oltre.]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="250" y="90" width="280" height="24" uuid="734446f5-43ff-4a5b-bc56-1aa7a9148094">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Right" markup="styled">
-                        <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["Al - " + $P{anno} + " - " + $P{mese} + " - " + $P{giorno} ]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="20" y="120" width="500" height="14" uuid="87f6e365-486b-4306-a6cd-d35735f0d13e">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Center" markup="styled">
-                        <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["Richiesta di assegnazione"]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="20" y="140" width="500" height="25" uuid="7308a4e7-b5e6-4513-9392-b73546259fbc">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Justified" markup="html">
-                        <font fontName="Times New Roman" size="10" isBold="false" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["L'azienda " + $P{nomeAzienda} + ", p.iva : " + $P{partitaIva} + ", con sede legale in via " + $P{indirizzoAzienda}]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="20" y="170" width="500" height="14" uuid="eb1b5bf9-8e72-4378-b106-d9f98590ec7e">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Center" markup="styled">
-                        <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["Tenuto presente"]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="20" y="210" width="500" height="60" uuid="4a9a35b6-ae7b-4efe-bf32-42b259dc10d3">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Justified" markup="styled">
-                        <font fontName="Times New Roman" size="10" isBold="false" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["L'annuncio pubblicato in data " + $P{dataPubblicazioneAnnuncio} + ", con retribuzione prevista di " + $P{retribuzione} + ", ed un numero pedane di " + $P{numeroPedane} + ","+
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="91" splitType="Stretch">
+            <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+            <image hAlign="Center">
+                <reportElement x="0" y="0" width="555" height="91" uuid="279a8888-c854-469a-954b-5f201a953447"/>
+                <imageExpression><![CDATA["C:/Users/Utente/Desktop/Progetti/Trasporti/TrasportiBackend/reports/img/img.png"]]></imageExpression>
+            </image>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="517" splitType="Stretch">
+            <staticText>
+                <reportElement x="21" y="50" width="500" height="30" uuid="0e2459f8-04e7-4aa0-92a2-41dfd3925f99">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font fontName="Times New Roman" size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Azienda che mette in contatto aziende terze con trasportatori, per soddisfare le esigenze e le richieste di trasporti su tutto il territorio nazionale ed oltre.]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="243" y="120" width="280" height="24" uuid="734446f5-43ff-4a5b-bc56-1aa7a9148094">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right" markup="styled">
+                    <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Al - " + $P{anno} + " - " + $P{mese} + " - " + $P{giorno}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="27" y="160" width="500" height="14" uuid="87f6e365-486b-4306-a6cd-d35735f0d13e">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center" markup="styled">
+                    <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Richiesta di assegnazione"]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="30" y="200" width="500" height="25" uuid="7308a4e7-b5e6-4513-9392-b73546259fbc">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Justified" markup="html">
+                    <font fontName="Times New Roman" size="10" isBold="false" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["L'azienda " + $P{nomeAzienda} + ", p.iva : " + $P{partitaIva} + ", con sede legale in via " + $P{indirizzoAzienda}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="30" y="250" width="500" height="14" uuid="eb1b5bf9-8e72-4378-b106-d9f98590ec7e">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center" markup="styled">
+                    <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Tenuto presente"]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="167" y="10" width="220" height="28" uuid="f1e11f8e-d957-44f5-b135-6001677b5ca2">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font size="22" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ Trasporti official  ®]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="30" y="290" width="500" height="49" uuid="4a9a35b6-ae7b-4efe-bf32-42b259dc10d3">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Justified" markup="styled">
+                    <font fontName="Times New Roman" size="10" isBold="false" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["L'annuncio pubblicato in data " + $P{dataPubblicazioneAnnuncio} + ", con retribuzione prevista di " + $P{retribuzione} + ", ed un numero pedane di " + $P{numeroPedane} + ","+
 "La data di partenza, prevista per " + $P{dataDaSpedire} + ", da "+ $P{partenzaDa} + ", a " + $P{arrivoA}+","+
 "La merce descritta come : " + $P{descrizioneMerce}+","]]></textFieldExpression>
-                </textField>
-                <staticText>
-                    <reportElement x="20" y="280" width="500" height="21" uuid="8e9e813f-3d4a-4f83-b6db-03272df1d380">
-                        <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-                    </reportElement>
-                    <textElement textAlignment="Justified" markup="html">
-                        <font fontName="Times New Roman" size="10" isBold="false" isUnderline="true"/>
-                    </textElement>
-                    <text><![CDATA[Tutto quanto sopra descritto,]]></text>
-                </staticText>
-                <textField>
-                    <reportElement x="19" y="310" width="503" height="60" uuid="4f8c239d-59db-4c5a-bbfa-24a443c78a94"/>
-                    <textFieldExpression><![CDATA["La suddetta azienda chiede al trasportatore " + $P{nomeTrasportatore} + ", residente in " + $P{indirizzo} + ", codice fiscale " + $P{codiceFiscale} + " e anni " + $P{eta} + " di aggiudicarsi la spedizizione per il suddetto annuncio, provvedendo a restituire la copia firmata di questo documento alla mail : " + $P{email} + " entro tre giorni lavorativi, in modo tale da avviare la stessa il prima possibile, e accaparrandosi il diritto di assegnare la spedizione ad un altro trasportatore dove vengano a mancare i requisiti ritenuti basici per svolgere la spedizione."]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="0" y="493" width="280" height="24" uuid="e4269237-0a22-41a7-83fd-e07c62c37d1f">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Right" markup="styled">
-                        <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["Il - " + $P{anno} + " - " + $P{mese} + " - " + $P{giorno}  ]]></textFieldExpression>
-                </textField>
-                <textField>
-                    <reportElement x="300" y="493" width="265" height="24" uuid="5e9aea17-9db2-46ea-9974-da05b9e70cf8">
-                        <property name="com.jaspersoft.studio.unit.y" value="px"/>
-                    </reportElement>
-                    <textElement textAlignment="Left" markup="styled">
-                        <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA["L'azienda proprietaria dell'annuncio "]]></textFieldExpression>
-                </textField>
-                <staticText>
-                    <reportElement x="170" y="10" width="220" height="28" uuid="f1e11f8e-d957-44f5-b135-6001677b5ca2">
-                        <property name="com.jaspersoft.studio.unit.height" value="px"/>
-                    </reportElement>
-                    <textElement>
-                        <font size="22" isBold="true"/>
-                    </textElement>
-                    <text><![CDATA[ Trasporti official  ®]]></text>
-                </staticText>
-            </band>
-        </pageHeader>
-        <columnHeader>
-            <band height="61" splitType="Stretch">
-                <staticText>
-                    <reportElement x="20" y="0" width="120" height="30" uuid="c9720805-d27d-4d4c-bc6c-103186150794"/>
-                    <text><![CDATA[Firma Trasportatore]]></text>
-                </staticText>
-            </band>
-        </columnHeader>
-        <detail>
-            <band height="125" splitType="Stretch"/>
-        </detail>
-        <columnFooter>
-            <band height="45" splitType="Stretch"/>
-        </columnFooter>
-        <pageFooter>
-            <band height="54" splitType="Stretch"/>
-        </pageFooter>
-        <summary>
-            <band height="42" splitType="Stretch"/>
-        </summary>
-    </jasperReport>
+            </textField>
+            <staticText>
+                <reportElement x="30" y="357" width="500" height="21" uuid="8e9e813f-3d4a-4f83-b6db-03272df1d380">
+                    <property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+                </reportElement>
+                <textElement textAlignment="Justified" markup="html">
+                    <font fontName="Times New Roman" size="10" isBold="false" isUnderline="true"/>
+                </textElement>
+                <text><![CDATA[Tutto quanto sopra descritto,]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="29" y="378" width="503" height="73" uuid="4f8c239d-59db-4c5a-bbfa-24a443c78a94"/>
+                <textFieldExpression><![CDATA["La suddetta azienda chiede al trasportatore " + $P{nomeTrasportatore} + ", residente in " + $P{indirizzo} + ", codice fiscale " + $P{codiceFiscale} + " e anni " + $P{eta} + " di aggiudicarsi la spedizizione per il suddetto annuncio, provvedendo a restituire la copia firmata di questo documento alla mail : " + $P{email} + " entro tre giorni lavorativi, in modo tale da avviare la stessa il prima possibile, e accaparrandosi il diritto di assegnare la spedizione ad un altro trasportatore dove vengano a mancare i requisiti ritenuti basici per svolgere la spedizione."]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="61" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="10" width="190" height="13" uuid="5e9aea17-9db2-46ea-9974-da05b9e70cf8">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Left" markup="styled">
+                    <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["L'azienda proprietaria dell'annuncio "]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="260" y="10" width="280" height="13" uuid="e4269237-0a22-41a7-83fd-e07c62c37d1f">
+                    <property name="com.jaspersoft.studio.unit.y" value="px"/>
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Right" markup="styled">
+                    <font fontName="Times New Roman" size="11" isBold="true" isUnderline="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Il - " + $P{anno} + " - " + $P{mese} + " - " + $P{giorno}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="340" y="31" width="120" height="13" uuid="c9720805-d27d-4d4c-bc6c-103186150794">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <text><![CDATA[Firma Trasportatore]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+</jasperReport>
