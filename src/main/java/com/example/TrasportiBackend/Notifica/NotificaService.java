@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class NotificaService {
@@ -65,13 +66,18 @@ public class NotificaService {
         notifica.setStatoNotifica(StatoNotifica.Respinta);
         return notificaRepository.save(notifica);
     }
-    public Notifica leggi(long id, long aziendaId){
-        Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
-        if(notifica.getAzienda().getId()!=aziendaId){
-            throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
-        }
-        notifica.setStatoNotifica(StatoNotifica.Letta);
-        return notificaRepository.save(notifica);
+    public List<Notifica> leggi(List<Notifica> notificas, long aziendaId){
+        notificas.forEach(
+                notifica -> {
+                    if(notifica.getAzienda().getId()!=aziendaId){
+                        throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
+                    }else{
+                        notifica.setStatoNotifica(StatoNotifica.Letta);
+                    }
+                }
+        );
+
+        return notificas.stream().map(n->notificaRepository.save(n)).toList();
     }
     public boolean delete(long id){
         try {
@@ -88,11 +94,11 @@ public class NotificaService {
 
         return notificaRepository.findByAzienda_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
     }
-    public Page<Notifica> findByTrasportatore_IdAndStatoNotifica(long id,String statoNotifica,int page,int size,String orderBy){
+    public Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndSender(long id,String statoNotifica,String sender,int page,int size,String orderBy){
         StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
         Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
-        return notificaRepository.findByTrasportatore_IdAndStatoNotifica(id,statoNotifica1,pageable);
+        return notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
     }
 
 }

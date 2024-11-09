@@ -2,6 +2,7 @@ package com.example.TrasportiBackend.Notifica;
 
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.NotificaDTO;
+import org.aspectj.weaver.ast.Not;
 import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/azienda/notifica")
@@ -29,5 +32,9 @@ public class NotificaController {
     @GetMapping("/{id}/{statoNotifica}/{sender}")
     public Page<Notifica> findByAziendaIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
         return notificaService.findByAzienda_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
+    }
+    @PostMapping("/leggi/{aziendaId}")
+    public List<Notifica> leggi(@RequestBody @Validated List<Notifica> notificas,@PathVariable long aziendaId){
+        return this.notificaService.leggi(notificas,aziendaId);
     }
 }
