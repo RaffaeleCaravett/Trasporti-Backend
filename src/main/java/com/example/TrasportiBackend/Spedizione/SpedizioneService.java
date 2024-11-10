@@ -12,6 +12,7 @@ import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.SpedizioneDTO;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SpedizioneService {
@@ -173,7 +176,8 @@ public class SpedizioneService {
         notifica.setDateTime(LocalDate.now());
         notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
-        if(!notificaRepository.findByTesto(notifica.getTesto()).isPresent()){
+        Optional<Notifica> notificas = notificaRepository.findByTesto(notifica.getTesto());
+        if(notificaRepository.findByTesto(notifica.getTesto()).isEmpty()){
                 return notificaRepository.save(notifica);
             }else{
             throw new BadRequestException("Hai già richiesto questa spedizione.");
