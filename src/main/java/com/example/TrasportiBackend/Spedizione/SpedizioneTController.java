@@ -30,7 +30,7 @@ public class SpedizioneTController {
         return spedizioneService.findByDaAndA(da,a,page,size,orderBy);
     }
     @GetMapping("/richiedi/{spedizioneId}/me")
-    public byte[] richiedi(@AuthenticationPrincipal Trasportatore trasportatore, @PathVariable long spedizioneId){
+    public Notifica richiedi(@AuthenticationPrincipal Trasportatore trasportatore, @PathVariable long spedizioneId){
         return spedizioneService.richiedi(trasportatore.getId(),spedizioneId);
     }
 

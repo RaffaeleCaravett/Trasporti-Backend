@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.Notifica;
 
+import com.example.TrasportiBackend.Pdf.PdfJasperService;
 import com.example.TrasportiBackend.Recensioni.RecensioneT;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
@@ -8,6 +9,7 @@ import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.enums.StatoNotifica;
+import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.IdsMismatchException;
 import com.example.TrasportiBackend.exceptions.NotificaNotFoundException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
@@ -34,6 +36,8 @@ public class NotificaService {
     SpedizioneRepository spedizioneRepository;
 @Autowired
     TrasporatoreRepository trasporatoreRepository;
+@Autowired
+    PdfJasperService pdfJasperService;
     public Notifica save(NotificaDTO notificaDTO){
         Notifica notifica= new Notifica();
         Azienda azienda = aziendaRepository.findById(notificaDTO.aziendaId()).orElseThrow(()->new UserNotFoundException("Azienda con id " + notificaDTO.aziendaId() + " non trovata in db."));
@@ -50,13 +54,19 @@ public class NotificaService {
         return notificaRepository.save(notifica);
     }
 
-    public Notifica accetta(long id, long aziendaId){
+    public byte[] accetta(long id, long aziendaId){
         Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
         if(notifica.getAzienda().getId()!=aziendaId){
             throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
         }
         notifica.setStatoNotifica(StatoNotifica.Accettata);
-        return notificaRepository.save(notifica);
+        try {
+            byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getAnnuncio().getId(), notifica.getTrasportatore().getId());
+                    notificaRepository.save(notifica);
+            return file;
+        }catch (Exception e){
+            throw new BadRequestException(e.getMessage());
+        }
     }
     public Notifica respingi(long id, long aziendaId){
         Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
