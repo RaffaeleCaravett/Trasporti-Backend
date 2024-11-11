@@ -40,13 +40,13 @@ public class PdfJasperService {
     AnnuncioRepository annuncioRepository;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
-    public byte[] richiedi (long annuncioId, long tId) throws Exception {
+    public byte[] richiedi (long annuncioId, long tId,String type) throws Exception {
 
 
         Trasportatore trasportatore = userService.getTrasportatoreById(tId);
         Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(()->new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
 
-        Path richiestaAssegnazioneSpedizionePath = Paths.get(basePathReport + "richiesta.jrxml");
+        Path richiestaAssegnazioneSpedizionePath = Paths.get(basePathReport + (type.equals("copia")?"richiesta-spedizione-copia.jrxml":"richiesta.jrxml"));
         InputStream fullReport = null;
         try {
             fullReport = Files.newInputStream(richiestaAssegnazioneSpedizionePath);

@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,9 +62,21 @@ public class NotificaService {
             throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
         }
         notifica.setStatoNotifica(StatoNotifica.Accettata);
+        Notifica notification = new Notifica();
+        notification.setStatoNotifica(StatoNotifica.Emessa);
+        notification.setTesto(notifica.getAzienda().getNomeAzienda() + " ha accettato la tua richiesta. Clicca qui, scarica il documento e mettiti in contatto" +
+                "con l'azienda.");
+        notification.setInviataDa("az");
+        notification.setAzienda(notifica.getAzienda());
+        notification.setTrasportatore(notifica.getTrasportatore());
+        notification.setDateTime(LocalDate.now());
+        notification.setSpedizione(notifica.getSpedizione());
+        List<Notifica> notificas = new ArrayList<>();
+        notificas.add(notifica);
+        notificas.add(notification);
         try {
-            byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getAnnuncio().getId(), notifica.getTrasportatore().getId());
-            notificaRepository.save(notifica);
+            byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getAnnuncio().getId(), notifica.getTrasportatore().getId(),"copia");
+            notificaRepository.saveAll(notificas);
             return file;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());

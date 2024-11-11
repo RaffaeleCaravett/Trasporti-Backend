@@ -29,6 +29,6 @@ public class PdfJasperController {
     @PreAuthorize("hasAuthority('Azienda')")
     public byte[] GeneraPdfIncaricoSpedizione(@PathVariable long annuncioId, @PathVariable long id) throws Exception {
 
-       return pdfJasperService.richiedi(annuncioId,id);
+       return pdfJasperService.richiedi(annuncioId,id,"");
     }
 }
