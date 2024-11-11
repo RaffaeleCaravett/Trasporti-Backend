@@ -174,7 +174,7 @@ public class SpedizioneService {
         notifica.setAzienda(spedizione.getAzienda());
         notifica.setInviataDa("tr");
         notifica.setDateTime(LocalDate.now());
-        notifica.setTesto("Il trasportatore " + notifica.getInviataDa() + " chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
+        notifica.setTesto("Un trasportatore chiede di effettuare la spedizione con id " + notifica.getSpedizione().getId() + " in partenza da " + notifica.getSpedizione().getDa() + " e in arrivo a " + notifica.getSpedizione().getA());
 
         Optional<Notifica> notificas = notificaRepository.findByTesto(notifica.getTesto());
         if(notificaRepository.findByTesto(notifica.getTesto()).isEmpty()){

@@ -7,6 +7,7 @@ import org.hibernate.engine.jdbc.mutation.spi.BindingGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,15 @@ public class NotificaController {
     @PostMapping("/leggi/{aziendaId}")
     public List<Notifica> leggi(@RequestBody @Validated List<Notifica> notificas,@PathVariable long aziendaId){
         return this.notificaService.leggi(notificas,aziendaId);
+    }
+    @GetMapping("/accetta/{idNotifica}/{idAzienda}")
+    @PreAuthorize("hasAuthority('Azienda')")
+    public byte[] accetta(@PathVariable long idNotifica,@PathVariable long idAzienda){
+        return notificaService.accetta(idNotifica,idAzienda);
+    }
+    @GetMapping("/rifiuta/{idNotifica}/{idAzienda}")
+    @PreAuthorize("hasAuthority('Azienda')")
+    public byte[] rifiuta(@PathVariable long idNotifica,@PathVariable long idAzienda){
+        return notificaService.accetta(idNotifica,idAzienda);
     }
 }
