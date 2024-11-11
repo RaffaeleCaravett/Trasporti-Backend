@@ -20,16 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import java.io.ByteArrayOutputStream;
 
 @RestController
-@RequestMapping("/pdf")
+@RequestMapping("/trasportatore/pdf")
 public class PdfController {
 @Autowired
     TrasporatoreRepository trasporatoreRepository;
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('Trasportatore')")
-    public byte[] generatePdf(@RequestBody @Validated AnnuncioDTO annuncioDTO, BindingResult bindingResult, @PathVariable long id){
-        if(bindingResult.hasErrors()){
-            throw new BadRequestException(bindingResult.getAllErrors());
-        }
+    public byte[] generatePdf(@PathVariable long id){
         try{
 
             PDFont font =   new PDType1Font(Standard14Fonts.FontName.COURIER);

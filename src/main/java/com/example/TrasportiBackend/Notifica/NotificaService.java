@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -65,7 +66,7 @@ public class NotificaService {
         Notifica notification = new Notifica();
         notification.setStatoNotifica(StatoNotifica.Emessa);
         notification.setTesto(notifica.getAzienda().getNomeAzienda() + " ha accettato la tua richiesta. Clicca qui, scarica il documento e mettiti in contatto" +
-                "con l'azienda.");
+                " con l'azienda.");
         notification.setInviataDa("az");
         notification.setAzienda(notifica.getAzienda());
         notification.setTrasportatore(notifica.getTrasportatore());
@@ -75,7 +76,7 @@ public class NotificaService {
         notificas.add(notifica);
         notificas.add(notification);
         try {
-            byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getAnnuncio().getId(), notifica.getTrasportatore().getId(),"copia");
+            byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getId(), notifica.getTrasportatore().getId(), "copia");
             notificaRepository.saveAll(notificas);
             return file;
         } catch (Exception e) {
@@ -124,14 +125,18 @@ public class NotificaService {
         StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
-        return notificaRepository.findByAzienda_IdAndStatoNotificaAndInviataDa(id, statoNotifica1, sender, pageable);
+        Page<Notifica> notificas = notificaRepository.findByAzienda_IdAndStatoNotificaAndInviataDa(id, statoNotifica1, sender, pageable);
+        notificas.getContent().stream().sorted(Comparator.comparing(Notifica::getDateTime)).toList();
+        return notificas;
     }
 
     public Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndSender(long id, String statoNotifica, String sender, int page, int size, String orderBy) {
         StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
-        return notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id, statoNotifica1, sender, pageable);
+        Page<Notifica> notificas = notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id, statoNotifica1, sender, pageable);
+        notificas.getContent().stream().sorted(Comparator.comparing(Notifica::getDateTime)).toList();
+        return notificas;
     }
 
 }

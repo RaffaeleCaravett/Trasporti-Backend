@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/azienda/jasper")
+@RequestMapping("/trasportatore/jasper")
 public class PdfJasperController {
 
 
@@ -26,7 +26,7 @@ public class PdfJasperController {
     @Autowired
     PdfJasperService pdfJasperService;
     @PostMapping("/{id}")
-    @PreAuthorize("hasAuthority('Azienda')")
+    @PreAuthorize("hasAuthority('Trasportatore')")
     public byte[] GeneraPdfIncaricoSpedizione(@PathVariable long annuncioId, @PathVariable long id) throws Exception {
 
        return pdfJasperService.richiedi(annuncioId,id,"");

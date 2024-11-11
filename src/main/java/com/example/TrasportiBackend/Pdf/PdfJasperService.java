@@ -3,6 +3,8 @@ package com.example.TrasportiBackend.Pdf;
 import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
 import com.example.TrasportiBackend.Annuncio.AnnuncioService;
+import com.example.TrasportiBackend.Spedizione.Spedizione;
+import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.User.UserService;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
@@ -38,13 +40,16 @@ public class PdfJasperService {
     UserService userService;
     @Autowired
     AnnuncioRepository annuncioRepository;
+    @Autowired
+    SpedizioneRepository spedizioneRepository;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
-    public byte[] richiedi (long annuncioId, long tId,String type) throws Exception {
+    public byte[] richiedi (long spedizioneId, long tId,String type) throws Exception {
 
 
         Trasportatore trasportatore = userService.getTrasportatoreById(tId);
-        Annuncio annuncio = annuncioRepository.findById(annuncioId).orElseThrow(()->new UserNotFoundException("Annuncio con id " + annuncioId + " non trovato in db"));
+        Spedizione spedizione = spedizioneRepository.findById(spedizioneId).orElseThrow();
+        Annuncio annuncio = annuncioRepository.findById(spedizione.getAnnuncio().getId()).orElseThrow(()->new UserNotFoundException("Annuncio con id " + spedizione.getAnnuncio().getId() + " non trovato in db"));
 
         Path richiestaAssegnazioneSpedizionePath = Paths.get(basePathReport + (type.equals("copia")?"richiesta-spedizione-copia.jrxml":"richiesta.jrxml"));
         InputStream fullReport = null;

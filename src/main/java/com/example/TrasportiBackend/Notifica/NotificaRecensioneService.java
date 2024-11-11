@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -34,7 +35,7 @@ public class NotificaRecensioneService {
     public List<NotificaRecensione> getNotificheByTrasportatoreIdAndStato(long tId,String stato){
         Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
         StatoNotifica statoNotifica = StatoNotifica.valueOf(stato);
-        return notificaRecensioneRepository.findByA_IdAndStatoNotifica(tId,statoNotifica);
+        return notificaRecensioneRepository.findByA_IdAndStatoNotifica(tId,statoNotifica).stream().sorted(Comparator.comparing(NotificaRecensione::getDateTime)).toList();
     }
     public boolean leggi(List<NotificaRecensione> recensiones){
         try {

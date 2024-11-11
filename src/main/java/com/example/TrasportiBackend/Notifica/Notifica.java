@@ -28,7 +28,6 @@ public class Notifica {
     private Spedizione spedizione;
     @ManyToOne
     @JoinColumn(name = "azienda_id")
-    @JsonIgnore
     private Azienda azienda;
     @ManyToOne
     @JoinColumn(name = "trasportatore_id")
