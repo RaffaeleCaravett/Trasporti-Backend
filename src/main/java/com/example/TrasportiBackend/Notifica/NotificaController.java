@@ -23,29 +23,32 @@ public class NotificaController {
 
 
     @PostMapping("")
-    public Notifica save(@RequestBody @Validated NotificaDTO notificaDTO, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public Notifica save(@RequestBody @Validated NotificaDTO notificaDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new BadRequestException(bindingResult.getAllErrors());
         }
         return notificaService.save(notificaDTO);
     }
 
     @GetMapping("/{id}/{statoNotifica}/{sender}")
-    public Page<Notifica> findByAziendaIdAndStato(@PathVariable long id, @PathVariable String statoNotifica,@PathVariable String sender){
-        return notificaService.findByAzienda_IdAndStatoNotificaAndSender(id,statoNotifica,sender,0,10,"id");
+    public Page<Notifica> findByAziendaIdAndStato(@PathVariable long id, @PathVariable String statoNotifica, @PathVariable String sender) {
+        return notificaService.findByAzienda_IdAndStatoNotificaAndSender(id, statoNotifica, sender, 0, 10, "id");
     }
+
     @PostMapping("/leggi/{aziendaId}")
-    public List<Notifica> leggi(@RequestBody @Validated List<Notifica> notificas,@PathVariable long aziendaId){
-        return this.notificaService.leggi(notificas,aziendaId);
+    public List<Notifica> leggi(@RequestBody @Validated List<Notifica> notificas, @PathVariable long aziendaId) {
+        return this.notificaService.leggi(notificas, aziendaId);
     }
+
     @GetMapping("/accetta/{idNotifica}/{idAzienda}")
     @PreAuthorize("hasAuthority('Azienda')")
-    public byte[] accetta(@PathVariable long idNotifica,@PathVariable long idAzienda){
-        return notificaService.accetta(idNotifica,idAzienda);
+    public byte[] accetta(@PathVariable long idNotifica, @PathVariable long idAzienda) {
+        return notificaService.accetta(idNotifica, idAzienda);
     }
+
     @GetMapping("/rifiuta/{idNotifica}/{idAzienda}")
     @PreAuthorize("hasAuthority('Azienda')")
-    public byte[] rifiuta(@PathVariable long idNotifica,@PathVariable long idAzienda){
-        return notificaService.accetta(idNotifica,idAzienda);
+    public boolean rifiuta(@PathVariable long idNotifica, @PathVariable long idAzienda) {
+        return notificaService.respingi(idNotifica, idAzienda);
     }
 }

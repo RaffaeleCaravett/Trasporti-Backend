@@ -30,19 +30,20 @@ public class NotificaService {
     @Autowired
     NotificaRepository notificaRepository;
 
-@Autowired
+    @Autowired
     AziendaRepository aziendaRepository;
-@Autowired
+    @Autowired
     SpedizioneRepository spedizioneRepository;
-@Autowired
+    @Autowired
     TrasporatoreRepository trasporatoreRepository;
-@Autowired
+    @Autowired
     PdfJasperService pdfJasperService;
-    public Notifica save(NotificaDTO notificaDTO){
-        Notifica notifica= new Notifica();
-        Azienda azienda = aziendaRepository.findById(notificaDTO.aziendaId()).orElseThrow(()->new UserNotFoundException("Azienda con id " + notificaDTO.aziendaId() + " non trovata in db."));
-        Spedizione spedizione = spedizioneRepository.findById(notificaDTO.spedizioneId()).orElseThrow(()->new UserNotFoundException("Spedizione con id " + notificaDTO.spedizioneId() + " non trovata in db."));
-        Trasportatore trasportatore = trasporatoreRepository.findById(notificaDTO.trasportatoreId()).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + notificaDTO.aziendaId() + " non trovata in db."));
+
+    public Notifica save(NotificaDTO notificaDTO) {
+        Notifica notifica = new Notifica();
+        Azienda azienda = aziendaRepository.findById(notificaDTO.aziendaId()).orElseThrow(() -> new UserNotFoundException("Azienda con id " + notificaDTO.aziendaId() + " non trovata in db."));
+        Spedizione spedizione = spedizioneRepository.findById(notificaDTO.spedizioneId()).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + notificaDTO.spedizioneId() + " non trovata in db."));
+        Trasportatore trasportatore = trasporatoreRepository.findById(notificaDTO.trasportatoreId()).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + notificaDTO.aziendaId() + " non trovata in db."));
 
         notifica.setAzienda(azienda);
         notifica.setSpedizione(spedizione);
@@ -54,61 +55,70 @@ public class NotificaService {
         return notificaRepository.save(notifica);
     }
 
-    public byte[] accetta(long id, long aziendaId){
-        Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
-        if(notifica.getAzienda().getId()!=aziendaId){
+    public byte[] accetta(long id, long aziendaId) {
+        Notifica notifica = notificaRepository.findById(id).orElseThrow(() -> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
+        if (notifica.getAzienda().getId() != aziendaId) {
             throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
         }
         notifica.setStatoNotifica(StatoNotifica.Accettata);
         try {
             byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getAnnuncio().getId(), notifica.getTrasportatore().getId());
-                    notificaRepository.save(notifica);
+            notificaRepository.save(notifica);
             return file;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
     }
-    public Notifica respingi(long id, long aziendaId){
-        Notifica notifica= notificaRepository.findById(id).orElseThrow(()-> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
-        if(notifica.getAzienda().getId()!=aziendaId){
+
+    public boolean respingi(long id, long aziendaId) {
+        Notifica notifica = notificaRepository.findById(id).orElseThrow(() -> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
+        if (notifica.getAzienda().getId() != aziendaId) {
             throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
         }
         notifica.setStatoNotifica(StatoNotifica.Respinta);
-        return notificaRepository.save(notifica);
+        try {
+            notificaRepository.save(notifica);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
-    public List<Notifica> leggi(List<Notifica> notificas, long aziendaId){
+
+    public List<Notifica> leggi(List<Notifica> notificas, long aziendaId) {
         notificas.forEach(
                 notifica -> {
-                    if(notifica.getAzienda().getId()!=aziendaId){
+                    if (notifica.getAzienda().getId() != aziendaId) {
                         throw new IdsMismatchException("L'id dell'azienda notificata è diverso dall'id " + aziendaId);
-                    }else{
+                    } else {
                         notifica.setStatoNotifica(StatoNotifica.Letta);
                     }
                 }
         );
 
-        return notificas.stream().map(n->notificaRepository.save(n)).toList();
+        return notificas.stream().map(n -> notificaRepository.save(n)).toList();
     }
-    public boolean delete(long id){
+
+    public boolean delete(long id) {
         try {
             notificaRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public Page<Notifica> findByAzienda_IdAndStatoNotificaAndSender(long id,String statoNotifica,String sender,int page,int size,String orderBy){
+    public Page<Notifica> findByAzienda_IdAndStatoNotificaAndSender(long id, String statoNotifica, String sender, int page, int size, String orderBy) {
         StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
-        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
-        return notificaRepository.findByAzienda_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
+        return notificaRepository.findByAzienda_IdAndStatoNotificaAndInviataDa(id, statoNotifica1, sender, pageable);
     }
-    public Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndSender(long id,String statoNotifica,String sender,int page,int size,String orderBy){
-        StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
-        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
 
-        return notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id,statoNotifica1,sender,pageable);
+    public Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndSender(long id, String statoNotifica, String sender, int page, int size, String orderBy) {
+        StatoNotifica statoNotifica1 = StatoNotifica.valueOf(statoNotifica);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+
+        return notificaRepository.findByTrasportatore_IdAndStatoNotificaAndInviataDa(id, statoNotifica1, sender, pageable);
     }
 
 }
