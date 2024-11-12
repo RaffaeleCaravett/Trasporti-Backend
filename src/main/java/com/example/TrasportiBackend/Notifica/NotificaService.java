@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotificaService {
@@ -138,5 +139,7 @@ public class NotificaService {
         notificas.getContent().stream().sorted(Comparator.comparing(Notifica::getDateTime)).toList();
         return notificas;
     }
-
+public Optional<Notifica> getByTIdAndSpedizioneIdAndInviataDa(long trasportatoreId,long spedizioneId,String inviataDa){
+        return notificaRepository.findByTrasportatore_IdAndSpedizione_IdAndInviataDa(trasportatoreId,spedizioneId,inviataDa);
+}
 }

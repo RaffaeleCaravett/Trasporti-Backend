@@ -3,6 +3,8 @@ package com.example.TrasportiBackend.Pdf;
 import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
 import com.example.TrasportiBackend.Annuncio.AnnuncioService;
+import com.example.TrasportiBackend.Notifica.Notifica;
+import com.example.TrasportiBackend.Notifica.NotificaService;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
@@ -42,6 +44,8 @@ public class PdfJasperService {
     AnnuncioRepository annuncioRepository;
     @Autowired
     SpedizioneRepository spedizioneRepository;
+    @Autowired
+    NotificaService notificaService;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
     public byte[] richiedi (long spedizioneId, long tId,String type) throws Exception {
@@ -153,6 +157,9 @@ public class PdfJasperService {
         } catch (JRException e) {
             e.printStackTrace();
         }
+
+
+        Notifica notifica = notificaService.findByTrasportatore_IdAndStatoNotificaAndSender(tId,"Emessa","az");
         return out.toByteArray();
     }
 }

@@ -15,4 +15,5 @@ public interface NotificaRepository extends JpaRepository<Notifica,Long> {
     Page<Notifica> findByAzienda_IdAndStatoNotificaAndInviataDa(long aziendaId, StatoNotifica statoNotifica,String inviataDa, Pageable pageable);
     Page<Notifica> findByTrasportatore_IdAndStatoNotificaAndInviataDa(long aziendaId, StatoNotifica statoNotifica,String inviataDa, Pageable pageable);
     Optional<Notifica> findByTesto(String testo);
+    Optional<Notifica> findByTrasportatore_IdAndSpedizione_IdAndInviataDa(long trasportatoreId,long spedizioneId,String inviataDa);
 }
