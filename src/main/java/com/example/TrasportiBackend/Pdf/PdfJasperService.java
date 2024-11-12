@@ -4,11 +4,14 @@ import com.example.TrasportiBackend.Annuncio.Annuncio;
 import com.example.TrasportiBackend.Annuncio.AnnuncioRepository;
 import com.example.TrasportiBackend.Annuncio.AnnuncioService;
 import com.example.TrasportiBackend.Notifica.Notifica;
+import com.example.TrasportiBackend.Notifica.NotificaRepository;
 import com.example.TrasportiBackend.Notifica.NotificaService;
 import com.example.TrasportiBackend.Spedizione.Spedizione;
 import com.example.TrasportiBackend.Spedizione.SpedizioneRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
 import com.example.TrasportiBackend.User.UserService;
+import com.example.TrasportiBackend.enums.Stato;
+import com.example.TrasportiBackend.enums.StatoNotifica;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AnnuncioDTO;
 import net.sf.jasperreports.engine.*;
@@ -31,10 +34,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PdfJasperService {
@@ -45,7 +45,7 @@ public class PdfJasperService {
     @Autowired
     SpedizioneRepository spedizioneRepository;
     @Autowired
-    NotificaService notificaService;
+    NotificaRepository notificaRepository;
     @Value("#{'${base.url.path}'}")
     private String basePathReport;
     public byte[] richiedi (long spedizioneId, long tId,String type) throws Exception {
@@ -159,7 +159,13 @@ public class PdfJasperService {
         }
 
 
-        Notifica notifica = notificaService.findByTrasportatore_IdAndStatoNotificaAndSender(tId,"Emessa","az");
+        Optional<Notifica> notifica = notificaRepository.findByTrasportatore_IdAndSpedizione_IdAndInviataDa(tId,spedizioneId,"az");
+        if(notifica.isPresent()){
+            notifica.get().setStatoNotifica(StatoNotifica.Accettata);
+            notificaRepository.save(notifica.get());
+            Spedizione spedizione1 = notifica.get().getSpedizione();
+            spedizione1.setStato(Stato.Richiesta);
+        }
         return out.toByteArray();
     }
 }

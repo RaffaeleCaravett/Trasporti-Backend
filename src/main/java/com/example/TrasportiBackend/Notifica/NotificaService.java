@@ -142,4 +142,7 @@ public class NotificaService {
 public Optional<Notifica> getByTIdAndSpedizioneIdAndInviataDa(long trasportatoreId,long spedizioneId,String inviataDa){
         return notificaRepository.findByTrasportatore_IdAndSpedizione_IdAndInviataDa(trasportatoreId,spedizioneId,inviataDa);
 }
+public Notifica save(Notifica notifica){
+        return notificaRepository.save(notifica);
+}
 }
