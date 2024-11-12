@@ -25,10 +25,10 @@ public class PdfJasperController {
 
     @Autowired
     PdfJasperService pdfJasperService;
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/{spedizioneId}")
     @PreAuthorize("hasAuthority('Trasportatore')")
-    public byte[] GeneraPdfIncaricoSpedizione(@PathVariable long annuncioId, @PathVariable long id) throws Exception {
+    public byte[] GeneraPdfIncaricoSpedizione(@PathVariable long spedizioneId, @PathVariable long id) throws Exception {
 
-       return pdfJasperService.richiedi(annuncioId,id,"");
+       return pdfJasperService.richiedi(spedizioneId,id,"");
     }
 }
