@@ -16,7 +16,6 @@ public class PdfJasperController {
     PdfJasperService pdfJasperService;
     @GetMapping("/{spedizioneId}/{id}")
     @PreAuthorize("hasAuthority('Trasportatore')")
-    @Transactional
     public byte[] GeneraPdfIncaricoSpedizione(@PathVariable long spedizioneId, @PathVariable long id) throws Exception {
 
        return pdfJasperService.richiedi(spedizioneId,id,"");
