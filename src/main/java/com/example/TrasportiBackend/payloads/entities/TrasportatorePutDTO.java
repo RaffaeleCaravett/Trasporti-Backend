@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.payloads.entities;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -9,6 +10,7 @@ public record TrasportatorePutDTO(
         @NotEmpty(message = "Cognome necessario")
         String cognome,
         @NotNull(message = "Età necessaria")
+        @Min(18)
         int eta,
         @NotEmpty(message = "Codice Fiscale necessario")
         String codiceFiscale,

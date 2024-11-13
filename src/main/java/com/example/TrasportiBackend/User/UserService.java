@@ -2,18 +2,14 @@ package com.example.TrasportiBackend.User;
 
 import com.example.TrasportiBackend.enums.Settore;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
-import com.example.TrasportiBackend.exceptions.PasswordMismatchException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
-import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.AziendaPutDTO;
-import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatorePutDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Array;
@@ -46,7 +42,7 @@ public class UserService {
                 if (trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()
                         || aziendaRepository.findByEmail(trasportatoreDTO.email()).isPresent()
                 ) {
-                    throw new BadRequestException("Email già in uso.");
+                    throw new Exception("Email già in uso.");
                 }
             }
             trasportatore.setNome(trasportatoreDTO.nome());
@@ -74,7 +70,7 @@ public class UserService {
             if (!azienda.getEmail().equals(aziendaDTO.email())) {
                 if (aziendaRepository.findByEmail(aziendaDTO.email()).isPresent()
                         || trasporatoreRepository.findByEmail(aziendaDTO.email()).isPresent()) {
-                    throw new BadRequestException("Email già in uso.");
+                    throw new Exception("Email già in uso.");
                 }
             }
             azienda.setCap(aziendaDTO.cap());

@@ -70,6 +70,10 @@ public class SpedizioneAzController {
     public Page<Spedizione> getByAziendaId(@PathVariable long aziendaId,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return spedizioneService.getAllByAziendaId(aziendaId,page,size,orderBy);
     }
+    @GetMapping("/byAziendaIdAndStato/{aziendaId}/{stato}")
+    public Page<Spedizione> getByAziendaId(@PathVariable long aziendaId,@PathVariable String stato,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
+        return spedizioneService.getAllByAziendaIdAndStato(aziendaId,stato,page,size,orderBy);
+    }
     @GetMapping("/byDa")
     public Page<Spedizione> findByDa(@RequestParam(defaultValue = "") String da,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size,@RequestParam(defaultValue = "id") String orderBy){
         return spedizioneService.findByDa(da,page,size,orderBy);
