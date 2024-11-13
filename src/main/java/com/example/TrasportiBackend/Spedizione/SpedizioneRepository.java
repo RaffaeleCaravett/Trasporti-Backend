@@ -1,5 +1,6 @@
 package com.example.TrasportiBackend.Spedizione;
 
+import com.example.TrasportiBackend.enums.Stato;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +18,12 @@ public interface SpedizioneRepository extends JpaRepository<Spedizione,Long> {
     Optional<Spedizione> findByAnnuncio_Id(long annuncioId);
 
     Page<Spedizione> findByAzienda_Id(long aziendaId, Pageable pageable);
+    Page<Spedizione> findByTrasportatore_Id(long trasportatoreId, Pageable pageable);
 
     Page<Spedizione> findBydaSpedireBetween(LocalDate date1, LocalDate date2,Pageable pageable);
     Page<Spedizione> findByDa(String da, Pageable pageable);
     Page<Spedizione> findByA(String a, Pageable pageable);
     Page<Spedizione> findByDaContainingAndAContaining(String da,String a, Pageable pageable);
+    Page<Spedizione> findByAzienda_IdAndStato(long aziendaId, Stato stato, Pageable pageable);
 
 }
