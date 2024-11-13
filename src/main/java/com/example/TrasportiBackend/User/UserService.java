@@ -29,17 +29,25 @@ public class UserService {
     @Autowired
     AziendaRepository aziendaRepository;
 
-    public Trasportatore getTrasportatoreById(long id){
-        return trasporatoreRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
-    }
-    public Azienda getAziendaById(long id){
-        return aziendaRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Azienda con id " + id + " non trovato in db"));
+    public Trasportatore getTrasportatoreById(long id) {
+        return trasporatoreRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
     }
 
-    public Trasportatore putTrasportatoreById(long id , TrasportatoreDTO trasportatoreDTO) {
+    public Azienda getAziendaById(long id) {
+        return aziendaRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + id + " non trovato in db"));
+    }
+
+    public Trasportatore putTrasportatoreById(long id, TrasportatoreDTO trasportatoreDTO) {
         try {
-            Trasportatore trasportatore = trasporatoreRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
 
+            Trasportatore trasportatore = trasporatoreRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
+            if (!trasportatore.getEmail().equals(trasportatoreDTO.email())) {
+                if (trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()
+                        || aziendaRepository.findByEmail(trasportatoreDTO.email()).isPresent()
+                ) {
+                    throw new BadRequestException("Email già in uso.");
+                }
+            }
             trasportatore.setNome(trasportatoreDTO.nome());
             trasportatore.setCognome(trasportatoreDTO.cognome());
             trasportatore.setEta(trasportatoreDTO.eta());
@@ -53,15 +61,23 @@ public class UserService {
             trasportatore.setEmail(trasportatoreDTO.email());
 
             return trasporatoreRepository.save(trasportatore);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
     }
 
-    public Azienda putAziendaById(long id , AziendaPutDTO aziendaDTO) {
+    public Azienda putAziendaById(long id, AziendaPutDTO aziendaDTO) {
         try {
-            Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
+
+            Azienda azienda = aziendaRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
+            if (!azienda.getEmail().equals(aziendaDTO.email())) {
+                if (aziendaRepository.findByEmail(aziendaDTO.email()).isPresent()
+                        || trasporatoreRepository.findByEmail(aziendaDTO.email()).isPresent()) {
+                    throw new BadRequestException("Email già in uso.");
+                }
+            }
             azienda.setCap(aziendaDTO.cap());
+
             azienda.setCitta(aziendaDTO.citta());
             azienda.setRegione(aziendaDTO.regione());
             azienda.setIndirizzo(aziendaDTO.indirizzo());
@@ -72,102 +88,111 @@ public class UserService {
             azienda.setSettore(Settore.valueOf(aziendaDTO.settore()));
             azienda.setPartitaIva(aziendaDTO.partitaIva());
             return aziendaRepository.save(azienda);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
     }
 
-    public boolean deleteTrasportatoreById(long id){
-        try{
+    public boolean deleteTrasportatoreById(long id) {
+        try {
             Trasportatore trasportatore = trasporatoreRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
             trasportatore.setIsActive(0);
             /*trasporatoreRepository.deleteById(id);*/
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
-    public boolean deleteAziendaById(long id){
-        try{
-            Azienda azienda = aziendaRepository.findById(id).orElseThrow(()->new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
+
+    public boolean deleteAziendaById(long id) {
+        try {
+            Azienda azienda = aziendaRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + id + " non trovata in db"));
             azienda.setIsActive(0);
             /*aziendaRepository.deleteById(id);*/
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
-    public Page<Trasportatore> getAllTrasportatori(int page, int size, String orderBy){
-        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+    public Page<Trasportatore> getAllTrasportatori(int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
         return trasporatoreRepository.findAll(pageable);
     }
-    public Page<Azienda> getAllAziende(int page, int size, String orderBy){
-        Pageable pageable = PageRequest.of(page,size, Sort.by(orderBy));
+
+    public Page<Azienda> getAllAziende(int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
         return aziendaRepository.findAll(pageable);
     }
 
-    public Page<Trasportatore> findByNomeAndCognomeContaining(String nome,String cognome, int page, int size, String orderBy){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
-        return trasporatoreRepository.findByNomeContainingAndCognomeContaining(nome,cognome,pageable);
+    public Page<Trasportatore> findByNomeAndCognomeContaining(String nome, String cognome, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return trasporatoreRepository.findByNomeContainingAndCognomeContaining(nome, cognome, pageable);
     }
-    public Page<Azienda> findBySettore(String settore, int page, int size, String orderBy){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
+
+    public Page<Azienda> findBySettore(String settore, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
         Settore settore1 = Settore.valueOf(settore);
-        return aziendaRepository.findBySettore(settore1,pageable);
+        return aziendaRepository.findBySettore(settore1, pageable);
     }
-    public Page<Azienda> findByNomeAzienda(String nomeAzienda, int page, int size, String orderBy){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
-        return aziendaRepository.findByNomeAziendaContaining(nomeAzienda,pageable);
+
+    public Page<Azienda> findByNomeAzienda(String nomeAzienda, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return aziendaRepository.findByNomeAziendaContaining(nomeAzienda, pageable);
     }
-public boolean bloccaTrasportatore(long tId,long azId){
-  Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
-try{
-Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db"));
-if(!azienda.getTrasportatoreList().isEmpty()) {
-    for (Trasportatore trasportatore1 : azienda.getTrasportatoreList()) {
-        if (trasportatore1.getId() == tId) {
-            throw new BadRequestException("Trasportatore già bloccato");
+
+    public boolean bloccaTrasportatore(long tId, long azId) {
+        Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+        try {
+            Azienda azienda = aziendaRepository.findById(azId).orElseThrow(() -> new UserNotFoundException("Azienda con id " + azId + " non trovata in db"));
+            if (!azienda.getTrasportatoreList().isEmpty()) {
+                for (Trasportatore trasportatore1 : azienda.getTrasportatoreList()) {
+                    if (trasportatore1.getId() == tId) {
+                        throw new BadRequestException("Trasportatore già bloccato");
+                    }
+                }
+                azienda.getTrasportatoreList().add(trasportatore);
+            } else {
+                azienda.getTrasportatoreList().add(trasportatore);
+            }
+            return true;
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
         }
-    }
-    azienda.getTrasportatoreList().add(trasportatore);
-}else{
-    azienda.getTrasportatoreList().add(trasportatore);
-}
-return true;
-}catch (Exception e){
-   throw new BadRequestException(e.getMessage());
-}
 
     }
-    public boolean sbloccaTrasportatore(long tId,long azId) {
-        Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(()->new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
+
+    public boolean sbloccaTrasportatore(long tId, long azId) {
+        Trasportatore trasportatore = trasporatoreRepository.findById(tId).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + tId + " non trovato in db."));
         try {
-Azienda azienda = aziendaRepository.findById(azId).orElseThrow(()->new UserNotFoundException("Azienda con id " + azId + " non trovata in db"));
-if(azienda.getTrasportatoreList().isEmpty()){
-    throw new BadRequestException("Non c'è nessun trasportatore da sbloccare.");
-}
-List<Trasportatore> newTList = new ArrayList<>();
-for(Trasportatore trasportatore1 : azienda.getTrasportatoreList()){
-    if(trasportatore1.getId()!=tId){
-newTList.add(trasportatore1);
-    }
-}
-azienda.setTrasportatoreList(newTList);
-return true;
+            Azienda azienda = aziendaRepository.findById(azId).orElseThrow(() -> new UserNotFoundException("Azienda con id " + azId + " non trovata in db"));
+            if (azienda.getTrasportatoreList().isEmpty()) {
+                throw new BadRequestException("Non c'è nessun trasportatore da sbloccare.");
+            }
+            List<Trasportatore> newTList = new ArrayList<>();
+            for (Trasportatore trasportatore1 : azienda.getTrasportatoreList()) {
+                if (trasportatore1.getId() != tId) {
+                    newTList.add(trasportatore1);
+                }
+            }
+            azienda.setTrasportatoreList(newTList);
+            return true;
         } catch (Exception e) {
-           throw new BadRequestException(e.getMessage());
+            throw new BadRequestException(e.getMessage());
         }
     }
-    public Page<Trasportatore> findByCitta(String citta,int page,int size,String orderBy){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
-        return this.trasporatoreRepository.findByCitta(citta,pageable);
+
+    public Page<Trasportatore> findByCitta(String citta, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return this.trasporatoreRepository.findByCitta(citta, pageable);
     }
-    public Page<Trasportatore> findByCittaAndNomeAndCognome(String citta,String nome,String cognome,int page,int size,String orderBy){
-        Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
-        return this.trasporatoreRepository.findByCittaAndNomeContainingAndCognomeContaining(citta,nome,cognome,pageable);
+
+    public Page<Trasportatore> findByCittaAndNomeAndCognome(String citta, String nome, String cognome, int page, int size, String orderBy) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
+        return this.trasporatoreRepository.findByCittaAndNomeContainingAndCognomeContaining(citta, nome, cognome, pageable);
     }
-    }
+}
