@@ -5,6 +5,7 @@ import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.AziendaPutDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
+import com.example.TrasportiBackend.payloads.entities.TrasportatorePutDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,7 +33,7 @@ public class UserController {
 
     @PutMapping("/trasportatore/me")
     @PreAuthorize("hasAuthority('Trasportatore')")
-    public Trasportatore putById(@AuthenticationPrincipal Trasportatore currentUser, @RequestBody @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult){
+    public Trasportatore putById(@AuthenticationPrincipal Trasportatore currentUser, @RequestBody @Validated TrasportatorePutDTO trasportatoreDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
@@ -48,7 +49,7 @@ public class UserController {
     }
     @PutMapping("/trasportatoreAdmin/{id}")
     @PreAuthorize("hasAuthority('Admin')")
-    public Trasportatore putByIdAdmin(@PathVariable long id,@RequestBody @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult){
+    public Trasportatore putByIdAdmin(@PathVariable long id,@RequestBody @Validated TrasportatorePutDTO trasportatoreDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }

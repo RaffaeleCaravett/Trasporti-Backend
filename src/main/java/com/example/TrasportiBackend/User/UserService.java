@@ -7,6 +7,7 @@ import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AziendaDTO;
 import com.example.TrasportiBackend.payloads.entities.AziendaPutDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatoreDTO;
+import com.example.TrasportiBackend.payloads.entities.TrasportatorePutDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,7 +38,7 @@ public class UserService {
         return aziendaRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Azienda con id " + id + " non trovato in db"));
     }
 
-    public Trasportatore putTrasportatoreById(long id, TrasportatoreDTO trasportatoreDTO) {
+    public Trasportatore putTrasportatoreById(long id, TrasportatorePutDTO trasportatoreDTO) {
         try {
 
             Trasportatore trasportatore = trasporatoreRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Trasportatore con id " + id + " non trovato in db"));
