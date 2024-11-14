@@ -8,6 +8,7 @@ import com.example.TrasportiBackend.User.Azienda;
 import com.example.TrasportiBackend.User.AziendaRepository;
 import com.example.TrasportiBackend.User.TrasporatoreRepository;
 import com.example.TrasportiBackend.User.Trasportatore;
+import com.example.TrasportiBackend.enums.Stato;
 import com.example.TrasportiBackend.enums.StatoNotifica;
 import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.IdsMismatchException;
@@ -58,6 +59,7 @@ public class NotificaService {
         return notificaRepository.save(notifica);
     }
 
+
     public byte[] accetta(long id, long aziendaId) {
         Notifica notifica = notificaRepository.findById(id).orElseThrow(() -> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
         if (notifica.getAzienda().getId() != aziendaId) {
@@ -78,6 +80,9 @@ public class NotificaService {
         notificas.add(notification);
         try {
             byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getId(), notifica.getTrasportatore().getId(), "copia");
+            Spedizione spedizione =notifica.getSpedizione();
+            spedizione.setStato(Stato.Richiesta);
+            spedizioneRepository.save(spedizione);
             notificaRepository.saveAll(notificas);
             return file;
         } catch (Exception e) {
