@@ -187,9 +187,13 @@ public class SpedizioneService {
         return spedizioneRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Spedizione con id " + id + " non trovata in db."));
     }
 
-    public Page<Spedizione> getAllByTrasportatoreId(long tId,int page,int size,String orderBy){
+    public Page<Spedizione> getAllByTrasportatoreId(long tId,String stato,int page,int size,String orderBy){
         Pageable pageable = PageRequest.of(page,size,Sort.by(orderBy));
 
+        if(!stato.isEmpty()){
+            Stato stato1= Stato.valueOf(stato);
+            return spedizioneRepository.findByTrasportatore_IdAndStato(tId,stato1,pageable);
+        }
         return spedizioneRepository.findByTrasportatore_Id(tId,pageable);
     }
     public Page<Spedizione> getAllByAziendaIdAndStato(long azId,String stato,int page,int size,String orderBy){

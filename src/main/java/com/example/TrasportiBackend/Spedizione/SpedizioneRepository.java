@@ -20,6 +20,8 @@ public interface SpedizioneRepository extends JpaRepository<Spedizione,Long> {
     Page<Spedizione> findByAzienda_Id(long aziendaId, Pageable pageable);
     Page<Spedizione> findByTrasportatore_Id(long trasportatoreId, Pageable pageable);
 
+    Page<Spedizione> findByTrasportatore_IdAndStato(long trasportatoreId,Stato stato, Pageable pageable);
+
     Page<Spedizione> findBydaSpedireBetween(LocalDate date1, LocalDate date2,Pageable pageable);
     Page<Spedizione> findByDa(String da, Pageable pageable);
     Page<Spedizione> findByA(String a, Pageable pageable);
