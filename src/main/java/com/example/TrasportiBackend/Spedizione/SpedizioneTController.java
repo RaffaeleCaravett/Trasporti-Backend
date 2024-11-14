@@ -18,7 +18,7 @@ public class SpedizioneTController {
         return spedizioneService.getAllByAziendaId(aziendaId,page,size,orderBy);
     }
     @GetMapping("/byTrasportatoreId/{trasportatoreId}")
-    public Page<Spedizione> getByTrasportatoreId(@PathVariable long trasportatoreId,@RequestParam(defaultValue = "") String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy){
+    public Page<Spedizione> getByTrasportatoreId(@PathVariable long trasportatoreId,@RequestParam(defaultValue = "") String stato, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(defaultValue = "id") String orderBy){
         return spedizioneService.getAllByTrasportatoreId(trasportatoreId,stato,page,size,orderBy);
     }
     @GetMapping("/byDa")
