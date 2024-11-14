@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -81,15 +82,13 @@ public class NotificaService {
         try {
             byte[] file = pdfJasperService.richiedi(notifica.getSpedizione().getId(), notifica.getTrasportatore().getId(), "copia");
             Spedizione spedizione =notifica.getSpedizione();
-            spedizione.setStato(Stato.Richiesta);
-            spedizioneRepository.save(spedizione);
+            saveSpedizione(spedizione,Stato.Richiesta, notifica.getTrasportatore());
             notificaRepository.saveAll(notificas);
             return file;
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
     }
-
     public boolean respingi(long id, long aziendaId) {
         Notifica notifica = notificaRepository.findById(id).orElseThrow(() -> new NotificaNotFoundException("Notifica con id " + id + " non trovata in db."));
         if (notifica.getAzienda().getId() != aziendaId) {
@@ -149,5 +148,10 @@ public Optional<Notifica> getByTIdAndSpedizioneIdAndInviataDa(long trasportatore
 }
 public Notifica save(Notifica notifica){
         return notificaRepository.save(notifica);
+}
+@Transactional
+public void saveSpedizione(Spedizione spedizione,Stato stato,Trasportatore trasportatore){
+        spedizione.setStato(stato);
+        spedizione.setTrasportatore(trasportatore);
 }
 }
