@@ -15,5 +15,5 @@ public interface AziendaRepository extends JpaRepository<Azienda,Long> {
 
     Optional<Azienda> findByEmail(String email);
 
-    Page<Azienda> findByNomeAziendaLikeAndEmailLikeAndCittaLikeAndPartitaIvaLike(String nomeAzienda,String email,String citta,String partitaIva,Pageable pageable);
+    Page<Azienda> findByNomeAziendaContainsAndEmailContainsAndCittaContainsAndPartitaIvaContains(String nomeAzienda,String email,String citta,String partitaIva,Pageable pageable);
 }

@@ -195,6 +195,6 @@ public class UserService {
     }
     public Page<Azienda> getAziendaByParams(String nome,String email,String citta,String partitaIva,int page,int size,String orderBy,String sort){
         Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.fromString(sort),orderBy));
-        return
+        return aziendaRepository.findByNomeAziendaContainsAndEmailContainsAndCittaContainsAndPartitaIvaContains(nome,email,citta,partitaIva,pageable);
     }
 }

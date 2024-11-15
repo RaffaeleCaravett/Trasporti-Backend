@@ -93,57 +93,57 @@ public class UserController {
         return userService.deleteAziendaById(azienda.getId());
     }
 
-    @GetMapping("azienda/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    @GetMapping("/azienda/findByNomeAndCognomeContaining/{nome}/{cognome}")
     public Page<Trasportatore> findByNomeAndCognomeContainingAz(@PathVariable String nome, @PathVariable String cognome, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByNomeAndCognomeContaining(nome, cognome, page, size, orderBy);
     }
 
-    @GetMapping("azienda/findBySettore/{settore}")
+    @GetMapping("/azienda/findBySettore/{settore}")
     public Page<Azienda> findBySettoreAz(@PathVariable String settore, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findBySettore(settore, page, size, orderBy);
     }
 
-    @GetMapping("trasportatore/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    @GetMapping("/trasportatore/findByNomeAndCognomeContaining/{nome}/{cognome}")
     public Page<Trasportatore> findByNomeAndCognomeContainingTr(@PathVariable String nome, @PathVariable String cognome, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByNomeAndCognomeContaining(nome, cognome, page, size, orderBy);
     }
 
-    @GetMapping("trasportatore/findByCittaAndNomeAndCognomeContaining/{nome}/{cognome}/{citta}")
+    @GetMapping("/trasportatore/findByCittaAndNomeAndCognomeContaining/{nome}/{cognome}/{citta}")
     public Page<Trasportatore> findByCittaAndNomeAndCognomeContainingTr(@PathVariable String nome, @PathVariable String cognome, @PathVariable String citta, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByCittaAndNomeAndCognome(citta, nome, cognome, page, size, orderBy);
     }
 
-    @GetMapping("trasportatore/findByCitta/{citta}")
+    @GetMapping("/trasportatore/findByCitta/{citta}")
     public Page<Trasportatore> findByCitta(@PathVariable String citta, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByCitta(citta, page, size, orderBy);
     }
 
-    @GetMapping("azienda/trasportatore/findByNomeAndCognomeContaining/{nome}/{cognome}")
+    @GetMapping("/azienda/trasportatore/findByNomeAndCognomeContaining/{nome}/{cognome}")
     public Page<Trasportatore> azFindByNomeAndCognomeContainingTr(@PathVariable String nome, @PathVariable String cognome, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByNomeAndCognomeContaining(nome, cognome, page, size, orderBy);
     }
 
-    @GetMapping("azienda/trasportatore/findByCittaAndNomeAndCognomeContaining/{nome}/{cognome}/{citta}")
+    @GetMapping("/azienda/trasportatore/findByCittaAndNomeAndCognomeContaining/{nome}/{cognome}/{citta}")
     public Page<Trasportatore> azFindByCittaAndNomeAndCognomeContainingTr(@PathVariable String nome, @PathVariable String cognome, @PathVariable String citta, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByCittaAndNomeAndCognome(citta, nome, cognome, page, size, orderBy);
     }
 
-    @GetMapping("azienda/trasportatore/findByCitta/{citta}")
+    @GetMapping("/azienda/trasportatore/findByCitta/{citta}")
     public Page<Trasportatore> azFindByCitta(@PathVariable String citta, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByCitta(citta, page, size, orderBy);
     }
 
-    @GetMapping("azienda/trasportatore")
+    @GetMapping("/azienda/trasportatore")
     public Page<Trasportatore> azFindAllT(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.getAllTrasportatori(page, size, orderBy);
     }
 
-    @GetMapping("trasportatore/trasportatore")
+    @GetMapping("/trasportatore/trasportatore")
     public Page<Trasportatore> tFindAllT(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.getAllTrasportatori(page, size, orderBy);
     }
 
-    @GetMapping("trasportatore/azienda")
+    @GetMapping("/trasportatore/azienda")
     public Page<Azienda> tFindAllAz(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.getAllAziende(page, size, orderBy);
     }
@@ -153,22 +153,22 @@ public class UserController {
         return userService.findBySettore(settore, page, size, orderBy);
     }
 
-    @GetMapping("trasportatore/findBySettore/{nomeAzienda}")
+    @GetMapping("/trasportatore/findBySettore/{nomeAzienda}")
     public Page<Azienda> trFindByNomeAzienda(@PathVariable String nomeAzienda, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByNomeAzienda(nomeAzienda, page, size, orderBy);
     }
 
-    @GetMapping("azienda/findBySettore/{nomeAzienda}")
+    @GetMapping("/azienda/findBySettore/{nomeAzienda}")
     public Page<Azienda> azFindByNomeAzienda(@PathVariable String nomeAzienda, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String orderBy) {
         return userService.findByNomeAzienda(nomeAzienda, page, size, orderBy);
     }
 
-    @GetMapping("azienda/reset/{password}/{oldPassword}/me")
+    @GetMapping("/azienda/reset/{password}/{oldPassword}/me")
     public boolean resetPasswordAz(@PathVariable String password, @PathVariable String oldPassword, @AuthenticationPrincipal User user) {
         return authService.resetPassword(password, oldPassword, user);
     }
 
-    @GetMapping("trasportatore/reset/{password}/{oldPassword}/me")
+    @GetMapping("/trasportatore/reset/{password}/{oldPassword}/me")
     public boolean resetPassword(@PathVariable String password, @PathVariable String oldPassword, @AuthenticationPrincipal User user) {
         return authService.resetPassword(password, oldPassword, user);
     }
@@ -188,8 +188,8 @@ public class UserController {
         return userService.sbloccaTrasportatore(id, azId);
     }
 
-    @GetMapping("/trasportatore/azienda")
-    public Page<Azienda> sbloccaTrasportatore(@RequestParam(defaultValue = "") String nome, @RequestParam(defaultValue = "") String email,
+    @GetMapping("/trasportatore/azienda/byParams")
+    public Page<Azienda> findAllAz(@RequestParam(defaultValue = "") String nome, @RequestParam(defaultValue = "") String email,
                                               @RequestParam(defaultValue = "") String citta,
                                               @RequestParam(defaultValue = "") String partitaIva,
                                               @RequestParam(defaultValue = "0") int page,
