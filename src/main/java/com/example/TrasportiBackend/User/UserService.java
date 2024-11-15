@@ -5,6 +5,7 @@ import com.example.TrasportiBackend.exceptions.BadRequestException;
 import com.example.TrasportiBackend.exceptions.UserNotFoundException;
 import com.example.TrasportiBackend.payloads.entities.AziendaPutDTO;
 import com.example.TrasportiBackend.payloads.entities.TrasportatorePutDTO;
+import org.hibernate.query.SortDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -191,5 +192,9 @@ public class UserService {
     public Page<Trasportatore> findByCittaAndNomeAndCognome(String citta, String nome, String cognome, int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
         return this.trasporatoreRepository.findByCittaAndNomeContainingAndCognomeContaining(citta, nome, cognome, pageable);
+    }
+    public Page<Azienda> getAziendaByParams(String nome,String email,String citta,String partitaIva,int page,int size,String orderBy,String sort){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(Sort.Direction.fromString(sort),orderBy));
+        return
     }
 }

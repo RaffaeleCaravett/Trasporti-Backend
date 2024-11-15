@@ -14,4 +14,6 @@ public interface AziendaRepository extends JpaRepository<Azienda,Long> {
     Page<Azienda> findBySettore(Settore settore, Pageable pageable);
 
     Optional<Azienda> findByEmail(String email);
+
+    Page<Azienda> findByNomeAziendaLikeAndEmailLikeAndCittaLikeAndPartitaIvaLike(String nomeAzienda,String email,String citta,String partitaIva,Pageable pageable);
 }
