@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -84,18 +85,18 @@ public class AuthController {
         return authService.verifyAdminRefreshToken(token);
     }
     @PostMapping("/trasportatore")
-    public Trasportatore save(@RequestBody @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult){
+    public Trasportatore save(@RequestPart(value = "trasportatoreDTO", required = true) @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult,@RequestPart(value = "profileImage", required = true) MultipartFile profileImage){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
-        return authService.registerTrasportatore(trasportatoreDTO);
+        return authService.registerTrasportatore(trasportatoreDTO,profileImage);
     }
     @PostMapping("/azienda")
-    public Azienda save(@RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult){
+    public Azienda save(@RequestPart(value = "aziendaDTO", required = true) @RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult,@RequestPart(value = "profileImage", required = true) MultipartFile profileImage){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
-        return authService.registerAzienda(aziendaDTO);
+        return authService.registerAzienda(aziendaDTO,profileImage);
     }
     @PostMapping("/admin")
     public Admin save(@RequestBody @Validated AdminDTO aziendaDTO, BindingResult bindingResult){

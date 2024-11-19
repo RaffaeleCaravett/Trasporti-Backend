@@ -34,6 +34,7 @@ public abstract class User implements  UserDetails{
     @OneToOne(mappedBy = "user")
     @JsonIgnore
     private SecretCode secretCode;
+    private String profileImage;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
