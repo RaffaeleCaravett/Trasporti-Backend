@@ -1,5 +1,7 @@
 package com.example.TrasportiBackend.Auth;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.TrasportiBackend.Security.JWTTools;
 import com.example.TrasportiBackend.User.*;
 import com.example.TrasportiBackend.enums.Role;
@@ -12,12 +14,11 @@ import com.example.TrasportiBackend.payloads.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.w3c.dom.stylesheets.LinkStyle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 public class AuthService {
@@ -34,7 +35,8 @@ public class AuthService {
     AdminRepository adminRepository;
     @Autowired
     JWTTools jwtTools;
-
+    @Autowired
+    Cloudinary cloudinary;
     public TrasportatoreLoginSuccess trasportatoreLogin(UserLogin userLogin){
         Optional<Trasportatore> optionalTrasportatore =trasporatoreRepository.findByEmail(userLogin.email());
         if(!optionalTrasportatore.isPresent()){
@@ -134,7 +136,7 @@ public class AuthService {
         }
     }
 
-    public Trasportatore registerTrasportatore(TrasportatoreDTO trasportatoreDTO){
+    public Trasportatore registerTrasportatore(TrasportatoreDTO trasportatoreDTO, MultipartFile multipartFile){
         if(trasporatoreRepository.findByEmail(trasportatoreDTO.email()).isPresent()||aziendaRepository.findByEmail(trasportatoreDTO.email()).isPresent()){
             throw new BadRequestException("Trasportatore con email " + trasportatoreDTO.email() + " già presente in db.");
         }
@@ -153,6 +155,16 @@ public class AuthService {
         trasportatore.setPassword(bcrypt.encode(trasportatoreDTO.password()));
         trasportatore.setRole(Role.Trasportatore);
         trasportatore.setIsActive(1);
+
+        try {
+            Map<String, Object> uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
+            String imageUrl = (String) uploadResult.get("url");
+
+          trasportatore.setProfileImage(imageUrl);
+        } catch (IOException e) {
+            throw new RuntimeException("Impossibile caricare l'immagine", e);
+        }
+
         return trasporatoreRepository.save(trasportatore);
     }
     public Azienda registerAzienda(AziendaDTO aziendaDTO){

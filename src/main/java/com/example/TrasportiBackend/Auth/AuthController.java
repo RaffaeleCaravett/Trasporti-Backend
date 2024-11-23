@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -84,11 +85,11 @@ public class AuthController {
         return authService.verifyAdminRefreshToken(token);
     }
     @PostMapping("/trasportatore")
-    public Trasportatore save(@RequestBody @Validated TrasportatoreDTO trasportatoreDTO, BindingResult bindingResult){
+    public Trasportatore save(@RequestPart(value = "trasportatoreDTO") @Validated TrasportatoreDTO trasportatoreDTO, @RequestPart(value = "profile_image") MultipartFile multipartFile, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             throw new BadRequestException(bindingResult.getAllErrors());
         }
-        return authService.registerTrasportatore(trasportatoreDTO);
+        return authService.registerTrasportatore(trasportatoreDTO, multipartFile);
     }
     @PostMapping("/azienda")
     public Azienda save(@RequestBody @Validated AziendaDTO aziendaDTO, BindingResult bindingResult){
