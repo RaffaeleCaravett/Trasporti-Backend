@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin
-@Component
+//@Component
 @Log4j2
 public class SocketIOConfig {
-
+/*
     @Value("${socket.host}")
     private String SOCKETHOST;
     @Value("${socket.port}")
@@ -63,5 +63,5 @@ public class SocketIOConfig {
     public void stopSocketIOServer() {
         this.server.stop();
     }
-
+*/
 }

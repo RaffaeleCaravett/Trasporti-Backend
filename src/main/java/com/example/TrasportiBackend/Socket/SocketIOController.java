@@ -18,10 +18,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+//@Component
 @Log4j2
 public class SocketIOController {
-
+/*
     @Autowired
     private SocketIOServer socketServer;
     @Autowired
@@ -36,11 +36,7 @@ public class SocketIOController {
         this.socketServer.addDisconnectListener(onUserDisconnectWithSocket);
 
 
-        /**
-         * Here we create only one event listener
-         * but we can create any number of listener
-         * messageSendToUser is socket end point after socket connection user have to send message payload on messageSendToUser event
-         */
+
         this.socketServer.addEventListener("send_message", MessaggioDTO.class, onSendMessage);
 
     }
@@ -80,5 +76,5 @@ public class SocketIOController {
             acknowledge.sendAckData("Message send to target user successfully");
         }
     };
-
+*/
 }
